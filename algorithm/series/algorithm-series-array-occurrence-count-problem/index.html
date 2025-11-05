@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>algorithm-series-array-occurrence-count-problem | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="数组数字出现次数问题 找出数组中只出现一次的数字  给定一个非空整数数组，其中某个元素只出现一次，其余元素均出现两次。找出只出现一次的元素。  1234567public int singleNumber(int[] nums) &amp;#123;    int result &#x3D; 0;    for (int num : nums) &amp;#123;  &#x2F;&#x2F; 将所有数字异或，最终结果就是只出现一次的数字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="algorithm-series-array-occurrence-count-problem">
+<meta property="og:url" content="https://bughere.github.io/algorithm/series/algorithm-series-array-occurrence-count-problem/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="数组数字出现次数问题 找出数组中只出现一次的数字  给定一个非空整数数组，其中某个元素只出现一次，其余元素均出现两次。找出只出现一次的元素。  1234567public int singleNumber(int[] nums) &amp;#123;    int result &#x3D; 0;    for (int num : nums) &amp;#123;  &#x2F;&#x2F; 将所有数字异或，最终结果就是只出现一次的数字">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2025-02-15T06:20:00.000Z">
+<meta property="article:modified_time" content="2025-03-05T17:30:19.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="array">
+<meta property="article:tag" content="occurrence-count">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/algorithm/series/algorithm-series-array-occurrence-count-problem/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'algorithm-series-array-occurrence-count-problem',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-06 01:30:19'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">algorithm-series-array-occurrence-count-problem</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-15T06:20:00.000Z" title="发表于 2025-02-15 14:20:00">2025-02-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-05T17:30:19.000Z" title="更新于 2025-03-06 01:30:19">2025-03-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/algorithm/">algorithm</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/algorithm/series/">series</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span></div></div></div><article class="post-content" id="article-container"><h2 id="数组数字出现次数问题">数组数字出现次数问题</h2>
+<p>找出数组中只出现一次的数字</p>
+<blockquote>
+<p>给定一个非空整数数组，其中某个元素只出现一次，其余元素均出现两次。找出只出现一次的元素。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">singleNumber</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;  <span class="comment">// 将所有数字异或，最终结果就是只出现一次的数字</span></span><br><span class="line">        result ^= num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找出数组中只出现一次的两个数字</p>
+<blockquote>
+<p>给定一个整数数组，其中有两个元素只出现一次，其余元素均出现两次。找出这两个只出现一次的元素。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] singleNumber(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">xor</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;  <span class="comment">// 对所有数字进行异或</span></span><br><span class="line">        xor ^= num;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">mask</span> <span class="operator">=</span> xor &amp; (-xor);  <span class="comment">// 找到最低位的1</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> <span class="number">0</span>, num2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((num &amp; mask) == <span class="number">0</span>) &#123;  <span class="comment">// 根据最低位将数组分为两组，分别异或</span></span><br><span class="line">            num1 ^= num;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            num2 ^= num;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;num1, num2&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找出数组中出现次数超过一半的数字</p>
+<blockquote>
+<p>给定一个大小为 (n) 的数组，找到出现次数超过 <code>n/2</code> 的元素。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">majorityElement</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 摩尔投票法</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">candidate</span> <span class="operator">=</span> <span class="number">0</span>, count = <span class="number">0</span>;  <span class="comment">// 维护一个候选数字 `candidate` 和计数器 `count`</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (count == <span class="number">0</span>) &#123;  <span class="comment">// 更新 `candidate` 为当前数字</span></span><br><span class="line">            candidate = num;</span><br><span class="line">        &#125;</span><br><span class="line">        count += (num == candidate) ? <span class="number">1</span> : -<span class="number">1</span>;  <span class="comment">// 如果当前数字等于 `candidate`，则 `count++`，否则 `count--`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> candidate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找出数组中出现次数超过 <code>n/3</code> 的数字</p>
+<blockquote>
+<p>给定一个大小为 (n) 的数组，找到所有出现次数超过 <code>n/3</code> 的元素。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">majorityElement</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 摩尔投票法扩展</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">candidate1</span> <span class="operator">=</span> <span class="number">0</span>, candidate2 = <span class="number">0</span>, count1 = <span class="number">0</span>, count2 = <span class="number">0</span>;  <span class="comment">// 维护两个候选数字 `candidate1` 和 `candidate2`，以及对应的计数器 `count1` 和 `count2`</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;  <span class="comment">// 遍历数组，更新候选数字和计数器</span></span><br><span class="line">        <span class="keyword">if</span> (num == candidate1) &#123;</span><br><span class="line">            count1++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (num == candidate2) &#123;</span><br><span class="line">            count2++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (count1 == <span class="number">0</span>) &#123;</span><br><span class="line">            candidate1 = num;</span><br><span class="line">            count1 = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (count2 == <span class="number">0</span>) &#123;</span><br><span class="line">            candidate2 = num;</span><br><span class="line">            count2 = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            count1--;</span><br><span class="line">            count2--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 验证候选数字</span></span><br><span class="line">    count1 = <span class="number">0</span>;</span><br><span class="line">    count2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">        <span class="keyword">if</span> (num == candidate1) count1++;</span><br><span class="line">        <span class="keyword">if</span> (num == candidate2) count2++;</span><br><span class="line">    &#125;</span><br><span class="line">    List&lt;Integer&gt; result = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (count1 &gt; nums.length / <span class="number">3</span>) result.add(candidate1);</span><br><span class="line">    <span class="keyword">if</span> (count2 &gt; nums.length / <span class="number">3</span>) result.add(candidate2);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>找出数组中出现次数为指定次数的数字</p>
+<blockquote>
+<p>给定一个数组，其中某些数字出现 <code>k</code> 次，只有一个数字出现 <code>m</code> 次（(m \neq k)），找出这个数字。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findNumber</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k, <span class="type">int</span> m)</span> &#123;  <span class="comment">// 位统计</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;  <span class="comment">// 遍历每一位</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> num : nums) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((num &gt;&gt; i &amp; <span class="number">1</span>) == <span class="number">1</span>) &#123;  <span class="comment">// 统计每一位上 1 的个数</span></span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count % k != <span class="number">0</span>) &#123;  <span class="comment">// 如果某位的统计结果不是 k 的倍数，则说明目标数字在该位为 1</span></span><br><span class="line">            result |= (<span class="number">1</span> &lt;&lt; i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><strong>总结</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>问题</strong></th>
+<th><strong>解法</strong></th>
+<th><strong>时间复杂度</strong></th>
+<th><strong>空间复杂度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只出现一次的数字</td>
+<td>异或运算</td>
+<td>(O(n))</td>
+<td>(O(1))</td>
+</tr>
+<tr>
+<td>只出现一次的两个数字</td>
+<td>分组异或</td>
+<td>(O(n))</td>
+<td>(O(1))</td>
+</tr>
+<tr>
+<td>出现次数超过一半的数字</td>
+<td>摩尔投票法</td>
+<td>(O(n))</td>
+<td>(O(1))</td>
+</tr>
+<tr>
+<td>出现次数超过 (n/3) 的数字</td>
+<td>摩尔投票法扩展</td>
+<td>(O(n))</td>
+<td>(O(1))</td>
+</tr>
+<tr>
+<td>出现次数为指定次数的数字</td>
+<td>位统计</td>
+<td>(O(n))</td>
+<td>(O(1))</td>
+</tr>
+</tbody>
+</table>
+<p>数组中重复的数据</p>
+<blockquote>
+<p>给你一个长度为 n 的整数数组 nums ，其中 nums 的所有整数都在范围 [1, n] 内，且每个整数出现 最多两次 。请你找出所有出现 两次 的整数，并以数组形式返回。要求时间复杂度为 O(n) 且仅使用常量额外空间</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;   <span class="comment">// 利用数组下标映射，置负数标记出现过一次</span></span><br><span class="line">        ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x : nums) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> Math.abs(x) - <span class="number">1</span>;  <span class="comment">// 映射到[0,n-1]</span></span><br><span class="line">            <span class="keyword">if</span> (nums[idx] &gt; <span class="number">0</span>) &#123;  <span class="comment">// 如果是正数，说明是第一次出现</span></span><br><span class="line">                nums[idx] *= -<span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 如果已经是负数，说明之前已经出现过一次</span></span><br><span class="line">                list.add(Math.abs(x));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [4,3,2,7,8,2,3,1]</span></span><br><span class="line"><span class="comment">// [7,3,2,4,8,2,3,1]</span></span><br><span class="line"><span class="comment">// [3,3,2,4,8,2,7,1]</span></span><br><span class="line"><span class="comment">// [2,3,3,4,8,2,7,1]</span></span><br><span class="line"><span class="comment">// [3,2,3,4,8,2,7,1]</span></span><br><span class="line"><span class="comment">// [-3,2,3,4,8,2,7,1]</span></span><br><span class="line"><span class="comment">// [-3,2,3,4,1,2,7,8]</span></span><br><span class="line"><span class="comment">// [-3,2,3,4,1,-2,7,8]</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findDuplicates</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 原地哈希，交换元素，使数组元素与索引对应</span></span><br><span class="line">        List&lt;Integer&gt; ans = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> nums[i];</span><br><span class="line">            <span class="keyword">if</span> (t &lt; <span class="number">0</span> || t - <span class="number">1</span> == i) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[t - <span class="number">1</span>] == t) &#123;</span><br><span class="line">                ans.add(t);</span><br><span class="line">                nums[i] *= -<span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> nums[t - <span class="number">1</span>];</span><br><span class="line">                nums[t - <span class="number">1</span>] = t;</span><br><span class="line">                nums[i--] = c;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>寻找重复数</p>
+<blockquote>
+<p>给定一个包含 n + 1 个整数的数组 nums ，其数字都在 [1, n] 范围内（包括 1 和 n），可知至少存在一个重复的整数。</p>
+</blockquote>
+<blockquote>
+<p>假设 nums 只有 一个重复的整数 ，返回 这个重复的数 。</p>
+</blockquote>
+<p>如果可以修改原数组，那么可以用和上一题类似的解答</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 利用数组下标映射，置负数标记出现过一次</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x : nums) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> Math.abs(x);</span><br><span class="line">            <span class="keyword">if</span> (nums[idx] &gt; <span class="number">0</span>) &#123;  <span class="comment">// 如果是正数，说明是第一次出现</span></span><br><span class="line">                nums[idx] *= -<span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 如果已经是负数，说明之前已经出现过一次</span></span><br><span class="line">                <span class="keyword">return</span> idx;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [1,3,4,2,2]</span></span><br><span class="line"><span class="comment">// [3,1,4,2,2]</span></span><br><span class="line"><span class="comment">// [2,1,4,3,2]</span></span><br><span class="line"><span class="comment">// [4,1,2,3,2]</span></span><br><span class="line"><span class="comment">// [2,1,2,3,4]</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 原地哈希，交换元素，使数组元素与索引对应</span></span><br><span class="line">        <span class="keyword">while</span> (nums[<span class="number">0</span>] != nums[nums[<span class="number">0</span>]]) &#123;  <span class="comment">// 交换nums[0]和nums[nums[0]]，直到相等</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> nums[nums[<span class="number">0</span>]];</span><br><span class="line">            nums[nums[<span class="number">0</span>]] = nums[<span class="number">0</span>];</span><br><span class="line">            nums[<span class="number">0</span>] = t;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你设计的解决方案必须 不修改 数组 nums 且只用常量级 O(1) 的额外空间。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 二分查找</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">1</span>, r = n;  <span class="comment">// 目标重复元素的范围</span></span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> l + (r-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> x : nums) <span class="keyword">if</span> (x &lt;= mid) cnt++;  <span class="comment">// 找到小于等于mid的数的个数</span></span><br><span class="line">            <span class="keyword">if</span> (cnt &gt; mid) r = mid;  <span class="comment">// 如果个数大于mid，说明重复的数在左边</span></span><br><span class="line">            <span class="keyword">else</span> l = mid + <span class="number">1</span>;  <span class="comment">// 否则在右边</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> l;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [1,3,4,2,2]</span></span><br><span class="line"><span class="comment">// 0-&gt;1-&gt;3-&gt;2&lt;-&gt;4</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;  <span class="comment">// 当作循环链表，快慢指针找环入口</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">slow</span> <span class="operator">=</span> <span class="number">0</span>, fast = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            slow = nums[slow];</span><br><span class="line">            fast = nums[fast];</span><br><span class="line">            fast = nums[fast];</span><br><span class="line">        &#125; <span class="keyword">while</span> (slow != fast);</span><br><span class="line">        slow = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (slow != fast) &#123;</span><br><span class="line">            slow = nums[slow];</span><br><span class="line">            fast = nums[fast];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/algorithm/series/algorithm-series-array-occurrence-count-problem/">https://bughere.github.io/algorithm/series/algorithm-series-array-occurrence-count-problem/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/array/">array</a><a class="post-meta__tags" href="/tags/occurrence-count/">occurrence-count</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/note-java-rip/" title="note-java-rip"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">note-java-rip</div></div></a></div><div class="next-post pull-right"><a href="/algorithm/problem/algorithm-problem-leetcode-496/" title="algorithm/problem/leetcode/496"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">algorithm/problem/leetcode/496</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/algorithm/normal/algorithm-difference-array/" title="algorithm-difference-array"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-07</div><div class="title">algorithm-difference-array</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%95%B0%E5%AD%97%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">数组数字出现次数问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

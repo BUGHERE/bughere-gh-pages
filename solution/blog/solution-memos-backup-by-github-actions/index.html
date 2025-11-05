@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>solution-blog-memos-backup-by-github-actions | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="用GitHub Actions实现memos备份 正文  我的memos是在replit提供的免费服务器上部署的，数据也保存在这个服务器上，我怕哪天上面的数据没了，所以写了个GitHub Actions备份脚本  可以新建一个GitHub仓库，并开启Actions的读写权限：仓库的Settings-Actions-General-Workflow permissions-选择Read and wr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="solution-blog-memos-backup-by-github-actions">
+<meta property="og:url" content="https://bughere.github.io/solution/blog/solution-memos-backup-by-github-actions/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="用GitHub Actions实现memos备份 正文  我的memos是在replit提供的免费服务器上部署的，数据也保存在这个服务器上，我怕哪天上面的数据没了，所以写了个GitHub Actions备份脚本  可以新建一个GitHub仓库，并开启Actions的读写权限：仓库的Settings-Actions-General-Workflow permissions-选择Read and wr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-12-29T06:48:26.000Z">
+<meta property="article:modified_time" content="2024-09-23T11:55:58.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="memos">
+<meta property="article:tag" content="github-actions">
+<meta property="article:tag" content="backup">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/solution/blog/solution-memos-backup-by-github-actions/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'solution-blog-memos-backup-by-github-actions',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-23 19:55:58'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">solution-blog-memos-backup-by-github-actions</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-29T06:48:26.000Z" title="发表于 2023-12-29 14:48:26">2023-12-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-23T11:55:58.000Z" title="更新于 2024-09-23 19:55:58">2024-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/solution/">solution</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/solution/blog/">blog</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">986</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div><article class="post-content" id="article-container"><h2 id="用GitHub-Actions实现memos备份">用GitHub Actions实现memos备份</h2>
+<h3 id="正文">正文</h3>
+<blockquote>
+<p>我的memos是在replit提供的免费服务器上部署的，数据也保存在这个服务器上，我怕哪天上面的数据没了，所以写了个GitHub Actions备份脚本</p>
+</blockquote>
+<p>可以新建一个GitHub仓库，并开启Actions的读写权限：<code>仓库的Settings</code>-<code>Actions</code>-<code>General-Workflow permissions</code>-<code>选择Read and write permissions</code></p>
+<p>在<code>.github\workflows\main.yml</code>中：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Backup</span> <span class="string">Memos</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&quot;0 */4 * * *&quot;</span>  <span class="comment"># 每隔4小时执行一次</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">backup:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">code</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Set</span> <span class="string">up</span> <span class="string">Python</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/setup-python@v2</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">        <span class="attr">python-version:</span> <span class="number">3.8</span></span><br><span class="line">    </span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">设置时区</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">sudo</span> <span class="string">timedatectl</span> <span class="string">set-timezone</span> <span class="string">&#x27;Asia/Shanghai&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">backup</span> <span class="string">script</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        pip install requests</span></span><br><span class="line"><span class="string">        python backup_script.py</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Commit</span> <span class="string">and</span> <span class="string">push</span> <span class="string">changes</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        git config --global user.email &quot;【email】&quot;</span></span><br><span class="line"><span class="string">        git config --global user.name &quot;【name】&quot;</span></span><br><span class="line"><span class="string">        git add .</span></span><br><span class="line"><span class="string">        git commit -m &quot;Auto backup memos&quot;</span></span><br><span class="line"><span class="string">        git push</span></span><br></pre></td></tr></table></figure>
+<p>在<code>backup_script.py</code>中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="comment"># Memos API URL</span></span><br><span class="line">api_url = <span class="string">&quot;https://66b4d66d-5794-4c83-9907-5519995b7d8e-00-15cwgy9gwbwnv.pike.replit.dev/api/v1/memo?creatorId=1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 发送 GET 请求到 API</span></span><br><span class="line">    response = requests.get(api_url)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Response status code:&quot;</span>, response.status_code)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Response content:&quot;</span>, response.text)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查请求是否成功</span></span><br><span class="line">    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">        <span class="comment"># 将 JSON 响应解析为 Python 对象</span></span><br><span class="line">        memos_data = response.json()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将当前时间作为文件名</span></span><br><span class="line">        current_time = datetime.now().strftime(<span class="string">&quot;%Y-%m-%d_%H-%M-%S&quot;</span>)</span><br><span class="line">        filename = <span class="string">f&quot;backup/memos/memos_backup_<span class="subst">&#123;current_time&#125;</span>.json&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将数据保存到文件</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            json.dump(memos_data, file, ensure_ascii=<span class="literal">False</span>, indent=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Backup successful. Data saved to <span class="subst">&#123;filename&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Error: Unable to fetch data from API. Status code: <span class="subst">&#123;response.status_code&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> requests.exceptions.RequestException <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error: Unable to fetch data from API. Exception: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> json.JSONDecodeError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error: Unable to decode JSON response. Exception: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;An unexpected error occurred: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>至此，就完成了备份脚本</p>
+<h2 id="番外">番外</h2>
+<h3 id="关于备份失败">关于备份失败</h3>
+<p>原本把cron设置为<code>&quot;0 0 * * *&quot;</code>，让GitHub Actions每天0点定时触发，但结果每次脚本运行request请求都没成功</p>
+<p>但是用workflow_dispatch手动触发却可以成功</p>
+<p>定时触发的时间是每天的UTC时间0点，难道运行memos的服务器也在这个时间重启了？</p>
+<p>打开replit服务器，使用<code>uptime</code>命令，显示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">09:00:16  up   1:20,  0 <span class="built_in">users</span>,  load average: 4.18, 7.26, 7.25</span><br></pre></td></tr></table></figure>
+<p>服务器运行了1小时20分钟，说明短时间重启过，说明是有可能的（免费服务器咱也不能要求太多呀）</p>
+<p>先把cron设置为<code>0 */4 * * *</code>，每4小时运行一次脚本，再试试看</p>
+<p>后续就是成功了，用每隔4小时执行就成功了，难绷</p>
+<h3 id="GitHub-Actions时间不准确？">GitHub Actions时间不准确？</h3>
+<blockquote>
+<p>之前没有设置时区的时候，默认使用UTC时间</p>
+</blockquote>
+<p>把cron设置为<code>&quot;0 9 * * *&quot;</code>，在UTC时间9点运行（中国17点）</p>
+<p>在脚本中使用<code>date</code>命令，运行结果显示<code>Mon Jan  1 09:18:14 UTC 2024</code></p>
+<p>差了18分钟，这里可能是GitHub Actions用于cron调度的时间不准确？</p>
+<h2 id="备份得到的json文件转换乘yml文件">备份得到的json文件转换乘yml文件</h2>
+<p>后续就是，我不用memos了，而是用<a target="_blank" rel="noopener" href="https://meuicat.com/blog/67/">静态部署</a>的方式</p>
+<p>静态部署是通过类似于友链的方式进行数据展示的，所以我们需要转换成yml文件，脚本可以参考下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> yaml</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从文件中读取 JSON 数据</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;backup\memos\memos_backup_2024-01-05_20-10-47.json&quot;</span>, <span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    json_data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换为目标格式的函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">convert_to_yaml</span>(<span class="params">data</span>):</span><br><span class="line">    res = []</span><br><span class="line">    essay_list = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> data:</span><br><span class="line">        essay_list.append(</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;content&quot;</span>: item[<span class="string">&quot;content&quot;</span>],</span><br><span class="line">                <span class="string">&quot;date&quot;</span>: datetime.utcfromtimestamp(item[<span class="string">&quot;createdTs&quot;</span>]).strftime(<span class="string">&quot;%Y/%m/%d %H:%M:%S&quot;</span>),</span><br><span class="line">                <span class="string">&quot;from&quot;</span>: item[<span class="string">&quot;creatorUsername&quot;</span>],</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line">    yaml_data = &#123;</span><br><span class="line">        <span class="string">&quot;class_name&quot;</span>: <span class="string">&quot;即刻短文&quot;</span>,</span><br><span class="line">        <span class="string">&quot;essay_number&quot;</span>: -<span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;essay_list&quot;</span>: essay_list</span><br><span class="line">    &#125;</span><br><span class="line">    res.append(yaml_data)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用转换函数</span></span><br><span class="line">yaml_data = convert_to_yaml(json_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将YAML数据写入文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;output.yml&quot;</span>, <span class="string">&quot;w&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    yaml.dump(yaml_data, file, default_flow_style=<span class="literal">False</span>, allow_unicode=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Conversion completed. Output written to &#x27;output.yml&#x27;&quot;</span>)</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/solution/blog/solution-memos-backup-by-github-actions/">https://bughere.github.io/solution/blog/solution-memos-backup-by-github-actions/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/memos/">memos</a><a class="post-meta__tags" href="/tags/github-actions/">github-actions</a><a class="post-meta__tags" href="/tags/backup/">backup</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/algorithm/normal/algorithm-monotonic-stack/" title="algorithm-monotonic-stack"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">algorithm-monotonic-stack</div></div></a></div><div class="next-post pull-right"><a href="/note/exam/note-exam-nku-computer-network/" title="note-exam-nku-computer-network"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">note-exam-nku-computer-network</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8GitHub-Actions%E5%AE%9E%E7%8E%B0memos%E5%A4%87%E4%BB%BD"><span class="toc-number">1.</span> <span class="toc-text">用GitHub Actions实现memos备份</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-number">1.1.</span> <span class="toc-text">正文</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%AA%E5%A4%96"><span class="toc-number">2.</span> <span class="toc-text">番外</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%A4%87%E4%BB%BD%E5%A4%B1%E8%B4%A5"><span class="toc-number">2.1.</span> <span class="toc-text">关于备份失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GitHub-Actions%E6%97%B6%E9%97%B4%E4%B8%8D%E5%87%86%E7%A1%AE%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">GitHub Actions时间不准确？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E5%BE%97%E5%88%B0%E7%9A%84json%E6%96%87%E4%BB%B6%E8%BD%AC%E6%8D%A2%E4%B9%98yml%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">备份得到的json文件转换乘yml文件</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

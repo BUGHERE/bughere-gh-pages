@@ -1,0 +1,1308 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>note-book-the-design-and-implementation-of-redis | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文不适合学习，偏向复习用  相关文章：Redis笔记——Redis设计与实现 数据结构与对象 看前须知 对象章节的有些内容最好提前了解下，比如以下内容： 在 Redis 的数据库中新创建一个键值对时， 我们至少会创建两个对象， 一个对象用作键值对的键（键对象）， 另一个对象用作键值对的值（值对象） 对于 Redis 数据库保存的键值对来说， 键总是一个字符串对象， 而值则可以是字符串对象、列表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="note-book-the-design-and-implementation-of-redis">
+<meta property="og:url" content="https://bughere.github.io/note/book/note-book-the-design-and-implementation-of-redis/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="本文不适合学习，偏向复习用  相关文章：Redis笔记——Redis设计与实现 数据结构与对象 看前须知 对象章节的有些内容最好提前了解下，比如以下内容： 在 Redis 的数据库中新创建一个键值对时， 我们至少会创建两个对象， 一个对象用作键值对的键（键对象）， 另一个对象用作键值对的值（值对象） 对于 Redis 数据库保存的键值对来说， 键总是一个字符串对象， 而值则可以是字符串对象、列表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-10-29T02:03:37.000Z">
+<meta property="article:modified_time" content="2024-09-23T11:55:58.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/note/book/note-book-the-design-and-implementation-of-redis/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'note-book-the-design-and-implementation-of-redis',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-23 19:55:58'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">note-book-the-design-and-implementation-of-redis</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-29T02:03:37.000Z" title="发表于 2023-10-29 10:03:37">2023-10-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-23T11:55:58.000Z" title="更新于 2024-09-23 19:55:58">2024-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/">note</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/book/">book</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">18.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>60分钟</span></span></div></div></div><article class="post-content" id="article-container"><blockquote>
+<p>本文不适合学习，偏向复习用</p>
+</blockquote>
+<p>相关文章：<a target="_blank" rel="noopener" href="https://www.coderzoe.com/archives/24/">Redis笔记——Redis设计与实现</a></p>
+<h1>数据结构与对象</h1>
+<h2 id="看前须知">看前须知</h2>
+<p>对象章节的有些内容最好提前了解下，比如以下内容：</p>
+<p>在 Redis 的数据库中新创建一个键值对时， 我们至少会创建两个对象， 一个对象用作键值对的键（键对象）， 另一个对象用作键值对的值（值对象）</p>
+<p>对于 Redis 数据库保存的键值对来说， 键总是一个字符串对象， 而值则可以是字符串对象、列表对象、哈希对象、集合对象或者有序集合对象的其中一种</p>
+<p>当我们称呼一个数据库键为“字符串键”时， 我们指的是“这个数据库键所对应的值为字符串对象”</p>
+<p>当我们称呼一个键为“列表键”时， 我们指的是“这个数据库键所对应的值为列表对象”</p>
+<h2 id="简单动态字符串（Simple-Dynamic-String，SDS）">简单动态字符串（Simple Dynamic String，SDS）</h2>
+<p>在Redis中，有两种字符串，一种是传统的C字符串，通常仅用于无需修改的地方（例如日志中）。<br>
+而如果Redis需要一个可以修改的字符串，就会使用SDS（键值对的字符串都是使用SDS）</p>
+<h3 id="SDS定义">SDS定义</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sdshdr</span> &#123;</span></span><br><span class="line">    <span class="comment">// 记录 buf 数组中已使用字节的数量</span></span><br><span class="line">    <span class="comment">// 等于 SDS 所保存字符串的长度</span></span><br><span class="line">    <span class="type">int</span> len;</span><br><span class="line">    <span class="comment">// 记录 buf 数组中未使用字节的数量</span></span><br><span class="line">    <span class="type">int</span> <span class="built_in">free</span>;</span><br><span class="line">    <span class="comment">// 字节数组，用于保存字符串</span></span><br><span class="line">    <span class="type">char</span> buf[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="常数时间复杂度获取字符串长度">常数时间复杂度获取字符串长度</h4>
+<p>SDS 遵循 C 字符串以空字符(‘\0’)结尾的惯例，空字符占用1的空间，但不会计算在len属性中</p>
+<p>SDS获取字符串的时间复杂度是O(1)，而C字符串则需要O(n)遍历</p>
+<h4 id="杜绝缓冲区溢出">杜绝缓冲区溢出</h4>
+<blockquote>
+<p>缓冲区溢出：&lt;string.h&gt;/strcat 函数可以将 src 字符串中的内容拼接到 dest 字符串的末尾。C 字符串不记录自身的长度，假设程序里有两个在内存中紧邻着的 C 字符串 s1 和 s2，执行strcat(s1, s3)时，s1 的数据将溢出到 s2 所在的空间中</p>
+</blockquote>
+<p>SDS 的空间分配策略完全杜绝了发生缓冲区溢出的可能性，SDS修改前会检查空间是否满足需要，如果不满足会先进行空间拓展，然后进行修改操作</p>
+<h4 id="内存预分配">内存预分配</h4>
+<p>对于C字符串来说，每次修改都会导致内存重分配（因为每次都是占用固定空间，没有冗余空间）</p>
+<p>而SDS的内存空间可以由未分配的字节，由free属性记录。每次SDS进行空间拓展时，不仅会给分配修改所需要的空间，还会给分配额外的未使用空间（free）。</p>
+<ul>
+<li>如果len小于1MB，那么free和len的值相同，即已使用空间等于未使用空间</li>
+<li>如果大于等于1MB，那么free的值等于1MB</li>
+</ul>
+<blockquote>
+<p>SDS 的 len 将变成 13 字节， 那么程序也会分配13 字节的未使用空间， SDS 的 buf 数组的实际长度将变成 13 + 13 + 1 = 27 字节（额外的一字节用于保存空字符）。</p>
+</blockquote>
+<h4 id="惰性空间释放策略（或者叫不释放策略？）">惰性空间释放策略（或者叫不释放策略？）</h4>
+<blockquote>
+<p>sdstrim 函数接受一个 SDS 和一个 C 字符串作为参数， 从 SDS 左右两端分别移除所有在 C 字符串中出现过的字符。</p>
+</blockquote>
+<p>SDS通过sdstrim函数释放出来的空间会被保留在free中，供以后使用。如果想要释放未使用空间，SDS也提供了相应的API。</p>
+<h3 id="保存二进制数据">保存二进制数据</h3>
+<p>C字符串在字符串的结尾由空字符，而在中间不能包含空字符。</p>
+<p>而SDS可以在字符串中间包含空字符，所以SDS可以用于保存二进制数据，SDS的API都是二进制安全的，这也是SDS的buf被称为字节数组的原因</p>
+<blockquote>
+<p>在处理二进制数据时，特别是在存储图像、音频文件或其他二进制格式的数据时，'\0’的存在是很常见的。</p>
+</blockquote>
+<h3 id="兼容部分C字符串函数">兼容部分C字符串函数</h3>
+<p>SDS遵循C字符串以空字符串结尾的惯例，所以可以重用部分&lt;string.h&gt;库函数，比如strcasecmp、strcat等</p>
+<h2 id="链表">链表</h2>
+<h3 id="用处">用处</h3>
+<p>链表被广泛用于实现 Redis 的各种功能， 比如列表键， 发布与订阅， 慢查询， 监视器</p>
+<h3 id="实现">实现</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="comment">// 后置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span></span><br><span class="line">    <span class="comment">// 节点的值</span></span><br><span class="line">    <span class="type">void</span> *value;</span><br><span class="line">&#125; listNode;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">list</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点</span></span><br><span class="line">    listNode *head;</span><br><span class="line">    <span class="comment">// 表尾节点</span></span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">// 链表所包含的节点数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> len;</span><br><span class="line">    <span class="comment">// 节点值复制函数</span></span><br><span class="line">    <span class="type">void</span> *(*dup)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值释放函数</span></span><br><span class="line">    <span class="type">void</span> (*<span class="built_in">free</span>)(<span class="type">void</span> *ptr);</span><br><span class="line">    <span class="comment">// 节点值对比函数</span></span><br><span class="line">    <span class="type">int</span> (*match)(<span class="type">void</span> *ptr, <span class="type">void</span> *key);</span><br><span class="line">&#125; <span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>双端： 链表节点带有 prev 和 next 指针， 获取某个节点的前置节点和后置节点的复杂度都是 O(1) 。</li>
+<li>无环： 表头节点的 prev 指针和表尾节点的 next 指针都指向 NULL ， 对链表的访问以 NULL 为终点。</li>
+<li>带表头指针和表尾指针： 通过 list 结构的 head 指针和 tail 指针， 程序获取链表的表头节点和表尾节点的复杂度为 O(1) 。</li>
+<li>带链表长度计数器： 程序使用 list 结构的 len 属性来对 list 持有的链表节点进行计数， 程序获取链表中节点数量的复杂度为 O(1)。</li>
+<li>多态： 链表节点使用 void* 指针来保存节点值， 并且可以通过 list 结构的 dup 、 free 、 match 三个属性为节点值设置类型特定函数， 所以链表可以用于保存各种不同类型的值。</li>
+</ul>
+<h2 id="字典">字典</h2>
+<p>用于保存键值对</p>
+<p>Redis 的数据库就是使用字典来作为底层实现的</p>
+<p>字典还是哈希键的底层实现之一： 当一个哈希键包含的键值对比较多， 又或者键值对中的元素都是比较长的字符串时， Redis 就会使用字典作为哈希键的底层实现</p>
+<h3 id="实现-2">实现</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型特定函数，保存了一簇用于操作特定类型键值对的函数</span></span><br><span class="line">    dictType *type;</span><br><span class="line">    <span class="comment">// 私有数据</span></span><br><span class="line">    <span class="type">void</span> *privdata;</span><br><span class="line">    <span class="comment">// 哈希表，ht[0]哈希表用于保存数据，ht[1]哈希表用于rehash</span></span><br><span class="line">    dictht ht[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// rehash 索引，当 rehash 不在进行时，值为 -1</span></span><br><span class="line">    <span class="type">int</span> rehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line">&#125; dict;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line">    <span class="comment">// 哈希表数组</span></span><br><span class="line">    dictEntry **table;</span><br><span class="line">    <span class="comment">// 哈希表大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line">    <span class="comment">// 哈希表大小掩码，用于计算索引值，总是等于 size - 1</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line">    <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line">&#125; dictht;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line">    <span class="comment">// 键</span></span><br><span class="line">    <span class="type">void</span> *key;</span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">        <span class="type">void</span> *val;</span><br><span class="line">        <span class="type">uint64_t</span> u64;</span><br><span class="line">        <span class="type">int64_t</span> s64;</span><br><span class="line">    &#125; v;</span><br><span class="line">    <span class="comment">// 指向下个哈希表节点，形成链表（哈希冲突时将添加到链表表尾）</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictType</span> &#123;</span></span><br><span class="line">    <span class="comment">// 计算哈希值的函数</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*hashFunction)</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *key)</span>;</span><br><span class="line">    <span class="comment">// 复制键的函数</span></span><br><span class="line">    <span class="type">void</span> *(*keyDup)(<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 复制值的函数</span></span><br><span class="line">    <span class="type">void</span> *(*valDup)(<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *obj);</span><br><span class="line">    <span class="comment">// 对比键的函数</span></span><br><span class="line">    <span class="type">int</span> (*keyCompare)(<span class="type">void</span> *privdata, <span class="type">const</span> <span class="type">void</span> *key1, <span class="type">const</span> <span class="type">void</span> *key2);</span><br><span class="line">    <span class="comment">// 销毁键的函数</span></span><br><span class="line">    <span class="type">void</span> (*keyDestructor)(<span class="type">void</span> *privdata, <span class="type">void</span> *key);</span><br><span class="line">    <span class="comment">// 销毁值的函数</span></span><br><span class="line">    <span class="type">void</span> (*valDestructor)(<span class="type">void</span> *privdata, <span class="type">void</span> *obj);</span><br><span class="line">&#125; dictType;</span><br></pre></td></tr></table></figure>
+<h3 id="哈希算法">哈希算法</h3>
+<p>计算索引</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hash = dict-&gt;type-&gt;hashFunction(key);</span><br><span class="line"># 根据情况不同， ht[x] 可以是 ht[<span class="number">0</span>] 或者 ht[<span class="number">1</span>]</span><br><span class="line">index = hash &amp; dict-&gt;ht[x].sizemask;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当字典被用作数据库的底层实现， 或者哈希键的底层实现时， Redis 使用 MurmurHash2 算法来计算键的哈希值。<br>
+MurmurHash 算法最初由 Austin Appleby 于 2008 年发明， 这种算法的优点在于， 即使输入的键是有规律的， 算法仍能给出一个很好的随机分布性， 并且算法的计算速度也非常快。<br>
+MurmurHash 算法目前的最新版本为 MurmurHash3 ， 而 Redis 使用的是 MurmurHash2</p>
+</blockquote>
+<h3 id="rehash-（重新散列）">rehash （重新散列）</h3>
+<p>随着操作的不断执行， 哈希表保存的键值对会逐渐地增多或者减少， 为了让哈希表的负载因子（load factor）维持在一个合理的范围之内， 当哈希表保存的键值对数量太多或者太少时， 程序需要对哈希表的大小进行相应的扩展或者收缩。</p>
+<p>负载因子 <code>load_factor = ht[0].used / ht[0].size</code></p>
+<ol>
+<li>为字典的 <code>ht[1]</code> 哈希表分配空间
+<ul>
+<li>拓展操作时，空间大小等于第一个大于等于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>t</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mi mathvariant="normal">.</mi><mi>u</mi><mi>s</mi><mi>e</mi><mi>d</mi><mo>∗</mo><mn>2</mn><mo>∗</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">ht[0].used * 2 * 2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathnormal">u</span><span class="mord mathnormal">se</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>的空间</li>
+<li>收缩操作时，空间大小等于第一个大于等于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mi>t</mi><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo><mi mathvariant="normal">.</mi><mi>u</mi><mi>s</mi><mi>e</mi><mi>d</mi><mo>∗</mo><msup><mn>2</mn><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">ht[0].used * 2^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">t</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathnormal">u</span><span class="mord mathnormal">se</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6644em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>的空间</li>
+</ul>
+</li>
+<li>将保存在 <code>ht[0]</code> 中的所有键值对 <code>rehash</code> 到 <code>ht[1]</code> 上面</li>
+<li>释放 <code>ht[0]</code> ， 将 <code>ht[1]</code> 设置为 <code>ht[0]</code>，并在 <code>ht[1]</code> 新创建一个空白哈希表</li>
+</ol>
+<ul>
+<li>扩展操作（以下条件中的任意一个被满足时， 程序会自动开始对哈希表执行）：
+<ul>
+<li>服务器目前没有在执行 <code>BGSAVE</code> 命令或者 <code>BGREWRITEAOF</code> 命令， 并且哈希表的负载因子大于等于 <code>1</code> ；</li>
+<li>服务器目前正在执行 <code>BGSAVE</code> 命令或者 <code>BGREWRITEAOF</code> 命令， 并且哈希表的负载因子大于等于 <code>5</code> ；</li>
+</ul>
+</li>
+<li>收缩操作：当哈希表的负载因子小于 0.1 时， 程序自动开始对哈希表执行收缩操作。</li>
+</ul>
+<blockquote>
+<p>在执行 BGSAVE 命令或BGREWRITEAOF 命令的过程中， Redis 需要创建当前服务器进程的子进程， 而大多数操作系统都采用写时复制（copy-on-write）技术来优化子进程的使用效率， 所以在子进程存在期间， 服务器会提高执行扩展操作所需的负载因子， 从而尽可能地避免在子进程存在期间进行哈希表扩展操作， 这可以避免不必要的内存写入操作， 最大限度地节约内存</p>
+</blockquote>
+<h3 id="渐进式rehash">渐进式rehash</h3>
+<p>为了避免当数据量大时一次性rehash导致停止服务的情况，rehash需要分多次，渐进式。</p>
+<ol>
+<li>为字典的 <code>ht[1]</code> 哈希表分配空间</li>
+<li>维持一个索引计数器变量<code>rehashidx</code>（初始值为0）</li>
+<li><code>rehash</code>过程中，将 <code>ht[0]</code> 哈希表在 <code>rehashidx</code> 索引上的所有键值对 <code>rehash</code> 到 <code>ht[1]</code>，完成映射<code>rehashidx</code>值加一</li>
+<li>最后，所有键值对被映射到<code>ht[1]</code>，这是<code>rehashidx</code>的值设为<code>-1</code>，完成<code>rehash</code>操作</li>
+</ol>
+<blockquote>
+<p>在渐进式 rehash 进行期间， 字典的删除（delete）、查找（find）、更新（update）等操作会在两个哈希表上进行： 比如说， 要在字典里面查找一个键的话， 程序会先在 ht[0] 里面进行查找， 如果没找到的话， 就会继续到 ht[1] 里面进行查找， 诸如此类。</p>
+<p>新添加到字典的键值对一律会被保存到 ht[1] 里面， 而 ht[0] 则不再进行任何添加操作</p>
+</blockquote>
+<h2 id="跳跃表">跳跃表</h2>
+<p>有序的链式结构，在每个节点中维持多个指向其他节点的指针，从而达到快速访问节点的目的</p>
+<p>跳跃表中的节点按照分值大小进行排序， 当分值相同时， 节点按照成员对象的大小进行排序</p>
+<blockquote>
+<p>在大部分情况下， 跳跃表的效率可以和平衡树相媲美， 并且因为跳跃表的实现比平衡树要来得更为简单， 所以有不少程序都使用跳跃表来代替平衡树。</p>
+</blockquote>
+<blockquote>
+<p>Redis 只在两个地方用到了跳跃表， 一个是实现有序集合键， 另一个是在集群节点中用作内部数据结构</p>
+</blockquote>
+<h3 id="实现-3">实现</h3>
+<p>表头节点header类似于dummy的性质，没有具体的成员对象和分值</p>
+<blockquote>
+<p>表头节点和其他节点的构造是一样的： 表头节点也有后退指针、分值和成员对象， 不过表头节点的这些属性都不会被用到</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量（表头节点不计算在内）</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数（表头节点的层数不计算在内）</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 后退指针（只能按照顺序后退）</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 层（根据幂次定律随机生成一个介于1和32之间的值作为level数组的大小）</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>幂次定律（power law）：越大的数出现的概率越小</p>
+</blockquote>
+<h2 id="整数集合">整数集合</h2>
+<p>当一个集合只包含整数值元素， 并且这个集合的元素数量不多时， Redis 就会使用整数集合作为集合键的底层实现</p>
+<h3 id="实现-4">实现</h3>
+<p>可以保存类型为 int16_t 、 int32_t 或者 int64_t 的整数值， 并且保证集合中不会出现重复元素</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 编码方式，决定了contents数组的类型</span></span><br><span class="line">    <span class="type">uint32_t</span> encoding;</span><br><span class="line">    <span class="comment">// 集合包含的元素数量</span></span><br><span class="line">    <span class="type">uint32_t</span> length;</span><br><span class="line">    <span class="comment">// 保存元素的数组，从小到大保存</span></span><br><span class="line">    <span class="type">int8_t</span>[<span class="type">int16_t</span>/<span class="type">int32_t</span>/<span class="type">int64_t</span>] contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+<p>升级策略：每当我们要将一个新元素添加到整数集合里面， 并且新元素的类型比整数集合现有所有元素的类型都要长时， 整数集合需要先进行升级（upgrade），将底层数组现有的所有元素都转换成与新元素相同的类型，对底层数组进行空间重分配， 然后才能将新元素添加到整数集合里面。</p>
+<blockquote>
+<p>因为每次向整数集合添加新元素都可能会引起升级， 而每次升级都需要对底层数组中已有的所有元素进行类型转换， 所以向整数集合添加新元素的时间复杂度为 O(N)</p>
+</blockquote>
+<blockquote>
+<p>因为引发升级的新元素的长度总是比整数集合现有所有元素的长度都大， 所以这个新元素的值要么就大于所有现有元素， 要么就小于所有现有元素（负数）</p>
+</blockquote>
+<p>整数集合的升级策略有两个好处， 一个是提升整数集合的灵活性， 另一个是尽可能地节约内存。</p>
+<blockquote>
+<p>整数集合不支持降级操作， 一旦对数组进行了升级， 编码就会一直保持升级后的状态。</p>
+</blockquote>
+<h2 id="压缩列表">压缩列表</h2>
+<p>压缩列表（ziplist）是列表键和哈希键的底层实现之一。</p>
+<table>
+<thead>
+<tr>
+<th>zlbytes</th>
+<th>zltail</th>
+<th>zllen</th>
+<th>entry1</th>
+<th>entry2</th>
+<th>…</th>
+<th>entryN</th>
+<th>zlend</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>zlbytes：记录整个压缩列表占用的字节数</li>
+<li>zltail：记录压缩俩表尾节点（entryN）的距离（通过zltail就可以直接得到表尾节点的地址）</li>
+<li>zzlen：记录节点数量</li>
+<li>entryX：列表节点</li>
+<li>zlend：压缩列表的末端标记，是特殊值0xFF</li>
+</ul>
+<h3 id="节点">节点</h3>
+<p>每个压缩列表节点可以保存一个字节数组或者一个整数值</p>
+<ul>
+<li>字节数组
+<ul>
+<li>长度小于等于 63 （2^6-1）</li>
+<li>长度小于等于 16383 （2^14-1）</li>
+<li>长度小于等于 4294967295 （2^32-1）</li>
+</ul>
+</li>
+<li>整数值
+<ul>
+<li>4bit（0-12的无符号整数）</li>
+<li>1byte的有符号整数</li>
+<li>3byte的有符号整数</li>
+<li>int16_t</li>
+<li>int32_t</li>
+<li>int64_t</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>previous_entry_length</th>
+<th>encoding</th>
+<th>content</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>previous_entry_length：记录上一个节点的长度（通过它就可以获得上一个节点的地址，从而实现从尾到头的遍历）
+<ul>
+<li>如果前一节点的长度小于 254 字节， 那么 previous_entry_length 属性的长度为 1 字节： 前一节点的长度就保存在这一个字节里面</li>
+<li>如果前一节点的长度大于等于 254 字节， 那么 previous_entry_length 属性的长度为 5 字节： 其中属性的第一字节会被设置为 0xFE（十进制值 254）， 而之后的四个字节则用于保存前一节点的长度。</li>
+</ul>
+</li>
+<li>encoding：记录了节点的 content 属性所保存数据的类型以及长度，按照前两个bit进行划分
+<ul>
+<li>00bbbbbb（1byte）：长度小于等于 63 字节的字节数组（长度就是bbbbbb，下面两个数组同理）</li>
+<li>01bbb…b（2byte）：长度小于等于 16383 字节的字节数组</li>
+<li>10bbb…b（5byte）： 长度小于等于 4294967295 的字节数组</li>
+<li>11bbbbbb（1byte）：各种类型的整数（具体类型还要按照接下来的bit继续划分）</li>
+</ul>
+</li>
+<li>content：content就是上面的字节数组或者整数值</li>
+</ul>
+<blockquote>
+<p>连锁更新： 每个节点的 previous_entry_length 属性都记录了前一个节点的长度。previous_entry_length用1byte或者5byte记录，如果在上一个节点插入一个大于254byte的节点，那么当前节点的previous_entry_length就可能从1byte变成5byte。导致当前节点也扩张，有可能进一步导致下一个节点也要扩张。</p>
+</blockquote>
+<blockquote>
+<p>实际上连锁更新的情况并不多见</p>
+</blockquote>
+<h2 id="对象">对象</h2>
+<p>在 Redis 的数据库中新创建一个键值对时， 我们至少会创建两个对象， 一个对象用作键值对的键（键对象）， 另一个对象用作键值对的值（值对象）</p>
+<p>对于 Redis 数据库保存的键值对来说， 键总是一个字符串对象， 而值则可以是字符串对象、列表对象、哈希对象、集合对象或者有序集合对象的其中一种</p>
+<p>当我们称呼一个数据库键为“字符串键”时， 我们指的是“这个数据库键所对应的值为字符串对象”</p>
+<p>当我们称呼一个键为“列表键”时， 我们指的是“这个数据库键所对应的值为列表对象”</p>
+<blockquote>
+<p>TYPE 命令的实现方式也与此类似， 当我们对一个数据库键执行 TYPE 命令时， 命令返回的结果为数据库键对应的值对象的类型， 而不是键对象的类型</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 指向底层实现数据结构的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line">    <span class="comment">// 引用计数，过跟踪对象的引用计数信息，值为0的时候自动释放对象并进行内存回收</span></span><br><span class="line">    <span class="type">int</span> refcount;</span><br><span class="line">    <span class="comment">// 空转时长就是通过将当前时间减去键的值对象的lru时间， 空转时长较高的那部分键会优先被服务器释放， 从而回收内存</span></span><br><span class="line">    <span class="type">unsigned</span> lru:<span class="number">22</span>;</span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>type：对象的类型
+<ul>
+<li>REDIS_STRING，字符串对象</li>
+<li>REDIS_LIST，列表对象</li>
+<li>REDIS_HASH，哈希对象</li>
+<li>REDIS_SET，集合对象</li>
+<li>REDIS_ZSET，有序集合对象</li>
+</ul>
+</li>
+</ul>
+<p>汇总一个类型对应的多种编码</p>
+<ul>
+<li>REDIS_STRING，字符串对象
+<ul>
+<li>REDIS_ENCODING_INT
+<ul>
+<li>要求字符串对象保存的是整数值， 并且这个整数值可以用 long 类型来表示</li>
+<li>ptr属性里面（将 void* 转换成 long ）， 并将字符串对象的编码设置为 int</li>
+<li>通过 APPEND 命令， 向一个保存整数值的字符串对象追加了一个字符串值，对象的编码就会从int变成raw</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_RAW
+<ul>
+<li>字符串对象保存的是一个字符串值，且长度大于 39 字节</li>
+<li>ptr指针指向一个SDS对象（sdshdr）</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_EMBSTR
+<ul>
+<li>字符串对象保存的是一个字符串值，且长度小于等于 39 字节</li>
+<li>和raw一样，ptr指针指向一个SDS对象，但它的redisObject和sdshdr在空间上是连续的，所以内存分配和释放都只需要一次就可以完成（raw因为两者空间不连续，所以需要分别分配）</li>
+<li>Redis 没有为 embstr 编码的字符串对象编写任何相应的修改程序，所以对embstr的任意修改，都会导致对象的编码从embstr转为raw</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>long double类型的浮点数也是作为字符串值来保存的，按长度分为raw和embstr保存</p>
+</blockquote>
+</li>
+<li>REDIS_LIST，列表对象
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每个压缩列表节点（entry）保存了一个列表元素（可以是字符数组或者int）</li>
+<li>需要满足列表对象保存的所有字符串元素的长度都小于 64 字节，并且列表对象保存的元素数量小于 512 个；否则转换为linkedlist</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_LINKEDLIST
+<ul>
+<li>使用双端链表作为底层实现， 每个双端链表节点（node）都保存了一个字符串对象， 而每个字符串对象都保存了一个列表元素。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REDIS_HASH，哈希对象
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每当有新的键值对要加入到哈希对象时， 程序会先将保存了键的压缩列表节点推入到压缩列表表尾， 然后再将保存了值的压缩列表节点推入到压缩列表表尾
+<ul>
+<li>保存了同一键值对的两个节点总是紧挨在一起， 保存键的节点在前， 保存值的节点在后；</li>
+<li>先添加到哈希对象中的键值对会被放在压缩列表的表头方向， 而后来添加到哈希对象中的键值对会被放在压缩列表的表尾方向。</li>
+</ul>
+</li>
+<li>需要满足哈希对象保存的所有键值对的键和值的字符串长度都小于 64 字节，并且哈希对象保存的键值对数量小于 512 个；否则转换为hashtable来实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_HT
+<ul>
+<li>使用字典作为底层实现， 哈希对象中的每个键值对都使用一个字典键值对来保存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REDIS_SET，集合对象
+<ul>
+<li>REDIS_ENCODING_INTSET
+<ul>
+<li>使用整数集合作为底层实现， 集合对象包含的所有元素都被保存在整数集合里面</li>
+<li>需要满足集合对象保存的所有元素都是整数值，并且集合对象保存的元素数量不超过 512 个；否则转换为hashtable实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_HT
+<ul>
+<li>使用字典作为底层实现， 字典的每个键都是一个字符串对象， 每个字符串对象包含了一个集合元素， 而字典的值则全部被设置为 NULL</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REDIS_ZSET，有序集合对象（每个节点有成员member和分值score）
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每个集合元素使用两个紧挨在一起的压缩列表节点来保存， 第一个节点保存元素的成员（member）， 而第二个元素则保存元素的分值（score），压缩列表的集合元素按照分值从小到大排序</li>
+</ul>
+<blockquote>
+<p>文中似乎没有说这里的排序方式，如何保持有序性呢？压缩列表中的元素是按照插入顺序存储的，所以新添加的元素会按照其分数值的大小插入到合适的位置，以保持有序性。这样，即使有新元素的加入，Redis 仍然能够在压缩列表中维护有序集合的顺序。</p>
+</blockquote>
+<ul>
+<li>需要满足有序集合保存的元素数量小于 128 个，并且有序集合保存的所有元素成员的长度都小于 64 字节；否则转换为skiplist实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_SKIPLIST
+<ul>
+<li>使用 zset 结构作为底层实现， 一个 zset 结构同时包含一个字典dict和一个跳跃表zskiplist
+<ul>
+<li>跳跃表按分值从小到大保存了所有集合元素， 每个跳跃表节点都保存了一个集合元素。通过这个跳跃表， 程序可以对有序集合进行范围型操作， 比如 ZRANK 、ZRANGE 等命令就是基于跳跃表 API 来实现的。</li>
+<li>字典为有序集合创建了一个从成员到分值的映射， 字典中的每个键值对都保存了一个集合元素： 字典的键保存了元素的成员， 而字典的值则保存了元素的分值。 通过这个字典， 程序可以用 O(1) 复杂度查找给定成员的分值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="类型检查">类型检查</h3>
+<ul>
+<li>SET 、 GET 、 APPEND 、 STRLEN 等命令只能对字符串键执行；</li>
+<li>HDEL 、 HSET 、 HGET 、 HLEN 等命令只能对哈希键执行；</li>
+<li>RPUSH 、 LPOP 、 LINSERT 、 LLEN 等命令只能对列表键执行；</li>
+<li>SADD 、 SPOP 、 SINTER 、 SCARD 等命令只能对集合键执行；</li>
+<li>ZADD 、 ZCARD 、 ZRANK 、 ZSCORE 等命令只能对有序集合键执行；</li>
+</ul>
+<h3 id="命令的多态性质">命令的多态性质</h3>
+<p>可以认为 LLEN 命令是多态（polymorphism）的： 只要执行 LLEN 命令的是列表键， 那么无论值对象使用的是 ziplist 编码还是 linkedlist 编码， 命令都可以正常执行。</p>
+<h3 id="对象共享">对象共享</h3>
+<p>对象的引用计数属性还带有对象共享的作用，共享对象机制对于节约内存非常有帮助</p>
+<p>让多个键共享同一个值对象骤：将数据库键的值指针指向一个现有的值对象；将被共享的值对象的引用计数增一。</p>
+<p>只有在共享对象和目标对象完全相同的情况下， 程序才会将共享对象用作键的值对象， 而一个共享对象保存的值越复杂， 验证共享对象和目标对象是否相同所需的复杂度就会越高， 消耗的 CPU 时间也会越多</p>
+<p>所以Redis只共享int字符串对象，并且共享值为 0 到 9999</p>
+<h1>单机数据库的实现</h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisDb</span> &#123;</span></span><br><span class="line">  <span class="comment">// 数据库键空间，保存数据库中所有的键值对</span></span><br><span class="line">  dict *dcit;</span><br><span class="line">  <span class="comment">// 过期字典，保存所有键的过期时间</span></span><br><span class="line">  dict *expires;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">saveparam</span> &#123;</span></span><br><span class="line">  <span class="comment">// 在seconds秒内执行changes次，则满足RDB备份条件</span></span><br><span class="line">  <span class="type">time_t</span> seconds;</span><br><span class="line">  <span class="type">int</span> changes;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// 一个数组，保存着服务器中所有的数据库</span></span><br><span class="line">  redisDb *db;</span><br><span class="line">  <span class="comment">// 服务器的数据库数量</span></span><br><span class="line">  <span class="type">int</span> dbnum;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 数组，保存多个RDB备份的条件</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">saveparm</span> *<span class="title">saveparms</span>;</span></span><br><span class="line">  <span class="comment">// 距离上一次RDB备份后，服务器进行了多少次修改次数和总时长</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> dirty;</span><br><span class="line">  <span class="type">time_t</span> lastsave;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// AOF缓冲区</span></span><br><span class="line">  sds aof_buf;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisClient</span> &#123;</span></span><br><span class="line">  <span class="comment">// 客户端当前正在使用的数据库，使用select命令切换数据库</span></span><br><span class="line">  redisDb *db;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="数据库">数据库</h2>
+<h3 id="过期键删除策略">过期键删除策略</h3>
+<p>一个键过期了，什么时候会被删除呢？</p>
+<ol>
+<li>定时删除：为每个键创建一个定时器，在键过期时立即执行删除操作。缺点：开销大</li>
+<li>惰性删除：不主动检查，而是每次从键空间获取键时，检查键是否过期，过期则删除该键。缺点：如果一个键过期，并且一直没有访问到，那么将不会被删除</li>
+<li>定期删除：每个一段时间，对数据库进行检查，删除过期键</li>
+</ol>
+<p>实际上，Redis服务器使用惰性删除和定期删除两种策略结合</p>
+<!-- todo: P111 放后面讲 -->
+<h3 id="数据库通知">数据库通知</h3>
+<p>可以让客户端通过订阅给定的频道或者模式，获取数据库中键的变化以及数据库的命令执行情况</p>
+<p>比如，通过<code>SUBSCRIBE _ _keyspace@0_ _message</code>命令，可以获取到0号数据库中的message键的所有执行命令</p>
+<p>又如，通过<code>SUBSCRIBE _ _keyevent@0_ _:del</code>命令，可以获取0号数据库所有执行del命令的键</p>
+<h2 id="RDB持久化">RDB持久化</h2>
+<p>用于备份数据</p>
+<h3 id="RDB文件的创建和载入">RDB文件的创建和载入</h3>
+<ul>
+<li>创建
+<ul>
+<li>SAVE命令会阻塞Redis服务器进程，执行过程中，所有其它命令被阻塞</li>
+<li>BGSAVE命令会派生一个子进程，由子进程进行文件创建
+<ul>
+<li>执行期间，其它命令不会被阻塞，但是相关备份命令执行会有所不同</li>
+<li>SAVE命令和BGSAVE命令会被拒绝</li>
+<li>BGSAVE命令执行时，发送的BGREWRITEAOF命令会被阻塞</li>
+<li>BGREWRITEAOF命令执行时，发送的BGSAVE命令会被拒绝</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>载入
+<ul>
+<li>载入期间，服务器处于阻塞状态</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>AOF持久化的优先级比RDB高，服务器优先使用AOF</p>
+</blockquote>
+<h3 id="RDB文件结构">RDB文件结构</h3>
+<table>
+<thead>
+<tr>
+<th>REDIS</th>
+<th>db_version</th>
+<th>databases</th>
+<th>EOF</th>
+<th>check_sum</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>REDIS：RDB文件标志位，保存这5个字符，用于快速检查文件类型是否为RDB</li>
+<li>db_version：RDB版本号</li>
+<li>databases：各个数据库的键值对数据</li>
+<li>EOF：结束标志</li>
+<li>check_sum：8字节的校验和</li>
+</ul>
+<p>databases保存多个数据库的数据，每个数据库的内容如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>SELECTDB</th>
+<th>db_number</th>
+<th>key_value_pairs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据库标志位</td>
+<td>数据库号码</td>
+<td>键值对数据</td>
+</tr>
+</tbody>
+</table>
+<p>其中，key_value_paris由键值对组成，结构如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>EXPIRETIME_MS</th>
+<th>ms</th>
+<th>TYPE</th>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>过期键标志位（如果有）</td>
+<td>过期时间戳（如果有）</td>
+<td>value的类型</td>
+<td>键（字符串）</td>
+<td>值数据</td>
+</tr>
+</tbody>
+</table>
+<p>每种value的保存方式和RDB二进制文件的分析方法，这里不展开说了</p>
+<h2 id="AOF持久化">AOF持久化</h2>
+<p>通过保存服务器执行的写命令来记录数据库状态</p>
+<h3 id="AOF持久化的实现">AOF持久化的实现</h3>
+<ul>
+<li>命令追加（append）
+<ul>
+<li>AOF持久化打开时，服务器执行完一个写命令后，会将写命令追加到aof_buf缓冲区的末尾</li>
+</ul>
+</li>
+<li>写入（write）
+<ul>
+<li>将aof缓冲区的内容写入程序缓冲区</li>
+</ul>
+</li>
+<li>同步（fsync）
+<ul>
+<li>将程序缓冲区的内容写入aof文件，根据appendfsync选项的值决定同步方式
+<ul>
+<li>always：将aof缓冲区所有内容写入并同步到aof文件</li>
+<li>everysec：将aof缓冲区所有内容写入到aof文件，如果上次aof同步时间超过1秒钟，那么将对AOF文件进行同步，这个同步由一个单独的线程负责</li>
+<li>no：将aof缓冲区所有内容写入到aof文件，但并不对aof文件执行同步，何时同步由操作系统决定。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="AOF文件的载入与数据还原">AOF文件的载入与数据还原</h3>
+<ol>
+<li>创建一个不带网络连接的伪客户端</li>
+<li>对AOF文件进行分析，并读取一条写命令</li>
+<li>通过伪客户端执行被读出的写命令</li>
+<li>一直重复步骤2和3直至所有写命令都被处理完</li>
+</ol>
+<h3 id="AOF重写">AOF重写</h3>
+<p>从数据库中读取键当前的值，然后用一条命令去记录键值对，代替之前记录这个键值对的多条命令，这就是AOF重写的实现原理</p>
+<h3 id="AOF后台重写">AOF后台重写</h3>
+<p>通过一个子进程进行AOF重写，这样重写期间，服务器就可以继续处理请求</p>
+<p>这样有个问题，继续处理请求会有新的数据写入，导致AOF重写的数据库状态不一致</p>
+<p>为了解决这个问题，Redis设置了一个AOF重写缓冲区，将写命令同时发送给AOF缓冲区和AOF重写缓冲区，保证了：</p>
+<ol>
+<li>AOF缓冲区的内容会定期被写入和同步到AOF文件，对现有AOF文件的处理工作会如常进行</li>
+<li>从创建子进程开始，服务器执行的所有写命令也都会被记录到AOF重写缓冲区里面</li>
+</ol>
+<p>当子进程完成AOF重写工作之后，它会向父进程发送一个信号，父进程在接到该信号之后，会调用一个信号处理函数，并执行以下工作：</p>
+<ol>
+<li>将AOF重写缓冲区中的所有内容写入到新AOF文件中，这时新AOF文件所保存的数据库状态将和服务器当前的数据库状态一致</li>
+<li>对新的AOF文件进行改名，原子地（atomic）覆盖现有的AOF文件，完成新旧两 个AOF文件的替换。</li>
+</ol>
+<blockquote>
+<p>Redis服务重启的数据恢复流程优先考虑AOF，如果没有AOF才会使用RDB持久化文件恢复数据。如果都没有，那么直接启动Reids。</p>
+<p>RDB恢复数据功能优于AOF，但如果数据集很大，RDB持久化就会很耗时</p>
+<p>AOF文件以文本格式保存所有写操作命令，所以同一数据下，AOF文件通常大于RDB文件</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>RDB</th>
+<th>AOF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动优先级</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>文件体积</td>
+<td>小</td>
+<td>大</td>
+</tr>
+<tr>
+<td>恢复速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>数据安全性</td>
+<td>丢失（断电）</td>
+<td>根据策略配置</td>
+</tr>
+</tbody>
+</table>
+<h2 id="事件">事件</h2>
+<p>Redis服务器需要处理以下两种事件：</p>
+<ol>
+<li>文件事件（file event） : Redis服务器通过套接字与客户端（或者其他Redis服务器） 进行连接，而文件事件就是服务器对套接字操作的抽象。服务器与客户端（或者其 他服务器）的通信会产生相应的文件事件，而服务器则通过监听并处理这些事件来 完成一系列网络通信操作。</li>
+<li>时间事件（time event） : Redis服务器中的一些操作（比如serverCron函数）需要在给定的时间点执行，而时间事件就是服务器对这类定时操作的抽象。</li>
+</ol>
+<h3 id="文件事件">文件事件</h3>
+<p>Redis基于Reactor模式开发了自己的网络事件处理器：文件事件处理器，使用IO多路复用来同时监听多个套接字</p>
+<ul>
+<li>文件事件处理器的构成
+<ul>
+<li>套接字
+<ul>
+<li>客户端对套接字执行write或close操作，套接字变得可读，产生AE_READABLE事件</li>
+<li>客户端对套接字执行read操作，套接字变得可写，产生AE_WRITEABLE事件</li>
+</ul>
+</li>
+<li>IO多路复用程序
+<ul>
+<li>服务器通过IO多路复用程序监听客户端的套接字，允许同时监听AE_READABLE和AE_WRITEABLE事件，优先处理AE_READABLE事件</li>
+</ul>
+</li>
+<li>文件事件分派器
+<ul>
+<li>根据IO多路复用程序传来的套接字，调用相应的事件处理器</li>
+</ul>
+</li>
+<li>事件处理器
+<ul>
+<li>连接应答处理器：对连接服务器监听套接字的客户端进行应答</li>
+<li>命令请求处理器：从套接字中读入客户端发送的命令请求内容</li>
+<li>命令回复处理器：将服务器执行命令后得到的回复通过套接字返回给客户端</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="时间事件">时间事件</h3>
+<p>时间事件分为两类：</p>
+<ol>
+<li>定时事件：让程序在指定的时间之后执行一次。事件处理器返回ae.h/AE_NOMORE，该事件到达一次后就会被删除，不会再到达</li>
+<li>周期性时间：让程序每隔一段时间就执行一次。事件处理器返回整数值，服务器根据这个值，对时间事件的when属性更新，让事件在一段时间后再次到达</li>
+</ol>
+<p>正常模式下，Redis服务器只是用serverCron这一个时间事件，serverCron函数主要工作内容包括：</p>
+<ol>
+<li>更新服务器的各类统计信息，比如时间、内存占用、数据库占用情况等</li>
+<li>清理数据库中的过期键值对</li>
+<li>关闭和清理连接失效的客户端</li>
+<li>尝试进行AOF或RDB持久化操作</li>
+<li>如果服务器是主服务器，那么对从服务器进行定期同步</li>
+<li>如果处于集群模式，对集群进行定期同步和连接测试</li>
+</ol>
+<p>这里顺带总结了服务器的运行主函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def <span class="title function_">main</span><span class="params">()</span>:</span><br><span class="line">    # 初始化服务器</span><br><span class="line">    <span class="title function_">init_server</span><span class="params">()</span></span><br><span class="line">    # 一直处理事件，直至服务器关闭</span><br><span class="line">    <span class="keyword">while</span> <span class="title function_">sever_is_not_shutdown</span><span class="params">()</span>:</span><br><span class="line">        <span class="title function_">aeProcessEvents</span><span class="params">()</span></span><br><span class="line">    # 服务器关闭，清空一些数据</span><br><span class="line">    <span class="title function_">clean_server</span><span class="params">()</span></span><br><span class="line"></span><br><span class="line">def <span class="title function_">aeProcessEvents</span> <span class="params">()</span>:</span><br><span class="line">    #获取到达时间离当前时间最接近的时间事件</span><br><span class="line">    time_event = aeSeachNearestTimer()</span><br><span class="line">    #计算最接近的时间事件距离到达还有多少毫秒</span><br><span class="line">    remaind_ms = time_event.when - unix_ts_now()</span><br><span class="line">    #如果事件巳到达，那么remaind_ms的值可能为负数，将它设定为<span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> remaind_ms &lt; <span class="number">0</span>: remaind_ms = <span class="number">0</span></span><br><span class="line">    #根据remaind_ms的值，创建timeval结构</span><br><span class="line">    timeval = create_timeval_with_ms(remaind_ms)</span><br><span class="line">    #阻塞并等待文件事件产生，最大阻塞时间由传入的timeval结构决定</span><br><span class="line">    #如果remaind_ms的值为<span class="number">0</span>,那么aeApiPoll调用之后马上返回，不阻塞</span><br><span class="line">    aeApiPoll(timeval) </span><br><span class="line">    #处理所有巳产生的文件事件</span><br><span class="line">    processFileEvents()</span><br><span class="line">    #处理所有已到达的时间事件 </span><br><span class="line">    processTimeEvents()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ae.c/aeApiPll函数接受一个sys/time.h/struct timeval结构为参数，并在指定的时间内，阻塞并等待所有被aeCreateFileEvent函数设置为监听状态的套接字产生文件事件，当有至少一个事件发生，或者等待超时后，函数返回</p>
+</blockquote>
+<h2 id="客户端">客户端</h2>
+<p>Reids服务器时典型的一对多服务器程序，使用单线程单进程处理命令请求，并与多个客户端进行网络通信</p>
+<blockquote>
+<p>redisClient对象和redisServer对象都保存在redis服务器中</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisClient</span> &#123;</span></span><br><span class="line">  <span class="comment">// 正在使用的套接字描述符</span></span><br><span class="line">  <span class="type">int</span> fd;</span><br><span class="line">  <span class="comment">// 客户端的名字</span></span><br><span class="line">  robj *name;</span><br><span class="line">  <span class="comment">// 客户端的角色，以及目前所处的状态</span></span><br><span class="line">  <span class="type">int</span> flags;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 输入缓冲区，用于保存客户端发送的命令</span></span><br><span class="line">  sds querybuf;</span><br><span class="line">  <span class="comment">// 服务器对命令解析，将命令参数以及个数保存在客户端的argv和argc中</span></span><br><span class="line">  robj **argv;</span><br><span class="line">  <span class="type">int</span> argc;</span><br><span class="line">  <span class="comment">// 服务器在命令表中查找对应的命令实现函数，让客户端的cmd指向这个函数</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">redisCommand</span> *<span class="title">cmd</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 固定大小输出缓冲区，保存服务器的命令回复，默认大小是16*1024</span></span><br><span class="line">  <span class="type">char</span> buf[REDIS_REPLY_CHUNK_BYTES];</span><br><span class="line">  <span class="comment">// 记录buf数组目前已使用的字节数量</span></span><br><span class="line">  <span class="type">int</span> bufpos;</span><br><span class="line">  <span class="comment">// 可变大小输出缓冲区，由reply链表和一个或多个字符串对象组成</span></span><br><span class="line">  <span class="comment">// 当buf数组的空间已经用完，或者回复因为太大无法放入buf数组中，服务器开始使用可变大小输出缓冲区</span></span><br><span class="line">  <span class="built_in">list</span> *reply;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 记录客户端是否通过了验证</span></span><br><span class="line">  <span class="type">int</span> authenticated;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建客户端的时间</span></span><br><span class="line">  <span class="type">time_t</span> ctime;</span><br><span class="line">  <span class="comment">// 客户端与服务器最后一次进行互动的时间</span></span><br><span class="line">  <span class="type">time_t</span> lastinteraction;</span><br><span class="line">  <span class="comment">// 客户端的空转时间，即距离客户端与服务器最后一次互动以来过去的时间</span></span><br><span class="line">  <span class="type">time_t</span> obuf_soft_limit_reached_time;</span><br><span class="line">&#125;；</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// 一个链表，保存了所有客户端状态</span></span><br><span class="line">  <span class="built_in">list</span> * clients;</span><br><span class="line">  redisClient *lua_client;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>服务器使用两种模式来限制客户端输出缓冲区的大小：</p>
+<ol>
+<li>硬性限制（hard limit）：输出缓冲区超过硬性限制的大小，立即关闭客户端</li>
+<li>软性限制（soft limit）：输出缓冲区超过软性限制的大小，服务器根据客户端的obuf_soft_limit_reached_time属性记录的客户端到达软性限制的时间，如果时间超过了client-output-buffer-limit选项规定的时间，才关闭客户端</li>
+</ol>
+<h2 id="服务器">服务器</h2>
+<h3 id="命令请求的执行过程">命令请求的执行过程</h3>
+<p>当我们发送一条指令时，对于服务端其大体执行了如下流程：</p>
+<ol>
+<li>客户端将命令转换成协议格式（二进制），并将其发送给服务端</li>
+<li>服务端调用命令请求处理器对输入缓冲区中的命令进行解析，得到命令与参数等信息</li>
+<li>调用命令对应的命令执行器执行命令
+<ol>
+<li>通过redisCommand结构查找命令</li>
+<li>执行预备操作，检查cmd指针，服务器状态，客户端是否通过验证等，确保命令可以正确顺利执行</li>
+<li>调用命令的实现函数</li>
+<li>执行后续工作，记录慢日志，更新服务器状态，持久化，同步从服务器等操作</li>
+</ol>
+</li>
+<li>将协议格式的执行结果返回给客户端</li>
+<li>客户端接受并打印命令回复给我们</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisCommand</span> &#123;</span></span><br><span class="line">  <span class="comment">// 命令的名字，比如set</span></span><br><span class="line">  <span class="type">char</span>* name;</span><br><span class="line">  <span class="comment">// 函数指针，指向命令的实现函数，比如setCommand。</span></span><br><span class="line">  redisCommandProc* proc;</span><br><span class="line">  <span class="comment">// 命令参数的个数，用于检查命令请求的格式是否正确。如果这个值为负数-N,那么表示参数的数量大于等于N。注意 命令的名字本身也是一个参数，比如说SET msg hello world命令的参数是&quot;SET&quot;, &quot;msg&quot;. hello world&quot;, 而不仅仅是&quot;msg&quot;和&quot;hello world&quot;</span></span><br><span class="line">  <span class="type">int</span> arity;</span><br><span class="line">  <span class="comment">// 字符串形式的标识值，这个值记录了命令的属性，比如这个 命令是写命令还是读命令，这个命令是否允许在载人数据时使 用，这个命令是否允许在Lua脚本中使用等等</span></span><br><span class="line">  <span class="type">char</span>* sflags;</span><br><span class="line">  <span class="comment">// 对sflags标识进行分析得出的二进制标识，由程序自动生 成。服务器对命令标识进行检查时使用的都是flags属性而不 是sflags属性，因为对二进制标识的检查可以方便地通过位操作来完成</span></span><br><span class="line">  <span class="type">int</span> flags;</span><br><span class="line">  <span class="comment">// 服务器总共执行了多少次这个命令</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> calls;</span><br><span class="line">  <span class="comment">// 服务器执行这个命令所耗费的总时长</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> milliseconds;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="serverCron">serverCron</h3>
+<p>serverCron函数在redisServer结构中相关属性：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// serverCron函数每100ms执行一次</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每100ms更新一下unixtime和mstime，对于精度要求不高的操作会直接使用这两个值，例如：获取缓存内的时间，如日志打印、更新服务器的LRU时钟、决定是否执行持久化任务、计算服务器上线时间等操作</span></span><br><span class="line">  <span class="comment">// 一些都时间精度要求比较高的指令，如设置键过期还是会进行系统调用，获取最准确的系统当前时间</span></span><br><span class="line">  <span class="comment">// 保存了秒级精度的系统当前UNIX时间戳</span></span><br><span class="line">  <span class="type">time_t</span> unixtime;</span><br><span class="line">  <span class="comment">// 保存了毫秒级精度的系统当前UNIX时间戳</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> mstime;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每10s更新一次，用于计算数据库键的空转时间</span></span><br><span class="line">  <span class="type">unsigned</span> lruclock:<span class="number">22</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 更新服务器每秒执行命令次数，通过ops_sec_last_sample_time和ops_sec_last_sample_ops进行估算</span></span><br><span class="line">  <span class="comment">// 上一次进行抽样的时间</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> ops_sec_last_sample_time;</span><br><span class="line">  <span class="comment">// 闪一次抽样时，服务器已执行的命令数量</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> ops_sec_last_sample_ops;</span><br><span class="line">  <span class="comment">// 大小默认为16的环形数组，数组中每个项都记录了一次抽样结果</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> ops_sec_samples[REDIS_OPS_SEC_SAMPLES];</span><br><span class="line">  <span class="comment">// 环形数组索引值</span></span><br><span class="line">  <span class="type">int</span> ops_sec_idx;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//已使用内存峰值</span></span><br><span class="line">  <span class="type">size_t</span> stat_peak_memory;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// serverCron运行时，如果这个属性的值为1时，则关闭服务器（服务器接受到SIGTERM信号时，会打开这个标识）</span></span><br><span class="line">  <span class="type">int</span> shutdown_asap;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果值为1，那么表示有 BGREWRITEOF 命令被 BGSAVE 延迟了</span></span><br><span class="line">  <span class="type">int</span> aof_rewirete_scheduled;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 记录执行 BGSVAE 命令的子进程（没有则是-1）</span></span><br><span class="line">  <span class="type">pid_t</span> rdb_child_pid;</span><br><span class="line">  <span class="comment">// 记录执行 BGREWRITEOF 命令的子进程（没有则是-1）</span></span><br><span class="line">  <span class="type">pid_t</span> aof_child_pid;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// serverCron函数运行次数计数器</span></span><br><span class="line">  <span class="type">int</span> cronloops;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，serverCron还有以下功能：</p>
+<ul>
+<li>管理客户端资源
+<ul>
+<li>释放超时的客户端</li>
+<li>重新分配超过一定长度的客户端缓冲区</li>
+</ul>
+</li>
+<li>管理数据库资源
+<ul>
+<li>删除过期键</li>
+<li>字典rehash</li>
+</ul>
+</li>
+<li>将AOF缓冲区中的内容写入AOF文件</li>
+<li>关闭输出缓冲区大小限制的客户端</li>
+</ul>
+<h3 id="初始化服务器">初始化服务器</h3>
+<ol>
+<li>初始化服务器状态结构：设置服务器运行id， Redis 服务器的运行架构等</li>
+<li>载入配置选项：Redis服务器加载用户定义的配置选项</li>
+<li>初始化服务器数据结构</li>
+<li>还原数据库状态：RDB和AOF的初始化</li>
+<li>执行事件循环：Redis服务器的事件循环初始化，等待客户端发送命令请求</li>
+</ol>
+<h1>多机数据库的实现</h1>
+<h2 id="复制">复制</h2>
+<blockquote>
+<p>主服务器和从服务器互相建立关系后，互为对方的客户端，以此来发送消息</p>
+</blockquote>
+<p>在Redis中，用户可以通过执行SLAVEOF命令或者设置slaveof选项，让一个服务器去复制(replicate)另一个服务器，我们称呼被复制的服务器为主服务器(master)，而对主服务器进行复制的服务器则被称为从服务器(slave)。</p>
+<h3 id="旧版复制：SYNC">旧版复制：SYNC</h3>
+<ol>
+<li>从服务器向主服务器发送SYNC命令。</li>
+<li>收到SYNC命令的主服务器执行BGSAVE命令，在后台生成一个RDB文件，并使用一个缓冲区记录从现在开始执行的所有写命令。</li>
+<li>当主服务器的BGSAVE命令执行完毕时，主服务器会将BGSAVE命令生成的RDB文件发送给从服务器，从服务器接收并载入这个RDB文件，将自己的数据库状态更新至主服务器执行BGSAVE命令时的数据库状态。</li>
+<li>主服务器将记录在缓冲区里面的所有写命令发送给从服务器，从服务器执行这些写命令，将自己的数据库状态更新至主服务器数据库当前所处的状态。</li>
+</ol>
+<p>在主服务器执行客户端发送的写命令时，主服务器的数据库就有可能会被修改。主服务器需要对从服务器执行命令传播操作：主服务器会将自己执行的写命令，也即是造成主从服务器不一致的那条写命令，发送给从服务器执行，当从服务器执行了相同的写命令之后，主从服务器将再次回到一致状态</p>
+<p>旧版复制的缺陷：如果从服务器断线，那么需要与主从服务器重连成功后，主服务器都需要再次执行BGSAVE，并将RDB文件发给从服务器，如果主服务器当前数据库保存数据量比较大，则需要频繁的IO操作（磁盘IO和网络IO）</p>
+<h3 id="新版复制：PSYNC">新版复制：PSYNC</h3>
+<p>分为两种同步：</p>
+<ol>
+<li>完全重同步：与我们刚才介绍的SYNC相同，主服务器向从服务器发送BGSAVE后的RDB文件，并将缓冲区的内容也发给从服务器</li>
+<li>部分重同步：对于一些短时间的断线重连情况，从服务器在断线后重新连接主服务器时，如果条件允许，主服务器可以将主从服务器连接断开期间执行的写命令发送给从服务器，从服务器只要接收并执行这些写命令，就可以将数据库更新至主服务器当前所处的状态。</li>
+</ol>
+<ul>
+<li>部分重同步的实现
+<ul>
+<li>复制偏移量
+<ul>
+<li>在主从服务器复制初始时，主服务器会向从服务器发送一个复制偏移量，这个偏移量由主从服务器分别维护。在命令传播阶段，每次主服务器向从服务器传播N个字节数据时，就会将自己的复制偏移量+N，同时从服务器接收到主服务器传播来的N个字节时，从服务器也会将自己的复制偏移量+N。因此我们可以通过对比主从服务器的复制偏移量，程序可以很容易的知道主从服务器是否处于一致状态。</li>
+</ul>
+</li>
+<li>复制积压缓冲区
+<ul>
+<li>复制积压缓冲区是由主服务器维护的一个固定长度(fixed-size)先进先出(FIFO)队列，默认大小为1MB。当主服务器进行命令传播时，它不仅会将写命令发送给所有从服务器，还会将写命令入队到复制积压缓冲区里面，也即主服务器的复制积压缓冲区里面会保存着一部分最近传播的写命令，并且复制积压缓冲区会为队列中的每个字节记录相应的复制偏移量</li>
+<li>当从服务器重新连上主服务器时，从服务器会通过PSYNC命令将自己的复制偏移量(offset)发送给主服务器，主服务器会根据这个复制偏移量来决定对从服务器执行何种同步操作。如果offset偏移量之后的数据（也即是偏移量offset+1开始的数据）仍然存在于复制积压缓冲区里面，那么主服务器将对从服务器执行部分重同步操作。相反，如果offset偏移量之后的数据已经不存在于复制积压缓冲区，那么主服务器将对从服务器执行完整重同步操作。</li>
+</ul>
+</li>
+<li>服务器ID
+<ul>
+<li>每个Redis服务器，不论主服务器还是从服务器，都会有自己的运行ID，这个ID由服务器在启动时自动生成，由40个随机16进制字符组成</li>
+<li>当从服务器对主服务器进行初次复制时，主服务器会将自己的运行ID传送给从服务器，而从服务器则会将这个运行ID保存起来。</li>
+<li>当从服务器断线并重新连上一个主服务器时，从服务器将向当前连接的主服务器发送之前保存的运行ID
+<ul>
+<li>如果从服务器保存的运行ID和当前连接的主服务器的运行ID相同，那么说明从服务器断线之前复制的就是当前连接的这个主服务器，主服务器可以继续尝试执行部分重同步操作。</li>
+<li>相反地，如果从服务器保存的运行ID和当前连接的主服务器的运行ID并不相同， 那么说明从服务器断线之前复制的主服务器并不是当前连接的这个主服务器，主服务器将对从服务器执行完整重同步操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="复制的实现">复制的实现</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// 主服务器的地址</span></span><br><span class="line">  <span class="type">char</span>* masterhost;</span><br><span class="line">  <span class="comment">// 主服务器的端口</span></span><br><span class="line">  <span class="type">int</span> masterport;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>复制的过程：</p>
+<ol>
+<li>从服务器发送SLAVEOF命令给主服务器端后，从服务器会在自己的结构上记录主服务器的地址</li>
+<li>建立套接字：根据IP和PORT建立双方的套接字</li>
+<li>发送PING命令：检查通信状态</li>
+<li>身份验证：主服务器验证从服务器的密码（如果配置了</li>
+<li>同步：通过PSYNC进行数据同步</li>
+<li>命令传播：主服务器执行了写命令，将命令传播给从服务器</li>
+</ol>
+<p>心跳机制</p>
+<p>从服务器每秒向主服务器发送：<code>REPLCONF ACK &lt;replication_offset&gt;</code></p>
+<ol>
+<li>检测主从服务器的网络连接状态</li>
+<li>辅助实现min-slaves选项
+<ol>
+<li>min-slaves-to-write 3：从服务器数量小于3，主服务器就拒绝执行写操作</li>
+<li>min-slaves-max-lag 10：超过3个从服务器的延迟大于3秒，主服务器就拒绝执行写操作</li>
+</ol>
+</li>
+<li>检测命令丢失：在保持连接（未断开）的情况下，从服务器也可能出现命令丢失的情况，所以通过心跳检测复制偏移量。如果不同，则主服务器发送缺失的命令给从服务器</li>
+</ol>
+<h2 id="Sentinel">Sentinel</h2>
+<blockquote>
+<p>Sentinel用于管理主服务器和从服务器，本质上是一个运行在特殊模式下的Redis服务器</p>
+</blockquote>
+<blockquote>
+<p>Sentinel（哨冈、哨兵）是Redis的高可用性（high availability）解决方案：由一个或多个Sentinel 实例（instance）组成的 Sentinel系统（system）可以监视任意多个主服务器， 以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器，然后由新的主服务器代替已下线的主服务器继续处理命令请求。</p>
+</blockquote>
+<p>当server1（主节点）的下线时长超过用户设定的下线时长上限时，Sentinel系统就会对 server1执行故障转移操作：</p>
+<ol>
+<li>首先，Sentinel系统会挑选server1属下的其中一个从服务器，并将这个被选中的从服务器升级为新的主服务器。</li>
+<li>之后，Sentinel系统会向server1属下的所有其他从服务器发送新的复制指令，让它们成为新的主服务器的从服务器，当所有从服务器都复制新的主服务器时，故障转移操作执行完毕。</li>
+<li>另外，Sentinel还会继续监视已下线的server1，并在它重新上线时，将它设置为新的主服务器的从服务器。</li>
+</ol>
+<h3 id="启动并初始化Sentinel">启动并初始化Sentinel</h3>
+<p>启动Sentinel命令：<code>redis-server sentinel.conf --sentinel</code> 或 <code>$ redis-sentinel sentinel.conf</code></p>
+<p>启动过程：</p>
+<ol>
+<li>初始化服务器：和正常Reids服务器一样需要初始化，不过不需要加载数据库文件和数据库相关命令</li>
+<li>将普通Redis代码换为Sentinel专用代码</li>
+<li>状态初始化：sentinelstate结构</li>
+<li>初始化sentinel的监视主服务器列表：初始化sentinel结构中的masters</li>
+<li>创建向主服务器的连接：Sentinel服务器作为客户端向主服务器建立连接</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sentinelstate</span> &#123;</span></span><br><span class="line">  <span class="comment">//当前纪元，用于实现故障转移</span></span><br><span class="line">  <span class="type">uint64_t</span> current_epoch;</span><br><span class="line">  <span class="comment">//保存了所有被这个sentinel监视的主服务器</span></span><br><span class="line">  <span class="comment">//字典的键是主服务器的名字</span></span><br><span class="line">  <span class="comment">//字典的值则是一个指向sentinelRedisInstance结构的指针 </span></span><br><span class="line">  dict *masters;</span><br><span class="line">  <span class="comment">//是否进入了TILT模式？</span></span><br><span class="line">  <span class="type">int</span> tilt;</span><br><span class="line">  <span class="comment">//目前正在执行的脚本的数量</span></span><br><span class="line">  <span class="type">int</span> running_scripts;</span><br><span class="line">  <span class="comment">//进入TILT模式的时间 </span></span><br><span class="line">  <span class="type">mstime_t</span> tilt_start_time;</span><br><span class="line">  <span class="comment">//最后一次执行时间处理器的时间 </span></span><br><span class="line">  <span class="type">mstime_t</span> previous_time;</span><br><span class="line">  <span class="comment">// 一个FIFO队列，包含了所有需要执行的用户脚本 </span></span><br><span class="line">  <span class="built_in">list</span> *scripts_queue;</span><br><span class="line">&#125; sentinel;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sentinelRedisInstance</span>&#123;</span></span><br><span class="line">  <span class="comment">//标识值，记录了实例的类型，以及该实例的当前状态</span></span><br><span class="line">  <span class="type">int</span> flags;</span><br><span class="line">  <span class="comment">//实例的名字</span></span><br><span class="line">  <span class="comment">//主服务器的名字由用户在配置文件中设置</span></span><br><span class="line">  <span class="comment">//从服务器以及Sentinel的名字由Sentinel自动设置</span></span><br><span class="line">  <span class="comment">//格式为 ip:port,例如 ”127.0.0.1:26379”</span></span><br><span class="line">  <span class="type">char</span> *name;</span><br><span class="line">  <span class="comment">//实例的运行id</span></span><br><span class="line">  <span class="type">char</span> *runid;</span><br><span class="line">  <span class="comment">//配置纪元，用于实现故障转移</span></span><br><span class="line">  <span class="type">uint64_t</span> config_epoch;</span><br><span class="line">  <span class="comment">//实例的地址</span></span><br><span class="line">  sentinelAddr *addr;</span><br><span class="line">  <span class="comment">//sentinel down-after-milliseconds 选项设定的值</span></span><br><span class="line">  <span class="comment">//实例无响应多少毫秒之后才会被判断为主观下线(subjectively down) </span></span><br><span class="line">  <span class="type">mstime_t</span> down_after_period;</span><br><span class="line">  <span class="comment">//sentinel monitor &lt;master-name&gt; &lt;IP&gt; &lt;port&gt; &lt;quorum&gt; 选项中的quorum参数 </span></span><br><span class="line">  <span class="comment">//判断这个实例为客观下线(objectively down)所需的支持投票数量 </span></span><br><span class="line">  <span class="type">int</span> quorum;</span><br><span class="line">  <span class="comment">//sentinel parallel-syncs &lt;master-name&gt; &lt;number&gt; 选项的值</span></span><br><span class="line">  <span class="comment">//在执行故障转移操作时，可以同时对新的主服务器进行同步的从服务器数量</span></span><br><span class="line">  <span class="type">int</span> parallel_syncs;</span><br><span class="line">  <span class="comment">//sentinel failover-timeout &lt;master-name&gt; &lt;ms&gt; 选项的值</span></span><br><span class="line">  <span class="comment">//刷新故障迁移状态的最大时限</span></span><br><span class="line">  <span class="type">mstime_t</span> failover_timeout;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//主服务器下的从服务器实例</span></span><br><span class="line">  <span class="comment">//字典的键是从服务器的IP加端口，值也是一个指向sentinelRedisInstance结构的指针 </span></span><br><span class="line">  dict *slaves;</span><br><span class="line">  <span class="comment">//监测主服务器的sentinel实例（包含自己本身）</span></span><br><span class="line">  <span class="comment">//字典的键是sentinel的IP加端口，值也是一个指向sentinelRedisInstance结构的指针 </span></span><br><span class="line">  dict *sentinels;</span><br><span class="line">&#125; sentinelRedisInstance;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sentinelAddr</span> &#123;</span></span><br><span class="line">  <span class="type">char</span> *ip;</span><br><span class="line">  <span class="type">int</span> port;</span><br><span class="line">&#125; sentinelAddr;</span><br></pre></td></tr></table></figure>
+<h3 id="获取主服务器信息">获取主服务器信息</h3>
+<p>Sentinel服务器通过发送INFO命令获取主服务器的当前信息，包括连接这个主服务器的所有从服务器信息</p>
+<p>获取从服务器信息后，Sentinel服务器还会建立向从所有服务器的连接</p>
+<p>默认情况下，Sentinel会以两秒一次的频率向所有被监视的主服务器和从服务器发送以下信息：（其中s代表sentinel，m代表master）</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUBLISH _sentinel_:hello &quot;&lt;s_ip&gt;,&lt;s_port&gt;,&lt;s_runid&gt;,&lt;s_epoch&gt;,&lt;m_name&gt;,&lt;m_ip&gt;,&lt;m_port&gt;,&lt;m_epoch&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p>每个sentinel还会通过_sentinel_:hello频道发送自己的信息，其次每个sentinel又会订阅_sentinel_:hello频道，因此一个sentinel通过_sentinel_:hello频道发送的信息会被其他sentinel收到（包括它自己也会收到），这样一来，sentinel就能获得其他sentinel的信息</p>
+<p>获得的信息会被用于更新主服务器中sentinels字典，字典的键为ip:port，值为一个指向sentinelRedisInstance结构的指针 ，sentinel会判断当前实例是否存在，如果存在就更新对应的sentinel实例的信息，否则就创建一个新的sentinel实例并加入到字典中</p>
+<p>获取到其它sentinel服务器后，当前setntinel服务器会创建向其它sentinel服务器的连接，用于sentinel服务器之间的信息交换（比如用于判断主服务器下线状态）</p>
+<h3 id="主观下线">主观下线</h3>
+<p>默认情况下sentinel会以每秒1次的频率向所有建立的网络连接发送PING命令（包括主从服务器和其他sentinel），通过实例的PING命令回复来判断实例是否在线，主观下线是一个sentinel单独的判断结果</p>
+<p>通过配置<code>down-after-milliseconds</code>参数设置服务器响应超时时间，每个sentinel的这个参数配置可能不同，所以每个sentinel服务器对同个主服务器的主观下线状态判定可能不一样</p>
+<h3 id="客观下线">客观下线</h3>
+<p>在得出主观下线后，会询问其他sentinel是否也认为实例已经下线，当超过半数的sentinel服务器认为主服务器下线后，则可以认为是客观下线</p>
+<p>sentinel服务器通过发送<code>SENTINEL is-master-down-by-addr &lt;ip&gt; &lt;port&gt; &lt;current_epoch&gt; &lt;runid&gt;</code>指令询问其它sentinel服务器</p>
+<h3 id="选举领头Sentinel进行故障转移">选举领头Sentinel进行故障转移</h3>
+<ol>
+<li>配置纪元就是代表着一次执行，如果本次选举不成功，那么就将配置纪元+1，进行下一次的选举。</li>
+<li>每个sentinel如果监测到了主观下线都可以通过<code>SENTINEL is-master-down-by-addr</code>要求其他sentinel给自己投票。</li>
+<li>投票规则是先到先得，且每人只有一票，只有票数过半的sentinel才会被选举为领头。</li>
+<li>通过<code>SENTINEL is-master-down-by-addr</code>的返回结果中的leader_epoch和leader_runid是否和自己相同，可以知道返回的sentinel有没有为自己投票。</li>
+</ol>
+<h3 id="故障转移">故障转移</h3>
+<ol>
+<li>在从服务器中选出一个服务器作为新的主服务器（选取条件：在线，五秒内有回复，优先级高，复制偏移量最新，ID最小）</li>
+<li>将其他从服务器改为复制新的主服务器</li>
+<li>将已下线的旧主服务器设为新主服务器的从服务器，当旧主服务器重新上线后，会成为新主服务器的从服务器。</li>
+</ol>
+<h2 id="集群">集群</h2>
+<p>Redis集群允许多个 Redis 服务器通过分布式的方式存储数据，通过数据分片（sharding）和节点复制来实现高可用性和可扩展性。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">clusterState</span> &#123;</span></span><br><span class="line">  <span class="comment">// 指向当前节点的指针</span></span><br><span class="line">  clusterNode *myself;</span><br><span class="line">  <span class="comment">// 集群当前的配置纪元，用于实现故障转移</span></span><br><span class="line">  <span class="type">uint64_t</span> currentEpoch;</span><br><span class="line">  <span class="comment">// 集群当前的状态：是在线还是下线</span></span><br><span class="line">  <span class="type">int</span> state;</span><br><span class="line">  <span class="comment">// 集群中至少处理着一个槽的节点的数量</span></span><br><span class="line">  <span class="type">int</span> size;</span><br><span class="line">  <span class="comment">// 集群节点名单（包括 myself 节点）</span></span><br><span class="line">  <span class="comment">// 字典的键为节点的名字，字典的值为节点对应的 clusterNode 结构</span></span><br><span class="line">  dict *nodes;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 记录每个槽对应的指派节点</span></span><br><span class="line">  clusterNode *slots[<span class="number">16384</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 由键和这个键所在的槽组成的跳跃表</span></span><br><span class="line">  zskiplist *slots_to_keys;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 记录当前节点正在从其它节点导入的槽，默认为null。如果指向一个clusterNode节点，则表示当前节点正在从clusterNode节点导入槽i</span></span><br><span class="line">  clusterNode *importing_slots_from[<span class="number">16384</span>];</span><br><span class="line">  <span class="comment">// 记录当前节点正在迁移至其他节点的槽。如果指向一个clusterNode节点，则表示当前节点正在将槽迁移至clusterNode节点</span></span><br><span class="line">  clusterNode *migrating_slots_to[<span class="number">16384</span>];</span><br><span class="line">&#125; clusterState;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">clusterNode</span> &#123;</span></span><br><span class="line">  <span class="comment">// 创建节点的时间</span></span><br><span class="line">  <span class="type">mstime_t</span> ctime;</span><br><span class="line">  <span class="comment">// 节点的名字，由 40 个十六进制字符组成</span></span><br><span class="line">  <span class="comment">// 例如 68eef66df23420a5862208ef5b1a7005b806f2ff</span></span><br><span class="line">  <span class="type">char</span> name[REDIS_CLUSTER_NAMELEN];</span><br><span class="line">  <span class="comment">// 节点标识</span></span><br><span class="line">  <span class="comment">// 使用各种不同的标识值记录节点的角色（比如主节点或者从节点），</span></span><br><span class="line">  <span class="comment">// 以及节点目前所处的状态（比如在线或者下线）。</span></span><br><span class="line">  <span class="type">int</span> flags;</span><br><span class="line">  <span class="comment">// 节点当前的配置纪元，用于实现故障转移</span></span><br><span class="line">  <span class="type">uint64_t</span> configEpoch;</span><br><span class="line">  <span class="comment">// 节点的 IP 地址</span></span><br><span class="line">  <span class="type">char</span> ip[REDIS_IP_STR_LEN];</span><br><span class="line">  <span class="comment">// 节点的端口号</span></span><br><span class="line">  <span class="type">int</span> port;</span><br><span class="line">  <span class="comment">// 保存连接节点所需的有关信息</span></span><br><span class="line">  clusterLink *link;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 槽指派，索引i上的二进制数为1，那么表示该节点负责处理槽i</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> slots[<span class="number">16384</span>/<span class="number">8</span>];</span><br><span class="line">  <span class="comment">// 该节点处理槽的总数</span></span><br><span class="line">  <span class="type">int</span> numslots;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 如果该节点是个从节点，那么将指向主节点（记录这个节点正在复制的主节点）</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">clusterNode</span> *<span class="title">slaveof</span>;</span></span><br><span class="line">  <span class="comment">// 如果该节点是个主节点，记录正在复制这个主节点的从节点数量</span></span><br><span class="line">  <span class="type">int</span> numslaves;</span><br><span class="line">  <span class="comment">// 数组每一项代表正在复制这个主节点的从节点的clusterNode结构</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">clusterNode</span> **<span class="title">slaves</span>;</span></span><br><span class="line">  <span class="comment">// 链表，记录了所有其他节点对该节点的下线报告，由clusterNodeFailReport结构标识</span></span><br><span class="line">  <span class="built_in">list</span> *fail_reports;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">clusterLink</span> &#123;</span></span><br><span class="line">  <span class="comment">// 连接的创建时间</span></span><br><span class="line">  <span class="type">mstime_t</span> ctime;</span><br><span class="line">  <span class="comment">// TCP 套接字描述符</span></span><br><span class="line">  <span class="type">int</span> fd;</span><br><span class="line">  <span class="comment">// 输出缓冲区，保存着等待发送给其他节点的消息（message）。</span></span><br><span class="line">  sds sndbuf;</span><br><span class="line">  <span class="comment">// 输入缓冲区，保存着从其他节点接收到的消息。</span></span><br><span class="line">  sds rcvbuf;</span><br><span class="line">  <span class="comment">// 与这个连接相关联的节点，如果没有的话就为 NULL</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">clusterNode</span> *<span class="title">node</span>;</span></span><br><span class="line">&#125; clusterLink;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">clusterNodeFailReport</span> &#123;</span></span><br><span class="line">  <span class="comment">// 报告目标节点已经下线的节点</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">clusterNode</span> *<span class="title">node</span>;</span></span><br><span class="line">  <span class="comment">// 最后一次从node节点收到下线报告的时间</span></span><br><span class="line">  <span class="type">mstime_t</span> time;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>redisClient 结构和 clusterLink 结构都有自己的套接字描述符和输入、输出缓冲区， 这两个结构的区别在于， redisClient 结构中的套接字和缓冲区是用于连接客户端的， 而 clusterLink 结构中的套接字和缓冲区则是用于连接节点的。</p>
+</blockquote>
+<p>通过向节点 A 发送 <code>CLUSTER MEET</code> 命令，并指定节点 B 的 IP 地址和端口时， 客户端可以让接收命令的节点 A 将另一个节点 B 添加到节点 A 当前所在的集群里面</p>
+<h3 id="槽指派">槽指派</h3>
+<p>集群的整个数据库被分为16384个槽（slot），集群中的每个节点都可以处理0个或16384个槽；数据库中的每个键都属于这16384个槽的其中一个</p>
+<p>节点可以使用 <code>CLUSTER ADDSLOTS &lt;slot&gt; [slot ...]</code> 命令将指定的槽指派给自己</p>
+<p>当集群的所有槽都有节点指派后，集群就会进入上线状态</p>
+<h3 id="MOVED-错误">MOVED 错误</h3>
+<p>当节点发现键所在的槽并非由自己负责时，节点会向客户端返回一个MOVED错误，指引客户端转向负责这个槽的节点</p>
+<blockquote>
+<p>集群节点也是通过保存键值对过期时间的方式实现过期键</p>
+<p>集群节点只能使用0号数据库，而单机数据库则没有这个限制</p>
+</blockquote>
+<h3 id="重新分片">重新分片</h3>
+<p>Reids集群的重新分片操作可以将任意数量已经指派给某个节点的槽改为指派给另一个节点，并且相关槽的键值对也会从源节点移到到目标节点</p>
+<ol>
+<li>让目标节点准备好接收</li>
+<li>让源节点准备好键值对迁移</li>
+<li>向源节点发送最多count个属于槽slot的键值对（分批发送）</li>
+<li>对于上个步骤的每个键值对，让源节点迁移键值对到目标节点</li>
+<li>重复3和4步骤，直到发送完毕</li>
+<li>广播消息给所有节点</li>
+</ol>
+<h3 id="ASK-错误">ASK 错误</h3>
+<p>通过migrating_slots_to属性可以知道正在进行迁移操作的槽，如果当前节点收到一个键key的请求，它首先会尝试在自己的数据中找这个key，如果找到则直接返回。<br>
+如果没找到，那么检查自己的migrating_slots_to属性，查看键key所在的槽是否正在进行迁移，如果是，那么返回ASK错误，指引客户端前往迁移的目标节点。<br>
+于是客户端前往目标节点请求这个key，但是要注意，这个key所在的槽并没有完全迁移完成，还属于源节点。所以，客户端向目标节点请求这个key时，默认情况下不会被正常处理，而是返回MOVED 错误。<br>
+所以在这里，Redis让客户端先发送一个ASKING命令给目标节点，开启目标节点的REDIS_ASKING标识，带有这个标识的客户端将破例执行这个槽的命令一次。</p>
+<blockquote>
+<p>MOVED 错误代表槽的负责权已经从一个节点转移到了另一个节点</p>
+<p>ASK错误只是两个节点在迁移槽的过程中的一种临时措施</p>
+</blockquote>
+<h3 id="复制与故障转移">复制与故障转移</h3>
+<p>集群中每个主节点定期向集群的其他主节点发送PING消息，如果其它主节点没有在规定时间内返回PONG消息，那么主节点会在自己的clusterState.nodes字典标志目标主节点的clusterNode结构进入疑似下线状态</p>
+<p>同样是超过半数标记疑似下线状态，则会认为目标主节点下线，并向集群广播目标主节点下线的FAIL消息，之后便开始对目标主节点进行故障转移</p>
+<ol>
+<li>目标主节点（下线）的所有从节点执行SLAVEOF no one命令，称为新的主节点，最终一个从节点得到一半以上投票，胜出选举</li>
+<li>将目标主节点的所有槽指派转移给新的主节点</li>
+<li>新的主节点广播PONG消息，宣告自己称为新的主节点</li>
+</ol>
+<h3 id="消息">消息</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  <span class="comment">//消息的长度（包括这个消息头的长度和消息正文的长度）</span></span><br><span class="line">  <span class="type">uint32_t</span> totlen;</span><br><span class="line">  <span class="comment">//消息的类型</span></span><br><span class="line">  <span class="type">uint16_t</span> type;</span><br><span class="line">  <span class="comment">//消息正文包含的节点信息数量</span></span><br><span class="line">  <span class="comment">//只在发送MEET 、PING 、PONG 这三种Gossip 协议消息时使用</span></span><br><span class="line">  <span class="type">uint16_t</span> count;</span><br><span class="line">  <span class="comment">//发送者所处的配置纪元</span></span><br><span class="line">  <span class="type">uint64_t</span> currentEpoch;</span><br><span class="line">  <span class="comment">//如果发送者是一个主节点，那么这里记录的是发送者的配置纪元</span></span><br><span class="line">  <span class="comment">//如果发送者是一个从节点，那么这里记录的是发送者正在复制的主节点的配置纪元</span></span><br><span class="line">  <span class="type">uint64_t</span> configEpoch;</span><br><span class="line">  <span class="comment">//发送者的名字（ID ）</span></span><br><span class="line">  <span class="type">char</span> sender[REDIS_CLUSTER_NAMELEN];</span><br><span class="line">  <span class="comment">//发送者目前的槽指派信息</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> myslots[REDIS_CLUSTER_SLOTS/<span class="number">8</span>];</span><br><span class="line">  <span class="comment">//如果发送者是一个从节点，那么这里记录的是发送者正在复制的主节点的名字</span></span><br><span class="line">  <span class="comment">//如果发送者是一个主节点，那么这里记录的是REDIS_NODE_NULL_NAME</span></span><br><span class="line">  <span class="comment">//（一个40 字节长，值全为0 的字节数组）</span></span><br><span class="line">  <span class="type">char</span> slaveof[REDIS_CLUSTER_NAMELEN];</span><br><span class="line">  <span class="comment">//发送者的端口号</span></span><br><span class="line">  <span class="type">uint16_t</span> port;</span><br><span class="line">  <span class="comment">//发送者的标识值</span></span><br><span class="line">  <span class="type">uint16_t</span> flags;</span><br><span class="line">  <span class="comment">//发送者所处集群的状态</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> state;</span><br><span class="line">  <span class="comment">//消息的正文（或者说，内容）</span></span><br><span class="line">  <span class="class"><span class="keyword">union</span> <span class="title">clusterMsgData</span> <span class="title">data</span>;</span> </span><br><span class="line">&#125; clusterMsg;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">clusterMsgData</span> &#123;</span></span><br><span class="line">  <span class="comment">// MEET 、PING 、PONG 消息的正文</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">//每条MEET 、PING 、PONG 消息都包含两个</span></span><br><span class="line">    <span class="comment">//clusterMsgDataGossip 结构</span></span><br><span class="line">    clusterMsgDataGossip gossip[<span class="number">1</span>];</span><br><span class="line">  &#125; ping;</span><br><span class="line">  <span class="comment">// FAIL 消息的正文</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    clusterMsgDataFail about;</span><br><span class="line">  &#125; fail;</span><br><span class="line">  <span class="comment">// PUBLISH 消息的正文</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    clusterMsgDataPublish msg;</span><br><span class="line">  &#125; publish;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>MEET 消息：当一个节点需要加入集群时，它会通过 MEET 消息告诉集群中的其他节点自己的地址</li>
+<li>PING 消息：集群节点会周期性地向其他节点发送 PING 消息，以检查它们是否仍然处于活动状态</li>
+<li>PONG 消息：节点在接收到 PING 消息后，会回复一个 PONG 消息，表示它仍然是活动的</li>
+<li>FAIL消息：当节点检测到其他节点失效时，会发送 FAIL 消息通知集群，触发集群对失效节点的处理</li>
+<li>PUBLISH 消息： 当一个节点需要向整个集群广播某个消息时，它会通过 PUBLISH 消息将消息发送给其他节点，所有接收到PUBLISH消息的节点都会执行相同的PUBLISH命令</li>
+</ul>
+<h1>独立功能的实现</h1>
+<h2 id="发布与订阅">发布与订阅</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// 保存所有频道的订阅关系，key为频道名，Value是一个链表，链表上的每一个节点都是一个Redis客户端</span></span><br><span class="line">  dict *pubsub_channels;</span><br><span class="line">  <span class="comment">//保存所有模式订阅关系，用一个pubsubPattern的链表进行保存</span></span><br><span class="line">  <span class="built_in">list</span> *pubsub_patterns;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">pubsubPattern</span>&#123;</span></span><br><span class="line">  <span class="comment">//订阅模式的客户端</span></span><br><span class="line">  redisClient *client;</span><br><span class="line">  <span class="comment">//被订阅的模式</span></span><br><span class="line">  robj *pattern;</span><br><span class="line">&#125; pubsubPattern;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>订阅
+<ul>
+<li>SUBSCRIBE命令：订阅一个或多个频道</li>
+<li>PSUBSCRIBE命令：订阅一个或多个模式（一个模式通过正则匹配多个频道）</li>
+</ul>
+</li>
+<li>发布消息
+<ul>
+<li>PUBLISH命令：向频道发送消息</li>
+</ul>
+</li>
+<li>查看订阅消息
+<ul>
+<li>PUBSUB CHANNELS [pattern]
+<ul>
+<li>返回所有或者符合pattern模式的频道</li>
+</ul>
+</li>
+<li>PUBSUB NUMSUB [channel-1 channel-2…]
+<ul>
+<li>从pubsub_channels字典中找到频道对应的订阅者链表，返回这些链表的长度</li>
+</ul>
+</li>
+<li>PUBSUB NUMPAT
+<ul>
+<li>返回服务器当前被订阅模式的数量，及pubsub_patterns链表的长度</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="事务">事务</h2>
+<p>事务提供一种将多个命令请求打包，然后一次性、按顺序地执行多个命令的机制，并且在事务执行期间，服务器不会中断事务而该去执行其他客户端的命令请求</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisClient</span>&#123;</span></span><br><span class="line">  <span class="comment">//事务队列</span></span><br><span class="line">  multiState mstate;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">multiState</span>&#123;</span></span><br><span class="line">  <span class="comment">//事务队列，FIFO顺序 </span></span><br><span class="line">  multiCmd *commands;</span><br><span class="line">  <span class="comment">//已入队命令计数</span></span><br><span class="line">  <span class="type">int</span> count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">multiCmd</span>&#123;</span></span><br><span class="line">  <span class="comment">//参数</span></span><br><span class="line">  robj **argv;</span><br><span class="line">  <span class="comment">//参数数量</span></span><br><span class="line">  <span class="type">int</span> argc;</span><br><span class="line">  <span class="comment">//命令指针</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">redisCommand</span> *<span class="title">cmd</span>;</span></span><br><span class="line">&#125; multiCmd;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>事务的实现
+<ul>
+<li>事务开始
+<ul>
+<li>一个事务首先以一个 MULTI 命令开始</li>
+<li>MULTI命令会打开客户端flags属性的REDIS_MULTI标识</li>
+</ul>
+</li>
+<li>命令入队
+<ul>
+<li>接着将多个命令放入事务中</li>
+</ul>
+</li>
+<li>事务执行
+<ul>
+<li>最后又 EXEC 命令将这个事务提交给服务器执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisDb</span>&#123;</span></span><br><span class="line">  <span class="comment">//正在被WATCH命令监视的键，key值是键名，value是一个链表，链表中的每个节点都是一个客户端</span></span><br><span class="line">  dict *watched_keys;</span><br><span class="line">&#125; redisDb;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>WATCH 命令是一个乐观锁（optimistic locking）</p>
+<ul>
+<li>WATCH可以在事务执行前监视Redis中任意数量的数据库键，如果在EXEC命令执行时，被监视的键改动了，那么事务就拒绝执行，否则就正常执行</li>
+<li>Redis客户端通过打开flags属性的 <code>REDIS_DIRTY_CAS</code> 标识 实现，如果客户端监视的键被修改了，那么这个标识就会被打开</li>
+</ul>
+</li>
+<li>
+<p>Reids的ACID</p>
+<ul>
+<li>原子性
+<ul>
+<li>要求：数据库将事务中的多个操作当作一个整体来执行，服务器要么执行事务中的所有操作，要么就一个操作也不执行</li>
+<li>Redis事务的执行是原子执行的，由于Redis是单线程的，因此某个事务执行的时候，不会执行其他客户端的指令，直到事务执行完。</li>
+<li>Redis事务不支持回滚。也即如果事务队列中任何一条指令失败，Redis会不会回滚这条事务之前的操作。Redis的作者在事务功能的文档中解释说，不支持事务回滚是因为这种复杂的功能和 Redis追求简单高效的设计主旨不相符，并且他认为，Redis事务的执行时错误通常都是编程错误产生的，这种错误通常只会出现在开发环境中，而很少会在实际的生产环境中出现， 所以他认为没有必要为Redis开发事务回滚功能。</li>
+<li>
+<blockquote>
+<p>当事务中有语法错误时，Redis会检测出，并且不会执行事务中的任何命令；如果事务出现执行错误时，比如incr一个字符串，则会顺序执行所有命令并且这个incr命令报错</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>一致性
+<ul>
+<li>要求：数据库在执行事务之前是一致的，那么在事务执行之后，无论事务是否执行成功，数据库也应该仍然是一致的</li>
+<li>Redis对于错误命令和命令执行错误的情况，会拒绝执行；对于停机的情况，通过持久化来进行恢复</li>
+</ul>
+</li>
+<li>隔离性
+<ul>
+<li>要求：数据库中有多个事务并发地执行，各个事务之间也不会互相影响，并且在并发状态下执行的事务和串行执行的事务产生的结果完全相同</li>
+<li>Redis使用单线程的方式执行事务，总是以串行的方式运行事务，所以事务总是具有隔离性的</li>
+</ul>
+</li>
+<li>持久性
+<ul>
+<li>要求：一个事务执行完毕时，执行这个事务所得到的结果已经被保存到永久性存储介质（比如硬盘）中了，即使服务器在事务执行完毕后停机，执行事务所得到的结果也不会丢失</li>
+<li>Redis通过AOF和RDB进行持久化，但只有AOF模式处于appendfsync为always时，保证每个命令执行完数据被持久化到硬盘，Redis才具有持久性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Lua脚本">Lua脚本</h2>
+<p>通过在服务器中嵌入Lua环境，Redis客户端可以使用Lua脚本，实现原子地执行多个Redis命令</p>
+<ul>
+<li>创建Lua环境
+<ul>
+<li>载入函数库：基础库、表格库、字符串库等</li>
+<li>创建redis全局表格，包含一些函数：Redis命令执行函数、Redis日志函数等</li>
+<li>使用Redis自制的随机函数来替换Lua原有的随机函数：对于相同的sedd，产生相同的结果（避免了原有的副作用）</li>
+<li>创建排序辅助函数</li>
+<li>创建redis.pcall错误报告辅助函数</li>
+<li>保护Lua环境，保护Lua全局变量</li>
+<li>将Lua环境保存到服务器状态的lua属性中</li>
+</ul>
+</li>
+<li>Lua环境协作组件
+<ul>
+<li>伪客户端：Redis服务器为Lua环境创建了一个伪客户端，执行Lua脚本中的Redis命令</li>
+<li>lua_script字典：key是Lua脚本的SHA1校验和，value是Lua脚本</li>
+<li>EVAL命令
+<ul>
+<li>定义脚本函数：在Lua环境中创建这个脚本对应的Lua函数</li>
+<li>将脚本保存到lua_scripts字典</li>
+<li>执行脚本函数</li>
+</ul>
+</li>
+<li>EVALSHA命令：执行SHA1校验和对应的Lua脚本</li>
+<li>脚本管理命令
+<ul>
+<li>SCRIPT FLUSH：清除所有和Lua脚本有关的信息</li>
+<li>SCRIPT EXISTS：检验SHA1校验和对应的Lua脚本是否存在于服务器之中</li>
+<li>SCRIPT LOAD：和EVAL命令的前两个步骤一样，但是不执行</li>
+<li>SCRIPT KILL：停止Lua脚本运行</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>脚本复制
+<ul>
+<li>在服务器运行在复制模式下时，具有写性质的脚本命令也会被复制到从服务器中，包括：EVAL、SCRIPT FLUSH、SCRIPT LOAD</li>
+<li>EVALSHA命令比较特殊，主服务器执行EVALSHA命令，可以找到对应的Lua脚本，而在从服务器中可能找不到
+<ul>
+<li>主服务器使用repl_scriptcache_dict字典记录已经将哪些Lua脚本传播给了<strong>所有</strong>服务器，以此来判断此次EVALSHA命令是否安全
+<ul>
+<li>如果执行的EVALSHA命令的校验和在字典中，那么直接将EVALSHA复制到从服务器中即可</li>
+<li>否则，需要将EVALSHA命令替换成对应的EVAL命令，再复制到给从服务器中</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="排序">排序</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">redisSortObject</span> &#123;</span></span><br><span class="line">  <span class="comment">// 被排序键的值</span></span><br><span class="line">  robj *obj;</span><br><span class="line">  <span class="comment">// 权重</span></span><br><span class="line">  <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="comment">// 排序数字值时使用</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 排序带有 BY 选项的字符串值时使用</span></span><br><span class="line">    robj *cmpobj;</span><br><span class="line">  &#125; u;</span><br><span class="line">&#125; redisSortObject;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SORT命令
+<ul>
+<li>默认对数字值的键key进行排序</li>
+<li>ALPHA选项：对包含字符串值的键进行排序</li>
+<li>ASC和DESC选项：升序和降序</li>
+<li>BY选项：使用被排序键包含的元素作为排序的权重，可用于使用value排序字典的key</li>
+<li>LIMIT选项：返回限制数量的元素个数</li>
+<li>GET选项：对返回结果的二次“加工”</li>
+<li>STORE选项：保存排序结果</li>
+</ul>
+</li>
+</ul>
+<h2 id="二进制位数组">二进制位数组</h2>
+<ul>
+<li>位数组的表示
+<ul>
+<li>使用字符串对象表示位数组，
+<ul>
+<li>使用SDS结构保存位数组</li>
+<li>每个字符是一个字节，包含8个位</li>
+<li>末尾是一个空字符</li>
+</ul>
+</li>
+<li>SETBIT：设置指定偏移量上的一个或多个二进制位的值</li>
+<li>GETBIT：获取指定偏移量上的一个或多个二进制位的值</li>
+<li>BITCOUNT：统计值为1的二进制位的数量</li>
+<li>BITOP：执行AND、OR、XOR等操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="慢查询日志">慢查询日志</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">redisServer</span> &#123;</span></span><br><span class="line">  <span class="comment">// 下一条慢查询日志的 ID</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> slowlog_entry_id;</span><br><span class="line">  <span class="comment">// 保存了所有慢查询日志的链表，保存slowlogEntry对象</span></span><br><span class="line">  <span class="built_in">list</span> *slowlog;</span><br><span class="line">  <span class="comment">// 服务器配置 slowlog-log-slower-than 选项的值</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> slowlog_log_slower_than;</span><br><span class="line">  <span class="comment">// 服务器配置 slowlog-max-len 选项的值</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> slowlog_max_len;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">slowlogEntry</span> &#123;</span></span><br><span class="line">  <span class="comment">// 唯一标识符</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> id;</span><br><span class="line">  <span class="comment">// 命令执行时的时间，格式为 UNIX 时间戳</span></span><br><span class="line">  <span class="type">time_t</span> time;</span><br><span class="line">  <span class="comment">// 执行命令消耗的时间，以微秒为单位</span></span><br><span class="line">  <span class="type">long</span> <span class="type">long</span> duration;</span><br><span class="line">  <span class="comment">// 命令与命令参数</span></span><br><span class="line">  robj **argv;</span><br><span class="line">  <span class="comment">// 命令与命令参数的数量</span></span><br><span class="line">  <span class="type">int</span> argc;</span><br><span class="line">&#125; slowlogEntry;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置
+<ul>
+<li>slowlog-log-slower-than选项指定执行时间超过多少微秒的命令会被记录到日志上</li>
+<li>slowlog-max-len选项指定服务器最多保存多少条慢查询日志</li>
+</ul>
+</li>
+<li>命令
+<ul>
+<li>SLOWLOG GET：打印指定数量或者所有的慢日志</li>
+<li>SLOWLOG LEN：获取慢日志的数量</li>
+<li>SLOWLOG RESET：删除所有慢日志</li>
+</ul>
+</li>
+</ul>
+<h2 id="监视器">监视器</h2>
+<p>通过MONITOR命令，客户端可以将自己变成一个监视器，实时地接收并打印服务器当前处理请求的相关信息（会开启flags属性的REDIS_MONITOR标志）</p>
+<p>当一个客户端发送命令给服务器时，服务器处理命令后，将这条命令请求的信息发送给所有监视器</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/note/book/note-book-the-design-and-implementation-of-redis/">https://bughere.github.io/note/book/note-book-the-design-and-implementation-of-redis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/database/">database</a><a class="post-meta__tags" href="/tags/redis/">redis</a><a class="post-meta__tags" href="/tags/book/">book</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/algorithm/tree/algorithm-tree-pseudo-tree/" title="algorithm-tree-pseudo-tree"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">algorithm-tree-pseudo-tree</div></div></a></div><div class="next-post pull-right"><a href="/algorithm/tree/algorithm-tree-trie/" title="algorithm-tree-trie"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">algorithm-tree-trie</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/note/note-redis/" title="note-redis"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-01</div><div class="title">note-redis</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">数据结构与对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B%E5%89%8D%E9%A1%BB%E7%9F%A5"><span class="toc-number">1.1.</span> <span class="toc-text">看前须知</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%8A%A8%E6%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88Simple-Dynamic-String%EF%BC%8CSDS%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">简单动态字符串（Simple Dynamic String，SDS）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SDS%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">SDS定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E6%95%B0%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">常数时间复杂度获取字符串长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%9C%E7%BB%9D%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">杜绝缓冲区溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A2%84%E5%88%86%E9%85%8D"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">内存预分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%83%B0%E6%80%A7%E7%A9%BA%E9%97%B4%E9%87%8A%E6%94%BE%E7%AD%96%E7%95%A5%EF%BC%88%E6%88%96%E8%80%85%E5%8F%AB%E4%B8%8D%E9%87%8A%E6%94%BE%E7%AD%96%E7%95%A5%EF%BC%9F%EF%BC%89"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">惰性空间释放策略（或者叫不释放策略？）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E5%AD%98%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">保存二进制数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%BC%E5%AE%B9%E9%83%A8%E5%88%86C%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.3.</span> <span class="toc-text">兼容部分C字符串函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%A4%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">用处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.2.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%85%B8"><span class="toc-number">1.4.</span> <span class="toc-text">字典</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">哈希算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rehash-%EF%BC%88%E9%87%8D%E6%96%B0%E6%95%A3%E5%88%97%EF%BC%89"><span class="toc-number">1.4.3.</span> <span class="toc-text">rehash （重新散列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%90%E8%BF%9B%E5%BC%8Frehash"><span class="toc-number">1.4.4.</span> <span class="toc-text">渐进式rehash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">跳跃表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-3"><span class="toc-number">1.5.1.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E9%9B%86%E5%90%88"><span class="toc-number">1.6.</span> <span class="toc-text">整数集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-4"><span class="toc-number">1.6.1.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="toc-number">1.7.</span> <span class="toc-text">压缩列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9"><span class="toc-number">1.7.1.</span> <span class="toc-text">节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.8.</span> <span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5"><span class="toc-number">1.8.1.</span> <span class="toc-text">类型检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E7%9A%84%E5%A4%9A%E6%80%81%E6%80%A7%E8%B4%A8"><span class="toc-number">1.8.2.</span> <span class="toc-text">命令的多态性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%85%B1%E4%BA%AB"><span class="toc-number">1.8.3.</span> <span class="toc-text">对象共享</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">单机数据库的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E9%94%AE%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5"><span class="toc-number">2.1.1.</span> <span class="toc-text">过期键删除策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%9A%E7%9F%A5"><span class="toc-number">2.1.2.</span> <span class="toc-text">数据库通知</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">RDB持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E8%BD%BD%E5%85%A5"><span class="toc-number">2.2.1.</span> <span class="toc-text">RDB文件的创建和载入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RDB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.2.</span> <span class="toc-text">RDB文件结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">AOF持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.3.1.</span> <span class="toc-text">AOF持久化的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%E6%96%87%E4%BB%B6%E7%9A%84%E8%BD%BD%E5%85%A5%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%BF%98%E5%8E%9F"><span class="toc-number">2.3.2.</span> <span class="toc-text">AOF文件的载入与数据还原</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%E9%87%8D%E5%86%99"><span class="toc-number">2.3.3.</span> <span class="toc-text">AOF重写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AOF%E5%90%8E%E5%8F%B0%E9%87%8D%E5%86%99"><span class="toc-number">2.3.4.</span> <span class="toc-text">AOF后台重写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.4.1.</span> <span class="toc-text">文件事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E4%BA%8B%E4%BB%B6"><span class="toc-number">2.4.2.</span> <span class="toc-text">时间事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">2.5.</span> <span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.6.</span> <span class="toc-text">服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%AF%B7%E6%B1%82%E7%9A%84%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">2.6.1.</span> <span class="toc-text">命令请求的执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#serverCron"><span class="toc-number">2.6.2.</span> <span class="toc-text">serverCron</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.6.3.</span> <span class="toc-text">初始化服务器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">多机数据库的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6"><span class="toc-number">3.1.</span> <span class="toc-text">复制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A7%E7%89%88%E5%A4%8D%E5%88%B6%EF%BC%9ASYNC"><span class="toc-number">3.1.1.</span> <span class="toc-text">旧版复制：SYNC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E7%89%88%E5%A4%8D%E5%88%B6%EF%BC%9APSYNC"><span class="toc-number">3.1.2.</span> <span class="toc-text">新版复制：PSYNC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.3.</span> <span class="toc-text">复制的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sentinel"><span class="toc-number">3.2.</span> <span class="toc-text">Sentinel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%B9%B6%E5%88%9D%E5%A7%8B%E5%8C%96Sentinel"><span class="toc-number">3.2.1.</span> <span class="toc-text">启动并初始化Sentinel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E4%B8%BB%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="toc-number">3.2.2.</span> <span class="toc-text">获取主服务器信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A7%82%E4%B8%8B%E7%BA%BF"><span class="toc-number">3.2.3.</span> <span class="toc-text">主观下线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E8%A7%82%E4%B8%8B%E7%BA%BF"><span class="toc-number">3.2.4.</span> <span class="toc-text">客观下线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E4%B8%BE%E9%A2%86%E5%A4%B4Sentinel%E8%BF%9B%E8%A1%8C%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="toc-number">3.2.5.</span> <span class="toc-text">选举领头Sentinel进行故障转移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="toc-number">3.2.6.</span> <span class="toc-text">故障转移</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4"><span class="toc-number">3.3.</span> <span class="toc-text">集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A7%BD%E6%8C%87%E6%B4%BE"><span class="toc-number">3.3.1.</span> <span class="toc-text">槽指派</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MOVED-%E9%94%99%E8%AF%AF"><span class="toc-number">3.3.2.</span> <span class="toc-text">MOVED 错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%88%86%E7%89%87"><span class="toc-number">3.3.3.</span> <span class="toc-text">重新分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASK-%E9%94%99%E8%AF%AF"><span class="toc-number">3.3.4.</span> <span class="toc-text">ASK 错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E4%B8%8E%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="toc-number">3.3.5.</span> <span class="toc-text">复制与故障转移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF"><span class="toc-number">3.3.6.</span> <span class="toc-text">消息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">独立功能的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85"><span class="toc-number">4.1.</span> <span class="toc-text">发布与订阅</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">4.2.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua%E8%84%9A%E6%9C%AC"><span class="toc-number">4.3.</span> <span class="toc-text">Lua脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-number">4.4.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E6%95%B0%E7%BB%84"><span class="toc-number">4.5.</span> <span class="toc-text">二进制位数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="toc-number">4.6.</span> <span class="toc-text">慢查询日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E8%A7%86%E5%99%A8"><span class="toc-number">4.7.</span> <span class="toc-text">监视器</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

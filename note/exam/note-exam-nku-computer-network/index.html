@@ -1,0 +1,1609 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>note-exam-nku-computer-network | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="计网复习记录  2023南开大学研究生计算机网络考试【专硕】  今年提示  计网考试。5道选择，送分的。五道大题，有些小题，没有复杂计算，基础的东西 tcp bgp ip 机制改进，说明理由 qs 没有定义类型问题，以理解为主，不用背  课程ppt知识点 综述   Internet设计原则  能连接到现有网络 无状态网络（只在终端有状态） 基于tcp或者udp 多种多样的网络    无线网络  局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="note-exam-nku-computer-network">
+<meta property="og:url" content="https://bughere.github.io/note/exam/note-exam-nku-computer-network/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="计网复习记录  2023南开大学研究生计算机网络考试【专硕】  今年提示  计网考试。5道选择，送分的。五道大题，有些小题，没有复杂计算，基础的东西 tcp bgp ip 机制改进，说明理由 qs 没有定义类型问题，以理解为主，不用背  课程ppt知识点 综述   Internet设计原则  能连接到现有网络 无状态网络（只在终端有状态） 基于tcp或者udp 多种多样的网络    无线网络  局">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-12-26T13:19:23.000Z">
+<meta property="article:modified_time" content="2024-09-23T11:55:58.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="exam">
+<meta property="article:tag" content="computer-network">
+<meta property="article:tag" content="nku">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/note/exam/note-exam-nku-computer-network/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'note-exam-nku-computer-network',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-23 19:55:58'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">note-exam-nku-computer-network</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-26T13:19:23.000Z" title="发表于 2023-12-26 21:19:23">2023-12-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-23T11:55:58.000Z" title="更新于 2024-09-23 19:55:58">2024-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/">note</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/exam/">exam</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">13.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>43分钟</span></span></div></div></div><article class="post-content" id="article-container"><h1>计网复习记录</h1>
+<blockquote>
+<p>2023南开大学研究生计算机网络考试【专硕】</p>
+</blockquote>
+<h2 id="今年提示">今年提示</h2>
+<ol>
+<li>计网考试。5道选择，送分的。五道大题，有些小题，没有复杂计算，基础的东西</li>
+<li>tcp bgp ip 机制改进，说明理由 qs 没有定义类型问题，以理解为主，不用背</li>
+</ol>
+<h2 id="课程ppt知识点">课程ppt知识点</h2>
+<h3 id="综述">综述</h3>
+<ul>
+<li>
+<p>Internet设计原则</p>
+<ul>
+<li>能连接到现有网络</li>
+<li>无状态网络（只在终端有状态）</li>
+<li>基于tcp或者udp</li>
+<li>多种多样的网络</li>
+</ul>
+</li>
+<li>
+<p>无线网络</p>
+<ul>
+<li>局域网（LAN）：
+<ul>
+<li>范围： 局域网是在相对较小的地理范围内建立的网络，例如办公楼、校园或单个建筑物。</li>
+<li>连接设备： 通常连接的设备数量较少，如个人电脑、打印机、服务器等。</li>
+<li>传输速度： 由于范围较小，局域网通常具有高速的数据传输速度。</li>
+<li>WLAN（Wireless Local Area Network）是局域网的一种类型</li>
+<li>IEEE802.11：IEEE 802.11 是一组无线局域网（Wireless LAN）通信标准，广泛用于Wi-Fi网络。它支持不同频段和速率，包括2.4GHz和5GHz，常见于家庭、企业和公共场所的无线网络。</li>
+</ul>
+</li>
+<li>城域网（MAN）：
+<ul>
+<li>范围： 城域网覆盖的范围介于局域网和广域网之间，通常是一个城市或大型校园。</li>
+<li>连接设备： 可以连接多个局域网，使它们相互通信，连接的设备数量比局域网多，但比广域网少。</li>
+<li>传输速度： 传输速度较高，但可能低于局域网。</li>
+<li>IEEE802.16：IEEE 802.16，也称为WiMAX，是一组支持城域网（Metropolitan Area Network）和广域网（Wide Area Network）的无线通信标准。WiMAX技术提供大范围的无线宽带接入，覆盖城市或农村地区，支持高速数据传输。</li>
+</ul>
+</li>
+<li>广域网（WAN）：
+<ul>
+<li>范围： 广域网覆盖的地理范围较大，可以是跨越城市、国家甚至全球的范围。</li>
+<li>连接设备： 连接多个城域网、局域网以及其他广域网，连接的设备数量较多。</li>
+<li>传输速度： 传输速度可能相对较慢，因为涉及更长的物理距离和多个网络设备。</li>
+<li>IEEE802.20：IEEE 802.20 是一个已撤回的标准，原本设计用于移动无线通信，提供宽带数据服务。然而，由于技术和市场挑战，该标准未得到广泛采用，最终被撤回。</li>
+<li>取而代之的协议是：卫星通讯网，蜂窝通讯网</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为什么拥塞控制、流量控制由传输层实现，而不是链路层或者应用层？</p>
+<p>答：传输层位于网络协议栈的中间，它的主要任务是提供端到端的通信服务，为应用程序提供可靠的数据传输。正好就像ppt前面讲的一样，传输层在网络中提供端到端的错误控制，而拥塞控制和流量控制就属于错误控制的范畴，所以拥塞控制和流量控制由传输层实现。而链路层主要负责数据帧的传输，应用层则更专注于应用程序的需求和数据格式，通常不具备对网络拥塞和流量控制的洞察能力。</p>
+</blockquote>
+<blockquote>
+<p>端到端原则是否仍然适用于当今的网络？</p>
+<p>答：适用但需要权衡。端到端原则仍然是网络设计的重要指导原则，它强调了网络的简单性和可扩展性，使得网络能够容纳各种不同类型的应用程序和需求。这对于保持网络的灵活性和适应性至关重要。端到端原则也强调了将智能和功能留给端系统，这有助于提高网络的可靠性和性能。同时，端到端原则也需要权衡，对于一些实时应用程序，如视频流或在线游戏，需要低延迟和高带宽，这可能需要在网络中的某些节点上实施特定的服务质量策略。例如，内容分发网络（CDN）是一种在网络中引入一些中间节点处理的架构，用于提供更快的内容交付。</p>
+</blockquote>
+<h3 id="IP与Internet路由">IP与Internet路由</h3>
+<ul>
+<li>
+<p>best effort服务模型</p>
+<ul>
+<li>不保证bandwidth、loss、order、timing</li>
+</ul>
+</li>
+<li>
+<p>IP</p>
+<ul>
+<li>IPv4数据报头部
+<ul>
+<li>第一行
+<ul>
+<li>Version (4 bits): 指示IP协议的版本，IPv4为4。</li>
+<li>IHL (Internet Header Length, 4 bits): 表示头部的长度，以32位字为单位。通常情况下，IPv4头部长度为5（不包括选项部分）。</li>
+<li>Type of Service (8 bits): 服务类型，用于定义服务质量和优先级。</li>
+<li>Total Length (16 bits): 整个IPv4数据包的长度，包括头部和数据部分。</li>
+</ul>
+</li>
+<li>第二行
+<ul>
+<li>Identification (16 bits): 用于识别数据包的唯一标识符。</li>
+<li>Flags (3 bits): 用于控制和识别数据包的分片。</li>
+<li>Fragment Offset (13 bits): 表示分片相对于原始数据的偏移量。</li>
+</ul>
+</li>
+<li>第三行
+<ul>
+<li>Time to Live (8 bits): 数据包在网络中的存活时间，每经过一个路由器减1。</li>
+<li>Protocol (8 bits): 指示数据部分使用的协议，如TCP、UDP等。</li>
+<li>Header Checksum (16 bits): 用于验证IPv4头部的完整性。</li>
+</ul>
+</li>
+<li>其它行
+<ul>
+<li>Source IP Address (32 bits): 发送者的IP地址。</li>
+<li>Destination IP Address (32 bits): 接收者的IP地址。</li>
+<li>Options &amp; Padding: 选项字段（如果IHL &gt; 5）和填充字段。</li>
+<li>Data: 实际传输的数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子网（Subnet）：是指将一个大的IP网络划分成更小的、相互隔离的网络段的过程。通过划分子网，可以更有效地管理IP地址，提高网络性能和安全性。子网通常是在本地网络内部进行划分，而不涉及互联网上的路由。</li>
+<li>DHCP协议：动态主机配置协议（Dynamic Host Configuration Protocol，DHCP）是一种用于局域网络中自动分配IP地址和其他网络配置信息的协议。DHCP允许计算机设备在加入网络时自动获取IP地址，而不需要手动配置每台设备的网络参数。</li>
+<li>NAT协议：网络地址转换（Network Address Translation，NAT）是一种网络协议和技术，用于在计算机网络中将私有IP地址映射到公共IP地址，以实现多个设备共享单个公共IP地址的功能。基本原理是在私有网络和公共网络之间创建一个映射表，记录私有IP地址与分配的公共IP地址之间的对应关系。</li>
+<li>IPv6协议：使用128位的地址空间，解决了地址不够的问题。
+<ul>
+<li>Version (4 bits): 指示IP协议的版本，IPv6为6。</li>
+<li>Traffic Class (8 bits): 用于指定流量的类别，包括服务质量和流量管理。</li>
+<li>Flow Label (20 bits): 用于标识数据包所属的流，通常由源设备生成，目的是确保在网络中的各个节点上，同一个流的数据包被路由相同的路径。</li>
+<li>Payload Length (16 bits): 表示IPv6头部后的有效载荷（数据部分）的长度。</li>
+<li>Next Header (8 bits): 指示IPv6头部后的下一层协议，类似于IPv4中的协议字段。</li>
+<li>Hop Limit (8 bits): 用于防止数据包在网络中无限循环，类似于IPv4中的生存时间（TTL）字段。</li>
+<li>Source IPv6 Address (128 bits): 发送者的IPv6地址。</li>
+<li>Destination IPv6 Address (128 bits): 接收者的IPv6地址。</li>
+<li>Upper-Layer PDU (variable length): 有效载荷部分，包含上层协议（例如TCP、UDP）的数据。其长度由Payload Length字段指定。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>并不是所有设备都支持IPv6，如何同时使用IPv4和IPv6呢？答：使用Tunneling技术，将IPv6数据包（包括头部）放入IPv4数据包的payload中</p>
+</blockquote>
+<ul>
+<li>路由
+<ul>
+<li>目标：找到好的路径，将数据包发送到接收端</li>
+<li>Dijkstra路由算法
+<ul>
+<li>Dijkstra算法的关键点是通过选择当前最短路径的节点来逐步扩展最短路径的范围，直到到达目标节点或者所有节点都被考虑过。该算法保证在有向图中找到源节点到任意其他节点的最短路径。其实可以理解为贪心的思想，需要注意的是，Dijkstra算法要求图中的边权值不能为负数。</li>
+<li>【需要看ppt具体例子来理解过程】</li>
+</ul>
+</li>
+<li>Distance Vector Routing Algorithm
+<ul>
+<li>Distance Vector Routing Algorithm（距离矢量路由算法）是一种分布式路由算法，用于计算网络中各个节点之间的最短路径。其中最著名的实现之一是RIP（Routing Information Protocol）。
+<ol>
+<li>初始化： 每个节点维护一个距离向量，表示它到其他节点的估计距离。一开始，节点只知道到邻居节点的距离，而对于其他节点，它们的距离被初始化为无穷大。</li>
+<li>更新距离向量： 节点周期性地将其距离向量发送给所有邻居节点。这个距离向量包含了该节点到其他节点的估计距离。</li>
+<li>接收并更新： 当一个节点接收到邻居节点的距离向量时，它更新自己的距离向量。节点选择最短路径，即通过邻居节点到目标节点的路径，更新距离。</li>
+<li>传播更新： 如果节点的距离向量发生了变化，它会通知所有邻居节点。这个过程会一直持续，直到网络稳定。</li>
+<li>循环更新： 以上步骤循环执行，每个节点都在不断地更新和传播信息，直到网络中的所有节点的距离向量不再发生变化。</li>
+</ol>
+</li>
+<li>【还是建议看ppt具体例子】</li>
+</ul>
+</li>
+<li>层次化路由
+<ul>
+<li>自治系统（autonomous system）
+<ul>
+<li>由同一个部门管理，拥有统一的路由策略，且分配了官方自治系统编号（ASN）的IP网络</li>
+<li>ASN编号是唯一的，用于边界网关协议（BGP）路由</li>
+</ul>
+</li>
+<li>intra-AS routing protocol：自治系统内部路由协议用于在同一自治系统内部传播路由信息。典型的例子包括RIP（Routing Information Protocol）、OSPF（Open Shortest Path First）和EIGRP（Enhanced Interior Gateway Routing Protocol）。</li>
+<li>inter-AS routing protocol：自治系统间路由协议用于在不同自治系统之间传播路由信息
+<ul>
+<li>最常见的是BGP（Border Gateway Protocol），它负责在不同自治系统之间交换网络可达性信息。
+<ul>
+<li>BGP（Border Gateway Protocol）是一种用于在互联网上交换路由和网络前缀信息的路由协议。作为一种路径矢量协议，BGP主要用于在自治系统（AS）之间交换路由信息。</li>
+<li>提供给商业ISP使用</li>
+<li>Customer-provider（C2P）关系
+<ul>
+<li>Customer像provider付费，获得访问Internet的相关服务，provider为customer提供中转服务</li>
+<li>Customer网络不一定总是需要BGP，可以使用静态路由连接到Internet</li>
+</ul>
+</li>
+<li>Peer-toPeer（对等）关系
+<ul>
+<li>Peers为各自的客户提供穿越</li>
+</ul>
+</li>
+<li>eBGP（External Border Gateway Protocol） 是BGP的一种实现，用于在不同的自治系统（AS）之间传递路由信息。它通常用于连接不同的ISP（Internet Service Provider）或不同的自治系统。
+<ul>
+<li>要向所有BGP对等体（eBGP和iBGP）通告</li>
+</ul>
+</li>
+<li>iBGP（Internal Border Gateway Protocol） 也是BGP的一种实现，但主要用于自治系统内的路由传播。它确保在同一个自治系统内部的各个边界路由器之间共享BGP路由信息。
+<ul>
+<li>要避免在AS内的路由环路</li>
+</ul>
+</li>
+<li>NLRI（Network Layer Reachability Information）：NLRI主要用于描述BGP路由更新消息中的网络目标的可达性信息。</li>
+<li>NEXT HOP属性：指定了到达目标网络的下一跳路由器的IP地址。当宣告分组穿过AS边界时，NEXT HOP属性变更为宣告该路由的边界路由器的IP地址</li>
+<li>Local Preference属性：这个值越高，优先级越高</li>
+<li>AS PATH属性：记录路由转发路径，防止形成回路</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>路由消息的类型
+<ul>
+<li>Open：建立连接</li>
+<li>Keep Alive：定期握手</li>
+<li>Notification：关闭连接</li>
+<li>Update：通告新的路由或则撤回之前的路由通告</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="TCP与拥塞控制">TCP与拥塞控制</h3>
+<ul>
+<li>
+<p>传输层提供的服务</p>
+<ul>
+<li>在不同主机的应用进程间提供逻辑通信
+<ul>
+<li>发送端：将应用层消息拆分成segments，传给网络层</li>
+<li>接收端：整合segments，传给应用层</li>
+</ul>
+</li>
+<li>复用：多个应用层的应用使用同个传输层，每个应用通过传输层数据报的报头进行区分</li>
+<li>端到端：完整性和正确性</li>
+</ul>
+</li>
+<li>
+<p>UDP</p>
+<ul>
+<li>Best effort服务：可能会有丢包，乱序</li>
+<li>无连接：没有握手阶段</li>
+<li>简单
+<ul>
+<li>头部字段少</li>
+<li>发送端和接收端没有连接状态</li>
+<li>没有拥塞控制</li>
+</ul>
+</li>
+<li>常见于流式媒体传输的app</li>
+<li>基于UDP的应用层协议：DNS、SNMP、HTTP3</li>
+<li>数据报
+<ul>
+<li>Source Port (16 bits): 发送端口，占用16位，用于标识发送方的端口号。</li>
+<li>Destination Port (16 bits): 目标端口，占用16位，表示接收方的端口号。</li>
+<li>Length (16 bits): 数据包长度，包括头部和数据部分的长度，以字节为单位。</li>
+<li>Checksum (16 bits): 校验和，占用16位，用于检测数据包在传输过程中是否损坏。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>TCP</p>
+<ul>
+<li>可靠、顺序、端到端、字节流、完全复用、流量控制和拥塞控制</li>
+<li>数据报
+<ul>
+<li>Source Port (16 bits): 发送端口，占用16位，用于标识发送方的端口号。</li>
+<li>Destination Port (16 bits): 目标端口，占用16位，表示接收方的端口号。</li>
+<li>Sequence Number (32 bits): 顺序号，占用32位，表示发送数据的起始位置。</li>
+<li>Acknowledgment Number (32 bits): 确认号，占用32位，表示期望接收的下一个字节的序号。</li>
+<li>Data Offset (4 bits): 数据偏移，占用4位，表示TCP头部的长度，以4字节为单位。</li>
+<li>Reserved (3 bits): 保留字段，占用3位，保留供将来使用，目前置零。</li>
+<li>Control Flags (9 bits): 控制标志，包括URG、ACK、PSH、RST、SYN和FIN等标志位。</li>
+<li>Window Size (16 bits): 窗口大小，占用16位，表示接收方当前可接收的数据量。</li>
+<li>Checksum (16 bits): 校验和，占用16位，用于检测数据包在传输过程中是否损坏。</li>
+<li>Urgent Pointer (16 bits): 紧急指针，占用16位，表示紧急数据的末尾位置。</li>
+<li>Options (可变长度): 选项字段，长度可变，用于传输一些可选参数。</li>
+<li>Padding (可变长度): 填充字段，长度可变，用于确保头部长度是32位的整数倍。</li>
+<li>Data (可变长度): 数据负载，长度可变，包含要传输的应用层数据。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>可靠性传输</p>
+<ul>
+<li>用空间换取可靠性：加入纠错码（备份机制），类似于raid</li>
+<li>用时间换取可靠性：sequence number，ack，nak，acknowledge number
+<ul>
+<li>发送数据报出现bit错误：使用checksum校验数据报，并使用ack和nak作为回复</li>
+<li>检测到重复的数据报（packet、ack和nak）：加入sequence number</li>
+<li>为了简化，去除nak：使用重复的ack回复代表错误</li>
+<li>数据报丢失（发送端和接收端）：发送端超时重传【案例见ppt】</li>
+</ul>
+</li>
+<li>滑动窗口
+<ul>
+<li>滑动窗口机制允许发送方连续地发送一定数量的数据段而无需等待确认，同时接收方可以选择性地确认接收到的数据段。这种机制通过调整滑动窗口的大小来实现流量控制，同时利用确认来保证可靠传输。</li>
+<li>【发送窗口详情见ppt】</li>
+</ul>
+</li>
+<li>拥塞控制
+<ul>
+<li>目标
+<ul>
+<li>保证网络的稳定性：动态的平衡点</li>
+<li>保证资源分配的效率</li>
+<li>保证资源分配的公平性</li>
+</ul>
+</li>
+<li>基本思想：使用windows-based机制
+<ul>
+<li>检测到拥塞，减小window</li>
+<li>其他情况，增加window</li>
+</ul>
+</li>
+<li>线性控制方法
+<ul>
+<li>窗口increase函数：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><msub><mi>b</mi><mi>i</mi></msub><mo>∗</mo><mi>x</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x(t+1) = a_i + b_i * x(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span></li>
+<li>窗口decrease函数：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><msub><mi>a</mi><mi>d</mi></msub><mo>+</mo><msub><mi>b</mi><mi>d</mi></msub><mo>∗</mo><mi>x</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x(t+1) = a_d + b_d * x(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span></li>
+<li>最优策略：加性增加，乘性减小
+<ul>
+<li>窗口increase函数：
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_i &gt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b_i = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></li>
+</ul>
+</li>
+<li>窗口decrease函数：
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>d</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_d = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><msub><mi>b</mi><mi>d</mi></msub><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 &lt; b_d &lt; 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6835em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></li>
+</ul>
+</li>
+<li>减小时往原点方向减小，增大时沿45度角增大，最终往公平线（$ y = x $）逼近</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>拥塞控制算法
+<ul>
+<li>变量
+<ul>
+<li>cwnd：congestion window，拥塞窗口</li>
+<li>awnd：receiver advertised window，通告窗口</li>
+<li>ssthresh：threshold size，阈值，用于更新cwnd</li>
+<li>最终窗口 <code>win = min(cwnd, awnd)</code></li>
+</ul>
+</li>
+<li>Tahoe算法
+<ul>
+<li>slow start（慢启动）：对于每个ack，<code>cwnd = cwnd + 1</code>，趋势：1-2-4-8</li>
+<li>congestion avoidance（拥塞避免）：对于每次发送，<code>cwnd = cwnd + 1</code></li>
+<li>fast retransmit（快速重传）
+<ul>
+<li>检测到丢包
+<ul>
+<li>重传定时器超时</li>
+<li>3个重复的ack</li>
+</ul>
+</li>
+<li>快速重传</li>
+<li>调整阈值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Reno算法：使用fast recovery（快速回复）机制</li>
+<li>cubic算法：linux系统上默认的拥塞控制算法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Internet应用与应用层协议">Internet应用与应用层协议</h3>
+<ul>
+<li>模式
+<ul>
+<li>Client/Server模式
+<ul>
+<li>server：一直运行、永久IP地址，通常位于数据中i性能</li>
+<li>client：与server进行连接通信，间歇连接，动态IP，client之间通常无需直接连接</li>
+</ul>
+</li>
+<li>Peer-Peer模式
+<ul>
+<li>没有一直在线的server</li>
+<li>任意终端进行连接</li>
+<li>peer从其他peer请求服务，继而为其它peer提供服务</li>
+<li>peer之间的连接时间歇的，IP地址可能发生改变</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>应用层协议
+<ul>
+<li>组成
+<ul>
+<li>交换消息的类型：请求或应答</li>
+<li>消息语法：如何定义和描述字段</li>
+<li>消息语义：字段的含义</li>
+<li>规则（行为）：进程何时以及如何发送接受消息</li>
+</ul>
+</li>
+<li>分类
+<ul>
+<li>基础设施类
+<ul>
+<li>DNS（域名系统）
+<ul>
+<li>域名服务器
+<ul>
+<li>根域名服务器：全球13个，包含全部的顶级域</li>
+<li>顶级域名服务器：维护com、org和国家uk、cn，以及edu域名</li>
+<li>权威域名服务器：组织维护的DNS服务器，提供权威的映射</li>
+<li>本地域名服务器：本地ISP、公司或大学配置</li>
+</ul>
+</li>
+<li>递归查询：在递归查询中，DNS客户端向DNS服务器发出请求，要求服务器提供完整的域名解析结果。如果所请求的DNS服务器能够提供解析结果，它将负责从根域名服务器一直向下查询，直到找到最终的IP地址，并将结果返回给DNS客户端。</li>
+<li>迭代查询：迭代查询中，DNS服务器只返回它所知道的信息，而不负责最终的解析结果。如果所请求的DNS服务器无法提供解析结果，它会返回一个指向负责更高级别查询的其他DNS服务器的引用。这样，DNS客户端需要不断迭代地向其他DNS服务器发起查询，直到找到最终的IP地址。</li>
+<li>DNS over HTTPS（DoH）是一种通过HTTPS协议来加密和保护DNS（Domain Name System）查询流量的机制。该技术旨在提高用户的隐私和安全性，通过加密DNS查询，防止中间人攻击，提高用户的隐私保护水平。传统的DNS查询通常以明文形式传输，容易受到监听和劫持。</li>
+</ul>
+</li>
+<li>DHCP（动态主机配置协议）：前文已有</li>
+</ul>
+</li>
+<li>网络服务类
+<ul>
+<li>CS工作模式（下面的协议都采用tcp协议，除了HTTP后续的3.0版本）
+<ul>
+<li>Telent（网络终端协议）：远程登陆系统，面向字符的终端仿真协议，端口23</li>
+<li>SMTP（电子邮件协议）：端口25
+<ul>
+<li>发送方式：web方式和客户端方式</li>
+<li>发送邮件的服务器：SMTP服务器</li>
+<li>接收邮件的服务器
+<ul>
+<li>POP3服务器：邮件存储在本地，端口110</li>
+<li>IMAP服务器：邮件存储在服务器上，端口143</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>FTP（文件传输协议）：端口21</li>
+<li>HTTP（Web服务协议）
+<ul>
+<li>cookie：服务器给客户端一个cookie，客户端将cookie保存在本地下次请求时带上cookie，就可以省去验证过程</li>
+<li>conditional get
+<ul>
+<li>如果用户请求同样的内容，服务器端内容没有更新，那么可以用本地缓存，状态码返回304 Not Modified</li>
+<li>【Example：displaying a NY Times web page】</li>
+<li>客户端请求用‘If-modified-since：date’给出自己上次请求的时间</li>
+</ul>
+</li>
+<li>版本
+<ul>
+<li>http1.1：可以在一个tcp连接中多次请求，按顺序FCFS（first come first served）</li>
+<li>http2.0：不完全按照FCFS与那则，可以将大的请求分片，使得小的请求不会被大的请求阻塞</li>
+<li>http3.0：使用基于udp协议的QUIC协议，在udp基础上增加安全和拥塞控制等机制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络管理类
+<ul>
+<li>SNMP（简单网络管理协议）
+<ul>
+<li>Structure of Management Information（SMI）：数据结构定义</li>
+<li>Management information base（MIB）：数据中心，定义了所有被管理设备的可用参数和信息。MIB树的结构使得每个被管理的对象都有一个唯一的标识符。</li>
+<li>SNMP protocol：SNMP定义了几种管理操作，包括Get（获取单个对象的值）、Set（设置单个对象的值）、GetNext（获取下一个对象的值）、GetBulk（获取多个对象的值）和Trap（报告事件）</li>
+<li>security，administration capabilities：SNMP的早期版本（SNMPv1和SNMPv2c）对安全性支持较弱，而SNMPv3引入了更强大的安全性功能，如消息加密、身份验证和访问控制。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="服务质量控制">服务质量控制</h3>
+<ul>
+<li>服务质量（QoS）
+<ul>
+<li>概述
+<ul>
+<li>带宽：任意时刻提供100Mbps的带宽</li>
+<li>延迟：保证95%的分组延迟不大于100ms</li>
+<li>分组流失率：保证一个月中的平均分组丢失率不高于10的-5次方</li>
+</ul>
+</li>
+<li>控制粒度
+<ul>
+<li>分组是QoS的最小单位</li>
+</ul>
+</li>
+<li>框架
+<ul>
+<li>对流进行分类：识别和区分不同特征的分组
+<ul>
+<li>通过事先规定的过滤规则，这些规则的集合称为分类器</li>
+<li>每个规则对应一个流类型/服务类</li>
+</ul>
+</li>
+<li>对流量进行处理
+<ul>
+<li>流量监管：分组进入网络时进行流量监管
+<ul>
+<li>检测或主动限制进入某一网络的某一连接的流量，超过约定带宽时，进行相关丢弃或者缓存操作</li>
+<li>令牌桶算法：令牌桶算法基于一个简单的概念，即存在一个令牌桶，该桶以固定速率产生令牌。设备或应用程序只有在拿到令牌时才能执行操作。如果桶中没有足够的令牌，请求将被阻塞。
+<ul>
+<li>srTCM算法：single-rate three-color marker，使用committed桶和excess桶，两个桶速率一致【算法细节见ppt】</li>
+<li>trTCM算法：two-rate…，使用committed桶和peak桶，两桶速率不一致【算法细节见ppt】</li>
+</ul>
+</li>
+<li>漏桶算法：漏桶算法类似于一个有固定速率漏水的漏桶。当请求到来时，放入漏桶中，然后以固定速率处理。如果漏桶溢出，多余的请求将被抛弃。</li>
+<li>令牌桶是基于令牌的添加和取走，允许短时突发流量，而漏桶是基于漏水的速率，对于突发流量较为保守。</li>
+</ul>
+</li>
+<li>流量整形：流出节点之前进行流量整形
+<ul>
+<li>限制出口方向的流量速率，避免流量突发造成网络拥塞</li>
+<li>对超过限速的分组进行缓冲，积累足够的令牌后再进行发送，如果缓冲区已满，则丢弃多余的分组</li>
+<li>【流量整形示例】</li>
+</ul>
+</li>
+<li>队列调度
+<ul>
+<li>路由器根据分组的优先级或基于分类</li>
+<li>Fair Queuing，FQ
+<ul>
+<li>每个输出端口维护多个队列</li>
+<li>按照轮询的方式扫描所有队列，依次取出队列的第一个数据报进行发送</li>
+<li>队列满时，丢弃新来的数据报</li>
+</ul>
+</li>
+<li>WFQ，加权公平队列
+<ul>
+<li>基于流进行排队，流的定义为&lt;源IP，目标IP，源端口号，目的端口号，协议号&gt;</li>
+<li>按照优先级对每个队列分配不同的权重，高优先级的队列能得到更高的带宽</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>集成服务模型（intserv）
+<ul>
+<li>流AD需要带宽、延迟和丢失率的保证，但是IP仅提供best effort服务</li>
+<li>新模型
+<ul>
+<li>多种服务类型，包括best effort和QoS类型</li>
+<li>在IP层次进行显示的资源管理</li>
+<li>路由器维护每流的状态</li>
+</ul>
+</li>
+<li>IntServ模型
+<ul>
+<li>用户发送报文前，先通过信令（Signaling）向网络描述自己的流量参数，申请特定的QoS服务</li>
+<li>网络给用户预留资源，并通知用户。用户收到通知后，开始发送报文</li>
+<li>使用RSVP（Resource Reservation Protocol）协议作为信令
+<ul>
+<li>携带从主机到路由器的资源请求</li>
+<li>执行信令为会话建立预留状态，一个会话可以有多个发送者和接收者</li>
+<li>发送方通过数据发送路径发送PATH消息，在路径上的路由器设置前一条地址的路径状态</li>
+<li>接收方沿着发送路径反方向发回RESV消息，定义预留类型</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>集成服务模型最终失败了，主要原因有：部署代价过于昂贵，每流状态难以维护</li>
+</ul>
+</li>
+<li>区分服务模型（diffserv）
+<ul>
+<li>为多媒体应用提供支持
+<ul>
+<li>Best effort不能很好支持</li>
+<li>集成服务模型也没能成功</li>
+</ul>
+</li>
+<li>围绕Domain的设计概念：
+<ul>
+<li>domain：在相同管理策略下的联通的网络区域</li>
+<li>区分边界节点和核心节点</li>
+</ul>
+</li>
+<li>体系结构
+<ul>
+<li>入口路由器</li>
+</ul>
+</li>
+<li>DSCP（Differentiated Services Code Point）（区分服务代码点）
+<ul>
+<li>被包含在IPv4头部（TOS字段）或IPv6头部（Traffic Class字段）中</li>
+<li>DSCP值在二进制中的前6位表示分类（Per-Hop Behavior），定义了数据包的基本处理方式。</li>
+<li>DSCP值的后2位被称为显式拥塞通告（Explicit Congestion Notification，ECN）位，用于标记网络中的拥塞情况，帮助实现拥塞控制。</li>
+</ul>
+</li>
+<li>服务类型
+<ul>
+<li>best effort：尽力服务</li>
+<li>Assured Service（确保）
+<ul>
+<li>保证用户占有预约的最低限量的带宽</li>
+<li>用户如果发送了超过预约的流量，超过的部分按照best effort处理</li>
+<li>使用RIO（RED with In and Out）</li>
+</ul>
+</li>
+<li>Premium Service（奖赏）
+<ul>
+<li>在入口路由器和出口路由器之间提供虚拟管道抽象</li>
+<li>超过预约的分组被延迟，当缓冲区满时被丢弃</li>
+<li>使用加权公平排队WFQ</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>【比较best effort，diffserv，intserv】</li>
+<li>分组调度
+<ul>
+<li>Strict Priority调度
+<ul>
+<li>严格按照队列优先级高低顺序进行调度</li>
+</ul>
+</li>
+<li>Round Robin轮询调度
+<ul>
+<li>轮询每个队列，调度相同数量的请求</li>
+</ul>
+</li>
+<li>Weighted Round Robin调度
+<ul>
+<li>加权轮询调度，权重越大，轮询到这个队列时调度的次数越多</li>
+</ul>
+</li>
+<li>Deficit Weighted Round robin调度（差分）
+<ul>
+<li>权值计算按照报文长度而非个数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="P2P网络">P2P网络</h3>
+<ul>
+<li>应用层网络
+<ul>
+<li>覆盖网络：可以看作建立在网络上的网络，节点通过虚拟或逻辑链路连接起来</li>
+<li>弹性覆盖网络（Resilient Overlay Network）：分布式覆盖网络，迅速恢复</li>
+<li>RON（Routing using overlays）：RON是一种基于覆盖网络的路由技术。它利用覆盖网络来改进数据包在底层网络中的传输路由。</li>
+</ul>
+</li>
+<li>P2P应用
+<ul>
+<li>扩大资源共享的范围和深度，非集中式</li>
+<li>结构分类
+<ul>
+<li>集中式
+<ul>
+<li>Napster：自由分享音乐文件，共享单个用户的内容、存储和带宽</li>
+<li>利用中心化的索引系统，存储文件和用户信息</li>
+<li>提供快速完整的查找，但是容易单点故障</li>
+<li>可拓展性差，可靠性差</li>
+</ul>
+</li>
+<li>分布式
+<ul>
+<li>非结构化
+<ul>
+<li>无中心节点的纯P2P网络</li>
+<li>Gnutella
+<ul>
+<li>采用自举方法接入网络</li>
+<li>使用泛洪机制定位文件，需要搜索网络上每个节点</li>
+</ul>
+</li>
+<li>FreeNet
+<ul>
+<li>将数据分块并加密存储在网络中的不同节点上</li>
+</ul>
+</li>
+<li>可拓展性差</li>
+</ul>
+</li>
+<li>结构化
+<ul>
+<li>逻辑地址通过hash获得，通过分布式散列表DTH路由</li>
+<li>Chord
+<ul>
+<li>将Node和key映射到相同的空间，首尾相连形成Chord环</li>
+<li>Finger table
+<ul>
+<li>【示例】</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不支持复杂查询</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>混合式
+<ul>
+<li>各方面属性中等，也支持复杂查询</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>【区块链】</li>
+</ul>
+<h3 id="无线和移动网络">无线和移动网络</h3>
+<ul>
+<li>无线网络
+<ul>
+<li>组成
+<ul>
+<li>无线主机（终端）</li>
+<li>基站</li>
+<li>无线链路</li>
+</ul>
+</li>
+<li>模式
+<ul>
+<li>基础设施模式
+<ul>
+<li>主机通过基站连接网络</li>
+</ul>
+</li>
+<li>Adhoc模式
+<ul>
+<li>没有基站，节点自组成网络</li>
+<li>发送数据到链路覆盖的其它节点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分类
+<ul>
+<li>infrastructure
+<ul>
+<li>single hop：WiFi</li>
+<li>multiple hops：mesh net</li>
+</ul>
+</li>
+<li>no infrastructure
+<ul>
+<li>single hop：Bluetooth</li>
+<li>multiple hops：MANET</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>特点
+<ul>
+<li>信号强度在传输过程中减弱</li>
+<li>会受到其它源端的干扰</li>
+<li>无线电信号通过物体表面反射会多路径传播到目的方</li>
+</ul>
+</li>
+<li>CSMA/CA协议</li>
+<li>RTS-CTS交换的冲突避免</li>
+</ul>
+</li>
+<li>DTN网络（delay-tolerant networking）
+<ul>
+<li>逐跳存储转发</li>
+</ul>
+</li>
+<li>移动IP
+<ul>
+<li>IP移动性：在改变接入点时，IP地址不改变</li>
+<li>家乡代理（Home Agent）：
+<ul>
+<li>作用： 家乡代理是位于用户注册地（Home Network）的网络中的服务器或路由器。它的主要作用是跟踪用户的位置，负责处理用户在外地的通信需求。当用户离开家乡并在外地访问网络时，家乡代理将负责将数据包从用户的家乡地址转发到用户当前所在地的外地地址。</li>
+<li>过程： 用户离开家乡后，家乡代理会定期向用户分配一个外地代理（Foreign Agent）的地址，以确保用户可以在外地获得服务。当有数据包传送到用户的家乡地址时，家乡代理将这些数据包转发到用户当前所在的外地地址。</li>
+</ul>
+</li>
+<li>外地代理（Foreign Agent）：
+<ul>
+<li>作用： 外地代理是用户在外地（Foreign Network）所访问的网络中的服务器或路由器。它的主要作用是接收来自用户家乡地址的数据包，并将这些数据包转发到用户在外地的当前地址。外地代理还可以负责向家乡代理报告用户的当前位置。</li>
+<li>过程： 用户在外地代理处注册，并获取一个临时的外地地址。外地代理负责将用户的位置信息报告给家乡代理。当家乡代理接收到针对用户家乡地址的数据包时，它将这些数据包转发到用户在外地的当前地址，确保用户可以接收到数据。</li>
+</ul>
+</li>
+<li>CoA 指的是 “Care-of Address”，在移动 IP（Mobile IP）中，它是指移动设备当前所在地的临时地址。当移动设备离开家乡网络并进入外地网络时，它会在外地网络中获取一个 Care-of Address（CoA），用于标识它在当前网络的位置。</li>
+<li>例子，假设有一个移动设备（移动节点）MN，家乡代理（Home Agent）HA，外地代理（Foreign Agent）FA，以及移动设备正在访问的服务器（Correspondent Node）CN。
+<ul>
+<li>注册阶段（Registration）：
+<ul>
+<li>MN 的家乡 IP 地址： Home-IP</li>
+<li>MN 在外地的 IP 地址： CoA（Care-of Address）</li>
+</ul>
+<ol>
+<li>MN 到达外地网络，并获取一个临时 IP 地址作为 CoA。</li>
+<li>MN 向 FA 发送注册请求，其中包含它的 Home-IP 和 CoA。</li>
+<li>FA 接收到注册请求，并将 MN 的信息转发到 HA。</li>
+</ol>
+</li>
+<li>更新位置阶段（Update Location）：
+<ul>
+<li>MN 的 Home-IP： Home-IP</li>
+<li>MN 在外地的 CoA： 新的 Care-of Address</li>
+</ul>
+<ol>
+<li>如果 MN 移动到新的外地网络，它会更新 CoA。</li>
+<li>MN 发送注册请求，包含新的 CoA。</li>
+<li>FA 将更新的信息发送到 HA。</li>
+</ol>
+</li>
+<li>数据传输阶段（Data Transfer）：
+<ul>
+<li>MN 的 Home-IP： Home-IP</li>
+<li>MN 在外地的 CoA： 最新的 Care-of Address</li>
+</ul>
+<ol>
+<li>当 CN 想要向 MN 发送数据时，它使用 MN 的 Home-IP。</li>
+<li>数据首先发送到 HA。</li>
+<li>HA 发现 MN 在外地，将数据转发到 FA。</li>
+<li>FA 接收到数据，并使用最新的 CoA 将数据传递给 MN。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="SDN技术与新一代互联网">SDN技术与新一代互联网</h3>
+<ul>
+<li>SDN技术（Software-defined Networking）
+<ul>
+<li>背景
+<ul>
+<li>从被动网“存储-转发”到主动网“存储-计算-转发”</li>
+<li>网络架构升级时，会受到硬件对网络架构的限制</li>
+<li>希望可以像软件升级一样对网络硬件架构进行升级</li>
+</ul>
+</li>
+<li>将网络设备的转发面和控制面解耦</li>
+<li>基本架构
+<ul>
+<li>应用层面</li>
+<li>控制层面
+<ul>
+<li>一个或多个SDN控制器实现，是整个架构的核心</li>
+<li>向上为应用层提供编程Python、Java接口（北向）</li>
+<li>向下提供OpenFlow接口（南向）来控制数据层面的网络设备，OpenFlow引入了“流表”的概念</li>
+</ul>
+</li>
+<li>数据层面：数据转发
+<ul>
+<li>基于软件实现：open、vSwitch</li>
+<li>基于硬件实现：支持OpenFlow的CISCO、IBM、Junipter交换机</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>新一代互联网
+<ul>
+<li>特点：三个特点相互制约
+<ul>
+<li>安全性</li>
+<li>拓展性
+<ul>
+<li>CIDR（Classless Inter-Domain Routing）技术通过地址前缀划分和路由聚合解决了IPv4地址不够的问题，但导致了路由表指数级增长</li>
+</ul>
+</li>
+<li>实时性</li>
+</ul>
+</li>
+<li>DSN（领域定制网络）
+<ul>
+<li>面向领域场景，灵活可定制的网络体系结构</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="基础知识点总结">基础知识点总结</h2>
+<ul>
+<li>硬件设备
+<ul>
+<li>路由器（Router）：
+<ul>
+<li>功能： 在不同网络之间传递数据包，实现网络互联。</li>
+<li>特点： 有多个网络接口，能够理解网络协议，进行路由决策。</li>
+</ul>
+</li>
+<li>交换机（Switch）：
+<ul>
+<li>功能： 在局域网络内实现数据包的转发，通过学习MAC地址表决定数据包的传递路径。</li>
+<li>特点： 提供更高的数据传输效率和带宽利用率，适用于局域网络内部。</li>
+<li>交换机的全双工是指交换机在发送数据的同时也能够接收数据，两者同步进行；半双工就是指一个时间段内只有一个动作发生</li>
+</ul>
+</li>
+<li>集线器（Hub）：
+<ul>
+<li>功能： 将网络上的设备连接在一起，传输数据包时会广播到所有端口。</li>
+<li>特点： 已经被交换机取代，性能较低，不具备智能的数据包处理能力。即使网络中某条线路产生了故障，并不影响其它线路的工作。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络模型
+<ul>
+<li>物理层（传输介质）
+<ul>
+<li>铜缆（Copper）:
+<ul>
+<li>描述： 铜缆是一种传统的物理传输介质，用于传送电信号和数据。</li>
+<li>应用： 常见的铜缆类型包括双绞线（如Ethernet中使用的Cat5e、Cat6等）和同轴电缆。它们被广泛用于建筑内部的有线网络连接，如局域网（LAN）。</li>
+</ul>
+</li>
+<li>无线电（Radio）:
+<ul>
+<li>描述： 无线电波是一种无线传输介质，通过空气中的电磁波传递数据。</li>
+<li>应用： 无线电在无线局域网（WLAN）、蓝牙、移动通信等领域中得到应用。Wi-Fi网络、蜂窝网络和广播通信都是基于无线电传输的。</li>
+</ul>
+</li>
+<li>光纤（Fiber）:
+<ul>
+<li>描述： 光纤是一种通过光信号传输数据的传输介质，由纤维光导和包裹在外部的保护层构成。</li>
+<li>应用： 光纤网络提供了高带宽、低延迟的通信，常用于长距离的数据传输，例如光纤通信网络、高速互联网服务、数据中心连接等。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>链路层
+<ul>
+<li>以太网（Ethernet）：
+<ul>
+<li>是最常见的局域网（LAN）协议。</li>
+<li>使用MAC地址来唯一标识网络中的设备。</li>
+<li>提供在物理媒体上发送和接收数据帧的基本机制。</li>
+<li>数据报结构
+<ul>
+<li>目标地址（Destination Address）： 6字节，表示帧的目标物理地址（MAC地址）。</li>
+<li>源地址（Source Address）： 6字节，表示帧的发送者的物理地址（MAC地址）。</li>
+<li>类型/长度字段（Type/Length）： 2字节。</li>
+<li>如果该字段的值大于等于 1536（0x0600），表示上层协议类型，例如IPv4。这时，字段表示上层协议类型。 如果该字段的值小于 1536，表示帧中包含的是长度而非类型。</li>
+<li>数据字段（Data）： 46-1500字节，表示上层协议的数据。</li>
+<li>填充字段（Padding）： 0-46字节，用于填充数据字段，以确保数据字段至少达到46字节。</li>
+<li>帧校验序列（Frame Check Sequence，FCS）： 4字节，用于检测帧中的错误。</li>
+</ul>
+</li>
+<li>CSMA/CD：英文Carrier Sense Multiple Access with Collision Detection，意思是载波侦听多路访问／冲突检测。
+<ul>
+<li>采用该协议要求设备在发送帧的同时要对信道进行侦听，以确定是否会发生信道冲突，若在发送数据过程中检测到冲突，则需要进行冲突处理。整个协议的处理规程如下：
+<ol>
+<li>监听当前信道上是否有数据再发送，如果信道空闲，直接发送数据，如果信道忙，则按照一定的退避算法进行延时监听。</li>
+<li>当信道允许发送数据时，发送数据。</li>
+<li>数据发送过程中，边发送边监听，如果发送过程中检测到冲突，则停止发送数据，并发送阻塞信息，强化冲突。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Wi-Fi：
+<ul>
+<li>无线局域网（WLAN）的标准之一。</li>
+<li>允许通过无线信号进行通信。</li>
+<li>常见的协议包括802.11b、802.11g、802.11n等。</li>
+<li>CSMA/CA：英文Carrier Sense Multiple Access with Collision Avoidance，意思是载波侦听多路访问／冲突避免。
+<ul>
+<li>采用该协议要求设备要主动避免冲突而非被动侦测的方式来解决冲突问题，避免冲突的方法主要有两个：<br>
+一是监听到信道空闲时，并不是立即发送，而是等待一段时间再发送数据。<br>
+二是先发送一个很小的信道侦测帧RTS，如果收到最近的接入点返回的CTS，就认为信道是空闲的，然后再发送数据。
+<ol>
+<li>首先检测信道是否有使用，如果检测出信道空闲，则等待一段随机时间后，才送出数据。</li>
+<li>接收端如果正确收到此帧，则经过一段时间间隔后，向发送端发送确认帧ACK。</li>
+<li>发送端收到ACK帧，确定数据正确传输，在经历一段时间间隔后，再发送数据。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>蓝牙（Bluetooth）：
+<ul>
+<li>用于短距离通信的协议。</li>
+<li>主要用于连接个人设备，如手机、耳机、键盘等。</li>
+</ul>
+</li>
+<li>USB（Universal Serial Bus）：
+<ul>
+<li>一种用于连接计算机与外部设备的通用接口标准。</li>
+<li>在数据传输中涵盖了物理和数据链路层的功能。</li>
+</ul>
+</li>
+<li>ARP（Address Resolution Protocol）:
+<ul>
+<li>特点： 用于将IP地址解析为物理硬件地址（MAC地址）。</li>
+<li>数据帧格式： 包括硬件类型、协议类型、硬件地址长度、协议地址长度、操作码、发送方硬件地址、发送方IP地址、目标硬件地址和目标IP地址等字段。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络层
+<ul>
+<li>IPv4（Internet Protocol version 4）：
+<ul>
+<li>地址长度： IPv4地址由32位二进制数表示，通常以点分十进制（dotted-decimal）的形式表示，如192.168.1.1。</li>
+<li>地址数量： 32位地址意味着IPv4最多可以支持约42亿个不同的地址，然而，由于互联网的快速增长，IPv4地址资源耗尽成为一个问题。</li>
+<li>表示方法： IPv4地址以点分十进制的形式表示，每个分组取值范围是0到255。</li>
+</ul>
+</li>
+<li>IPv6（Internet Protocol version 6）：
+<ul>
+<li>地址长度： IPv6地址由128位二进制数表示，通常以冒号分隔的八组十六进制数表示，如2001:0db8:85a3:0000:0000:8a2e:0370:7334。</li>
+<li>地址数量： 128位地址大大增加了可用地址的数量，约为3.4 x 10^38个地址，解决了IPv4地址不足的问题。</li>
+<li>表示方法： IPv6地址以冒号分隔的八组十六进制数表示，允许使用两个冒号表示一组或多组连续的0。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>传输层
+<ul>
+<li>TCP（Transmission Control Protocol）:
+<ol>
+<li>面向连接： TCP是面向连接的协议，建立了通信双方之间的可靠连接。在通信之前，必须经过三次握手建立连接，通信结束后进行四次挥手关闭连接。</li>
+<li>可靠性： TCP提供可靠的数据传输。它使用确认、重传和序列号等机制，确保数据的完整性和有序性。如果数据包丢失或损坏，TCP会进行重传。</li>
+<li>流控制： TCP通过流控制机制来协调发送和接收方的数据传输速率，防止数据的过快发送导致网络拥塞。</li>
+<li>适用场景： 适用于对数据可靠性要求较高的应用，如文件传输、电子邮件等。</li>
+</ol>
+</li>
+<li>UDP（User Datagram Protocol）:
+<ol>
+<li>面向无连接： UDP是面向无连接的协议，通信双方在发送数据之前不建立连接，直接发送数据包。因此，UDP的开销较小。</li>
+<li>不可靠性： UDP不提供可靠性保证，不进行确认、重传和流控制。如果数据包丢失，UDP不会重传，因此可能导致数据丢失。</li>
+<li>无序性： UDP不保证数据包的有序性，数据包可能以不同的顺序到达目的地。</li>
+<li>适用场景： 适用于对实时性要求较高，能容忍少量数据丢失的应用，如语音通话、视频流等。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>应用层
+<ul>
+<li>HTTP（Hypertext Transfer Protocol）:
+<ul>
+<li>功能： 用于在Web浏览器和Web服务器之间传输超文本文档，支持客户端和服务器之间的通信。</li>
+<li>特点： 基于请求-响应模型，使用TCP协议，默认端口80。</li>
+</ul>
+</li>
+<li>HTTPS（Hypertext Transfer Protocol Secure）:
+<ul>
+<li>功能： 安全的HTTP通信协议，通过加密保护数据传输的安全性。</li>
+<li>特点： 基于TLS/SSL加密，使用TCP协议，默认端口443。</li>
+</ul>
+</li>
+<li>FTP（File Transfer Protocol）:
+<ul>
+<li>功能： 用于在客户端和服务器之间传输文件。</li>
+<li>特点： 支持上传和下载文件，有两种模式：主动模式和被动模式。使用TCP协议，连接端口21，传输端口20。</li>
+</ul>
+</li>
+<li>SMTP（Simple Mail Transfer Protocol）:
+<ul>
+<li>功能： 用于在邮件服务器之间传递电子邮件。</li>
+<li>特点： 发送邮件的协议，通常与POP3或IMAP一起使用。使用TCP协议，默认端口25。</li>
+</ul>
+</li>
+<li>POP3（Post Office Protocol Version 3）:
+<ul>
+<li>功能： 用于从邮件服务器上收取电子邮件。</li>
+<li>特点： 接收邮件的协议，通过将邮件下载到本地客户端。使用TCP协议，默认端口110。</li>
+</ul>
+</li>
+<li>IMAP（Internet Message Access Protocol）:
+<ul>
+<li>功能： 用于在客户端和邮件服务器之间共享电子邮件。</li>
+<li>特点： 在服务器上管理邮件，允许用户创建文件夹和标签等。使用TCP协议，默认端口143。</li>
+</ul>
+</li>
+<li>DNS（Domain Name System）:
+<ul>
+<li>功能： 将域名转换为IP地址，实现域名解析。</li>
+<li>特点： 分布式数据库系统，用于将易记的域名映射到对应的IP地址。使用UDP协议，默认端口53。</li>
+</ul>
+</li>
+<li>Telnet:
+<ul>
+<li>功能： 提供远程登录服务。</li>
+<li>特点： 明文传输，不提供加密，已逐渐被SSH取代。使用TCP协议，默认端口23。</li>
+</ul>
+</li>
+<li>SSH（Secure Shell）:
+<ul>
+<li>功能： 提供安全的远程登录服务。</li>
+<li>特点： 加密传输，提供对传输的安全性保障。使用TCP协议，默认端口22。</li>
+</ul>
+</li>
+<li>SNMP（Simple Network Management Protocol）:
+<ul>
+<li>功能： 用于网络设备之间的管理和监控。</li>
+<li>特点： 收集和修改设备的信息，监测网络性能。使用UDP协议，默认端口161。</li>
+</ul>
+</li>
+<li>NAT（Network Address Translation）：
+<ul>
+<li>定义： NAT是一种网络协议，用于将私有网络内部的IP地址转换为路由器拥有的公共IP地址，以实现在私有网络和公共网络之间的通信。</li>
+<li>作用： 主要用于解决IPv4地址不足的问题。它允许多个设备在私有网络中共享单个公共IP地址。NAT通过在数据包中修改源或目标IP地址来实现地址转换。</li>
+</ul>
+</li>
+<li>ICMP（Internet Control Message Protocol）：
+<ul>
+<li>定义： ICMP是一种网络层协议，用于在IP网络上发送控制消息。它通常用于网络设备之间的错误报告、网络状况查询和诊断。</li>
+<li>作用： ICMP消息可用于检测网络连接是否正常、测量网络延迟、进行路由故障诊断等。其中，Ping命令就是使用ICMP协议来测试两台计算机之间的可达性。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="往年知识点">往年知识点</h2>
+<ul>
+<li>
+<p>同步和异步</p>
+<ul>
+<li>针对client的概念</li>
+<li>同步：发出一个功能调用时，在没有得到结果前，调用不会返回</li>
+<li>异步：一个异步过程调用发出后，调用者不会立刻得到结果，实际处理调用的不见在完成后通知状态</li>
+</ul>
+</li>
+<li>
+<p>阻塞和非阻塞</p>
+<ul>
+<li>针对server的概念</li>
+<li>阻塞：在IO操作完成之前，执行的操作函数会一直等待而不立即返回，该函数所在线程会阻塞在这里</li>
+<li>非阻塞：套接字函数会立即返回，不管IO是否完成，该函数所在线程会继续运行</li>
+</ul>
+</li>
+<li>
+<p>套接字编程</p>
+<ul>
+<li>流套接字（SOCK_STREAM）：
+<ul>
+<li>特性： 提供面向连接、可靠的、双向的通信。数据通过流的形式传输，确保数据的顺序性和不丢失。</li>
+<li>应用场景： 适用于需要可靠数据传输的场景，如TCP协议。常用于建立客户端和服务器之间的可靠连接。</li>
+</ul>
+</li>
+<li>数据包套接字（SOCK_DGRAM）：
+<ul>
+<li>特性： 提供无连接的、不可靠的通信。数据以离散的数据包形式传输，不保证数据的顺序和可靠性。</li>
+<li>应用场景： 适用于对实时性要求较高、允许一定数据丢失的场景，如UDP协议。常用于实时音视频传输、广播等。</li>
+</ul>
+</li>
+<li>原始套接字（SOCK_RAW）：
+<ul>
+<li>特性： 提供对网络协议的直接访问，允许构造自定义的协议头。不提供传输层的处理，开发者需要自行处理协议的细节。</li>
+<li>应用场景： 适用于需要底层网络访问的场景，如网络嗅探、自定义协议开发等。一般需要特殊的权限，因为其使用可能涉及到网络协议的详细处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="往年真题">往年真题</h2>
+<h3 id="选择题">选择题</h3>
+<ul>
+<li>IEEE 802.3z是什么：IEEE 802.3z是IEEE标准中关于高速以太网的一部分，通常称为千兆以太网（Gigabit Ethernet）。它是在IEEE 802.3标准的框架下制定的，主要定义了一种运行速率为1 Gbps（千兆位每秒）的以太网。</li>
+<li>IEEE 802.15.4：IEEE 802.15.4是一种通信协议标准，主要用于低功耗、低数据速率的无线个人局域网（WPANs）和传感器网络。</li>
+<li>802.3和802.11标准的区别
+<ul>
+<li>802.3：也称为以太网标准，主要用于有线网络，使用双绞线、光纤等有线介质。</li>
+<li>802.11：也称为Wi-Fi标准，主要用于无线网络，使用无线介质进行通信</li>
+</ul>
+</li>
+<li>Bluetooth：Bluetooth（蓝牙）是一种用于在短距离范围内无线传输数据的技术标准</li>
+<li>bigzee：Zigbee是一种低功耗、短距离、低数据率的无线通信标准，专注于物联网（IoT）和无线传感器网络（WSN）应用</li>
+</ul>
+<h3 id="简答题">简答题</h3>
+<ul>
+<li>
+<p>给了一份tcp的16进制的串，然后让你对应写出它里面的相关的东西。根据端口号写相应的营运层协议</p>
+</li>
+<li>
+<p>ip的报文分析，里面最重要的一个就是报文头是啥意思，需要把报文的格式记下来</p>
+</li>
+<li>
+<p>HTTP与DNS是常见的应用层协议，请简要回答以下问题（10分）</p>
+<ul>
+<li>它们支持的网络应用类型？（2分）
+<ul>
+<li>HTTP（Hypertext Transfer Protocol）主要用于支持万维网（World Wide Web）上的超文本文档的传输。它是应用层协议，广泛用于浏览器和服务器之间的通信。</li>
+<li>DNS（Domain Name System）用于将域名转换为对应的IP地址，从而实现主机名到IP地址的映射。它在互联网上提供了域名解析服务。</li>
+</ul>
+</li>
+<li>它们依赖的传输层协议？
+<ul>
+<li>HTTP通常依赖于传输层的TCP协议，确保可靠的数据传输。</li>
+<li>DNS通常使用UDP（User Datagram Protocol）进行域名查询，也可以使用TCP进行可靠的传输。</li>
+</ul>
+</li>
+<li>HTTP客户机的常用名称？从服务器获取HTML文档的命令？
+<ul>
+<li>HTTP客户端通常是浏览器，如Chrome、Firefox等。</li>
+<li>获取HTML文档的命令是HTTP的GET命令。</li>
+</ul>
+</li>
+<li>HTTP0.9的非持续连接与HTTP1.1的持续连接的区别？
+<ul>
+<li>HTTP/0.9是非常简单的版本，它使用非持续连接，每个请求都需要一个新的TCP连接。服务器在响应请求后立即关闭连接。</li>
+<li>HTTP/1.1引入了持续连接，允许在单个连接上发送多个请求和响应，而无需每次都重新建立连接。这提高了性能，减少了延迟。</li>
+</ul>
+</li>
+<li>DNS的递归解析与反复解析的区别？
+<ul>
+<li>递归解析是指DNS服务器在解析域名时，如果自身无法解析，会向其他DNS服务器请求，直到找到答案或者确定该域名不存在。</li>
+<li>反复解析是指DNS服务器解析域名时，如果自身无法解析，返回给客户端一个指向其他DNS服务器的参考，由客户端继续向其他DNS服务器发起解析请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>下图时通过Wireshark捕获的一个数据包，请简要回答以下问题（10分）：【没有图片~】</p>
+<ul>
+<li>传输层协议与主要功能？（2分）答：TCP或者UDP，TCP主要功能就提供可靠传输，UDP主要功能提供实时性</li>
+<li>提供的差错控制功能？（3分）答：循环冗余校验（CRC）相关，ack确认，超时重传</li>
+<li>采用的流量控制方法？具体数值？（2分）答：reno？</li>
+<li>接收方的端口号？是否为熟知端口？支持的应用层协议？（3分）</li>
+</ul>
+</li>
+<li>
+<p>C/S与P2P时常见的应用程序开发模式，请简要回答以下问题（10分）</p>
+<ul>
+<li>C/S与P2P模式的主要区别？（2分）
+<ul>
+<li>C/S（Client/Server）模式中，存在一个中央服务器，客户端通过与服务器进行通信来获取服务，服务器负责处理客户端的请求和提供相应的服务。这是一种集中式的模式。</li>
+<li>P2P（Peer-to-Peer）模式中，各个对等节点（peer）可以直接相互通信，每个节点既是客户端也是服务器，彼此之间对等地提供和获取服务。这是一种去中心化的模式。</li>
+</ul>
+</li>
+<li>P2P模式是否采用某种形式的服务器？（1分）
+<ul>
+<li>在传统的P2P模式中，通常存在一些中央服务器用于协助节点之间的发现、连接和数据交换，但整个网络结构是去中心化的。</li>
+</ul>
+</li>
+<li>网络编程中的套接字类型与主要功能？（3分）
+<ul>
+<li>常见的套接字类型有TCP套接字和UDP套接字。</li>
+<li>TCP套接字是流套接字（stream socket），提供可靠的、面向连接的通信，确保数据的可靠传输，适用于需要可靠性的场景。</li>
+<li>UDP套接字是数据报套接字（datagram socket），提供无连接的通信，数据报可能会丢失或乱序，适用于对实时性要求较高、可以容忍一定数据丢失的场景。</li>
+</ul>
+</li>
+<li>基于TCP的客户机请求建立连接的函数？（2分）
+<ul>
+<li>在网络编程中，socket() 函数用于创建套接字，connect() 函数用于发起TCP连接。</li>
+</ul>
+</li>
+<li>基于UDP的服务器绑定IP地址与端口的函数？（2分）
+<ul>
+<li>socket() 函数同样用于创建套接字，而 bind() 函数用于将套接字与特定的IP地址和端口进行绑定，以便在该地址和端口上监听UDP数据包。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>FTP两种连接及用途</p>
+<ul>
+<li>控制连接：客户端希望与FTP服务器建立上传下载的数据传输时，它首先向服务器的TCP 21端口发起一个建立连接的请求，FTP服务器接受来自客户端的请求，完成连接的建立过程，这样的连接就称为FTP控制连接。</li>
+<li>数据连接：FTP控制连接建立之后，即可开始传输文件，传输文件的连接称为FTP数据连接。FTP数据连接就是FTP传输数据的过程，它有两种传输模式</li>
+</ul>
+</li>
+<li>
+<p>程序中断通常简称中断，是指CPU在正常运行程序的过程中，由于预选安排或发生了各种随机的内部或外部事件，使CPU中断正在运行的程序，而转到为相应的服务程序去处理，这个过程称为程序中断。</p>
+</li>
+<li>
+<p>轮询(Polling)I／O方式或程序控制I／O方式，是让CPU以一定的周期按次序查询每一个外设，看它是否有数据输入或输出的要求，若有，则进行相应的输入／输出服务；若无，或I／O处理完毕柏，CPU就接着查询下一个外设。</p>
+</li>
+</ul>
+<h2 id="考后更新">考后更新</h2>
+<blockquote>
+<p>更新：我去，考完了。考的内容和想象的不太一样？和往年的试卷差别好大。老师给的几个考点倒是没问题，基本有考到，就是考的真不简单。</p>
+<p>对了，好像没考BGP考点</p>
+<p>下面是考完的模糊记忆</p>
+</blockquote>
+<ul>
+<li>选择题
+<ul>
+<li>选择正确的
+<ul>
+<li>pop3服务器可以发送邮件</li>
+<li>imap服务器可以发送邮件</li>
+<li>邮件必须用base64编码</li>
+<li>一次会话只能发送一个右键</li>
+</ul>
+</li>
+<li>tftp确定了什么？（很抽象）</li>
+<li>打印路由路径的命令是哪个</li>
+<li>还有两题忘了</li>
+</ul>
+</li>
+<li>简答题：
+<ul>
+<li>TCP
+<ul>
+<li>快速重传有什么用，为什么是3个重复ack（为什么不是2个和4个），可以画图解释</li>
+<li>流量控制作用和原理（滑动窗口）</li>
+</ul>
+</li>
+<li>给一个网络图，里面有移动主机，dhcp服务器，dns服务器，还有其它子网
+<ul>
+<li>给dns服务器分配一个ip，获取dns服务器的ip地址的命令是什么</li>
+<li>使用nat协议，它们的地址是什么</li>
+<li>家乡网络，写出IP移动后，数据报的srcIP，destIP，srcMAC，destMAC
+<ul>
+<li>移动主机给服务器发送的数据报</li>
+<li>服务器给移动主机发送的数据报</li>
+</ul>
+</li>
+<li>移动IP对tcp有什么影响</li>
+</ul>
+</li>
+<li>服务质量
+<ul>
+<li>控制粒度包括哪些？</li>
+<li>服务质量的三个关键步骤，每个步骤列举一个算法或策略</li>
+</ul>
+</li>
+<li>P2P
+<ul>
+<li>集中式和完全分布式的P2P网络各有什么优势和不足</li>
+<li>比特币属于什么结构的P2P网络，为什么成功</li>
+<li>chord
+<ul>
+<li>分配节点</li>
+<li>finger table路由过程</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>OSI模型
+<ul>
+<li>有什么特点（3分）</li>
+<li>有什么不足</li>
+<li>对互联网未来发展有什么建议？</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>附：DevNet网课考试<a target="_blank" rel="noopener" href="https://itexamanswers.net/devnet-associate-version-1-0-module-1-exam-answers.html">参考答案</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/note/exam/note-exam-nku-computer-network/">https://bughere.github.io/note/exam/note-exam-nku-computer-network/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/exam/">exam</a><a class="post-meta__tags" href="/tags/computer-network/">computer-network</a><a class="post-meta__tags" href="/tags/nku/">nku</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/solution/blog/solution-memos-backup-by-github-actions/" title="solution-blog-memos-backup-by-github-actions"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">solution-blog-memos-backup-by-github-actions</div></div></a></div><div class="next-post pull-right"><a href="/solution/blog/solution-blog-loading-animation-love-death-robots/" title="solution-blog-loading-animation-love-death-robots"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">solution-blog-loading-animation-love-death-robots</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">计网复习记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8A%E5%B9%B4%E6%8F%90%E7%A4%BA"><span class="toc-number">1.1.</span> <span class="toc-text">今年提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8Bppt%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">课程ppt知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%BC%E8%BF%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">综述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E4%B8%8EInternet%E8%B7%AF%E7%94%B1"><span class="toc-number">1.2.2.</span> <span class="toc-text">IP与Internet路由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E4%B8%8E%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="toc-number">1.2.3.</span> <span class="toc-text">TCP与拥塞控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Internet%E5%BA%94%E7%94%A8%E4%B8%8E%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.4.</span> <span class="toc-text">Internet应用与应用层协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E8%B4%A8%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">1.2.5.</span> <span class="toc-text">服务质量控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#P2P%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.6.</span> <span class="toc-text">P2P网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E5%92%8C%E7%A7%BB%E5%8A%A8%E7%BD%91%E7%BB%9C"><span class="toc-number">1.2.7.</span> <span class="toc-text">无线和移动网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDN%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%96%B0%E4%B8%80%E4%BB%A3%E4%BA%92%E8%81%94%E7%BD%91"><span class="toc-number">1.2.8.</span> <span class="toc-text">SDN技术与新一代互联网</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">基础知识点总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%80%E5%B9%B4%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">往年知识点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%80%E5%B9%B4%E7%9C%9F%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">往年真题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%A2%98"><span class="toc-number">1.5.1.</span> <span class="toc-text">选择题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="toc-number">1.5.2.</span> <span class="toc-text">简答题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E5%90%8E%E6%9B%B4%E6%96%B0"><span class="toc-number">1.6.</span> <span class="toc-text">考后更新</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

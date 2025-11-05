@@ -1,0 +1,518 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>tips-misc | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Markdown 段内换行 在一行的结尾插入两个或以上的空格 链接地址 链接和文字分开，例如google,baidu 1234[google],[baidu][google]:https:&#x2F;&#x2F;www.google.com[baidu]:https:&#x2F;&#x2F;www.baidu.com 网址链接 用&lt;&gt;包围，例如1234@qq.com（GFM拓展语法可以自动识别，不需要用&lt;&gt;） 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tips-misc">
+<meta property="og:url" content="https://bughere.github.io/tips/tips-misc/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="Markdown 段内换行 在一行的结尾插入两个或以上的空格 链接地址 链接和文字分开，例如google,baidu 1234[google],[baidu][google]:https:&#x2F;&#x2F;www.google.com[baidu]:https:&#x2F;&#x2F;www.baidu.com 网址链接 用&lt;&gt;包围，例如1234@qq.com（GFM拓展语法可以自动识别，不需要用&lt;&gt;） 1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2024-03-07T12:01:05.000Z">
+<meta property="article:modified_time" content="2025-01-23T14:43:38.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="npm">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="nvm">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="tmux">
+<meta property="article:tag" content="sublime">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/tips/tips-misc/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'tips-misc',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-23 22:43:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">tips-misc</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-07T12:01:05.000Z" title="发表于 2024-03-07 20:01:05">2024-03-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-23T14:43:38.000Z" title="更新于 2025-01-23 22:43:38">2025-01-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/tips/">tips</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span></div></div></div><article class="post-content" id="article-container"><h2 id="Markdown">Markdown</h2>
+<h3 id="段内换行">段内换行</h3>
+<p>在一行的结尾插入两个或以上的空格</p>
+<h3 id="链接地址">链接地址</h3>
+<p>链接和文字分开，例如<a target="_blank" rel="noopener" href="https://www.google.com">google</a>,<a target="_blank" rel="noopener" href="https://www.baidu.com">baidu</a></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[google],[baidu]</span><br><span class="line"></span><br><span class="line">[<span class="symbol">google</span>]:<span class="link">https://www.google.com</span></span><br><span class="line">[<span class="symbol">baidu</span>]:<span class="link">https://www.baidu.com</span></span><br></pre></td></tr></table></figure>
+<h3 id="网址链接">网址链接</h3>
+<p>用&lt;&gt;包围，例如<a href="mailto:1234@qq.com">1234@qq.com</a>（GFM拓展语法可以自动识别，不需要用&lt;&gt;）</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;1234@qq.com&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="表情符号">表情符号</h3>
+<ul>
+<li><code>:smile:</code>: :smile:</li>
+<li><code>:laughing:</code>: :laughing:</li>
+</ul>
+<h3 id="表格">表格</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">左对齐</th>
+<th style="text-align:center">居中对齐</th>
+<th style="text-align:right">右对齐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">01</td>
+<td style="text-align:center">hello</td>
+<td style="text-align:right">a</td>
+</tr>
+<tr>
+<td style="text-align:left">02</td>
+<td style="text-align:center">world</td>
+<td style="text-align:right">b</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| 左对齐 | 居中对齐 | 右对齐 |</span><br><span class="line">| :--- | :--: | ---: |</span><br><span class="line">| 01 | hello | a |</span><br><span class="line">| 02 | world | b |</span><br></pre></td></tr></table></figure>
+<h3 id="任务列表">任务列表</h3>
+<ul>
+<li>[x] 已完成</li>
+<li>[ ] 未完成</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> [x] 已完成</span><br><span class="line"><span class="bullet">-</span> [ ] 未完成</span><br></pre></td></tr></table></figure>
+<h3 id="锚点">锚点</h3>
+<ul>
+<li><a href="#markdown">Markdown</a>
+<ul>
+<li><a href="#%E6%AE%B5%E5%86%85%E6%8D%A2%E8%A1%8C">段内换行</a></li>
+<li><a href="#%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80">链接地址</a></li>
+<li><a href="#%E7%BD%91%E5%9D%80%E9%93%BE%E6%8E%A5">网址链接</a></li>
+<li><a href="#%E8%A1%A8%E6%83%85%E7%AC%A6%E5%8F%B7">表情符号</a></li>
+<li><a href="#%E8%A1%A8%E6%A0%BC">表格</a></li>
+<li><a href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8">任务列表</a></li>
+<li><a href="#%E9%94%9A%E7%82%B9">锚点</a></li>
+<li><a href="#%E6%8B%93%E5%B1%95">拓展</a></li>
+</ul>
+</li>
+<li><a href="#mysql">MySql</a>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%91%BD%E4%BB%A4">数据库命令</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E5%91%BD%E4%BB%A4">数据表命令</a></li>
+</ul>
+</li>
+<li><a href="#java">Java</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+</ul>
+</li>
+<li><a href="#nvm">NVM</a>
+<ul>
+<li><a href="#windows%E5%AE%89%E8%A3%85">Windows安装</a></li>
+<li><a href="#ubuntu-install">Ubuntu Install</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">常用命令</a></li>
+</ul>
+</li>
+<li><a href="#npm">NPM</a>
+<ul>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93">设置镜像仓库</a></li>
+</ul>
+</li>
+<li><a href="#tmux">Tmux</a>
+<ul>
+<li><a href="#tmux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4">Tmux基本命令</a></li>
+<li><a href="#%E4%BC%9A%E8%AF%9D%E5%91%BD%E4%BB%A4">会话命令</a></li>
+<li><a href="#%E7%AA%97%E5%8F%A3%E5%91%BD%E4%BB%A4">窗口命令</a></li>
+<li><a href="#%E7%AA%97%E6%A0%BC%E5%91%BD%E4%BB%A4">窗格命令</a></li>
+<li><a href="#ctrlb%E5%91%BD%E4%BB%A4">Ctrl+B命令</a></li>
+</ul>
+</li>
+<li><a href="#vscode">VSCode</a>
+<ul>
+<li><a href="#vscode%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8">vscode连接远程服务器</a></li>
+<li><a href="#%E6%9B%B4%E6%94%B9%E7%BC%A9%E8%BF%9Btab%E5%A4%A7%E5%B0%8F">更改缩进tab大小</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E8%B4%A6%E5%8F%B7%E8%BF%9E%E6%8E%A5%E5%90%8C%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8">配置多个远程账号连接同个服务器</a></li>
+<li><a href="#vscode%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E7%9A%84%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%E5%8D%A1%E6%AD%BB">Vscode连接服务器后的终端无法输入，卡死</a></li>
+</ul>
+</li>
+<li><a href="#sublime">Sublime</a>
+<ul>
+<li><a href="#%E5%BF%AB%E6%8D%B7%E9%94%AE">快捷键</a></li>
+<li><a href="#%E6%8F%92%E4%BB%B6">插件</a></li>
+<li><a href="#key-map">key-map</a></li>
+</ul>
+</li>
+<li><a href="#maven">Maven</a>
+<ul>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F">生命周期</a></li>
+</ul>
+</li>
+<li><a href="#clash">Clash</a>
+<ul>
+<li><a href="#git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86">git配置代理</a></li>
+<li><a href="#docker%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86">docker配置代理</a></li>
+<li><a href="#windows-docker%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86">windows docker配置代理</a></li>
+<li><a href="#npm%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86">NPM配置代理</a></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> [<span class="string">tips-markdown</span>](<span class="link">#tips-markdown</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="拓展">拓展</h3>
+<ul>
+<li>幻灯片：reveal.js</li>
+<li>写书：GitBook</li>
+<li>写邮件：MarkDown Here（浏览器插件）</li>
+<li>vscode插件
+<ul>
+<li>Markdown Preview Pro：增加渲染功能</li>
+<li>Markdown All in One：方便写作</li>
+</ul>
+</li>
+</ul>
+<h2 id="MySql">MySql</h2>
+<h3 id="数据库命令">数据库命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建数据库</span></span><br><span class="line">create database database-name;        </span><br><span class="line"><span class="comment"># 查看所有数据库</span></span><br><span class="line">show databases;  </span><br><span class="line"><span class="comment"># 查看数据库信息    </span></span><br><span class="line">show create database database-name;      </span><br><span class="line"><span class="comment"># 删除数据库</span></span><br><span class="line">drop database database-name;</span><br><span class="line"><span class="comment"># 使用数据库</span></span><br><span class="line">use database-name;</span><br></pre></td></tr></table></figure>
+<h3 id="数据表命令">数据表命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建数据表</span></span><br><span class="line"><span class="comment"># PRIMARY KEY 主键约束，用于唯一标识对应的记录</span></span><br><span class="line"><span class="comment"># FOREIGN KEY 外键约束</span></span><br><span class="line"><span class="comment"># NOT NULL 非空约束</span></span><br><span class="line"><span class="comment"># UNIQUE 唯一性约束</span></span><br><span class="line"><span class="comment"># DEFAULT 默认值约束，用于设置字段的默认值</span></span><br><span class="line">create table table-name(</span><br><span class="line">  <span class="built_in">id</span> int(11),</span><br><span class="line">  name varchar(20),</span><br><span class="line">  age int(11)</span><br><span class="line">);</span><br><span class="line"><span class="comment"># 查看所有数据表</span></span><br><span class="line">show tables;</span><br><span class="line"><span class="comment"># 查看数据表信息（表格）</span></span><br><span class="line">desc table-name;</span><br><span class="line"><span class="comment"># 查看数据表信息（按照创建语句展示）</span></span><br><span class="line">show create table table-name;</span><br><span class="line"><span class="comment"># 添加字段</span></span><br><span class="line">alter table table-name add field-name field-type;</span><br><span class="line"><span class="comment"># 删除字段</span></span><br><span class="line">alter table table-name drop field-name;</span><br><span class="line"><span class="comment"># 删除数据表</span></span><br><span class="line">drop table table-name;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Java">Java</h2>
+<h3 id="安装">安装</h3>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/">download</a></p>
+<p>环境变量：新建<code>JAVA_HOME</code>填入<code>C:\Program Files\Java\jre1.8.0_431</code></p>
+<p>Path添加<code>%JAVA_HOME%\bin</code></p>
+<h2 id="NVM">NVM</h2>
+<h3 id="Windows安装">Windows安装</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/coreybutler/nvm-windows/releases">地址</a></p>
+<h3 id="Ubuntu-Install">Ubuntu Install</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install curl</span><br><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h3 id="常用命令">常用命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示可用的nodejs版本</span></span><br><span class="line">nvm list [available]</span><br><span class="line"><span class="comment"># 安装nodejs版本</span></span><br><span class="line">nvm install version</span><br><span class="line"><span class="comment"># 切换nodejs版本</span></span><br><span class="line">nvm use version</span><br></pre></td></tr></table></figure>
+<h2 id="NPM">NPM</h2>
+<h3 id="设置镜像仓库">设置镜像仓库</h3>
+<p><code>npm install  --registry=https://registry.npmmirror.com</code></p>
+<hr>
+<h2 id="Tmux">Tmux</h2>
+<h3 id="Tmux基本命令">Tmux基本命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入Tmux窗口</span></span><br><span class="line">tmux</span><br><span class="line"><span class="comment"># 退出（并杀死当前会话/窗口/窗格）</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">Ctrl+D</span><br></pre></td></tr></table></figure>
+<h3 id="会话命令">会话命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建会话</span></span><br><span class="line">tmux new  <span class="comment"># session-name: 0,1,2...</span></span><br><span class="line">tmux new -s session-name</span><br><span class="line"><span class="comment"># 离开会话</span></span><br><span class="line">tmux detach  <span class="comment"># ctrl+b d</span></span><br><span class="line"><span class="comment"># 进入会话</span></span><br><span class="line">tmux attach -t session-name</span><br><span class="line"><span class="comment"># 切换会话</span></span><br><span class="line">tmux switch -t session-name</span><br><span class="line"><span class="comment"># 列出所有会话</span></span><br><span class="line">tmux <span class="built_in">ls</span>  <span class="comment"># ctrl+b s</span></span><br><span class="line"><span class="comment"># 杀死会话</span></span><br><span class="line">tmux kill-session -t &lt;session-name&gt;</span><br><span class="line"><span class="comment"># 重命名会话</span></span><br><span class="line">tmux rename-session -t session-name new-session-name  <span class="comment"># ctrl+b $</span></span><br></pre></td></tr></table></figure>
+<h3 id="窗口命令">窗口命令</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建窗口</span></span><br><span class="line">tmux new-window  <span class="comment"># ctrl+b c</span></span><br><span class="line">tmux new-window -n window-name</span><br><span class="line"><span class="comment"># 切换窗口</span></span><br><span class="line">tmux select-window -t window-name</span><br><span class="line"><span class="comment"># 为当前窗口重命名</span></span><br><span class="line">tmux rename-window new-name <span class="comment"># ctrl+b ,</span></span><br><span class="line"><span class="comment"># 切换到前/后一个窗口</span></span><br><span class="line">ctrl+b p/n</span><br><span class="line"><span class="comment"># 切换到指定编号的窗口</span></span><br><span class="line">ctrl+b number</span><br><span class="line"><span class="comment"># 从列表中选择窗口</span></span><br><span class="line">ctrl+b w</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="窗格命令">窗格命令</h3>
+<p>一个窗口可以有多个窗格</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 划分上下两个窗格</span></span><br><span class="line">$ tmux split-window  <span class="comment"># ctrl+b &quot;</span></span><br><span class="line"><span class="comment"># 划分左右两个窗格</span></span><br><span class="line">$ tmux split-window -h  <span class="comment"># ctrl+b %</span></span><br><span class="line"><span class="comment"># 光标切换到上方/下方/左边/右边窗格</span></span><br><span class="line">$ tmux select-pane -U/D/L/R  <span class="comment"># ctrl+b ↑/↓/←/→</span></span><br><span class="line"><span class="comment"># 当前窗格前移/后移（交换）</span></span><br><span class="line">$ tmux swap-pane -U/D  <span class="comment"># ctrl+b &#123;/&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Ctrl-B命令">Ctrl+B命令</h3>
+<p>按下Ctrl+B后，再按下其它按键触发的快捷键</p>
+<p><code>C-b ?</code>显示如下帮助信息</p>
+<details class="toggle" ><summary class="toggle-button" style="">所有快捷键帮助信息</summary><div class="toggle-content"><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">C-b C-b     Send the prefix key                                                                                                                                                                                                  [70/70]</span><br><span class="line">C-b C-o     Rotate through the panes</span><br><span class="line">C-b C-z     Suspend the current client</span><br><span class="line">C-b Space   Select next layout</span><br><span class="line">C-b !       Break pane to a new window</span><br><span class="line">C-b <span class="string">&quot;       Split window vertically</span></span><br><span class="line"><span class="string">C-b #       List all paste buffers</span></span><br><span class="line"><span class="string">C-b $       Rename current session</span></span><br><span class="line"><span class="string">C-b %       Split window horizontally</span></span><br><span class="line"><span class="string">C-b &amp;       Kill current window</span></span><br><span class="line"><span class="string">C-b &#x27;       Prompt for window index to select</span></span><br><span class="line"><span class="string">C-b (       Switch to previous client</span></span><br><span class="line"><span class="string">C-b )       Switch to next client</span></span><br><span class="line"><span class="string">C-b ,       Rename current window                                                                                                                                                                                                [57/70]</span></span><br><span class="line"><span class="string">C-b -       Delete the most recent paste buffer</span></span><br><span class="line"><span class="string">C-b .       Move the current window</span></span><br><span class="line"><span class="string">C-b /       Describe key binding</span></span><br><span class="line"><span class="string">C-b 0       Select window 0</span></span><br><span class="line"><span class="string">C-b 1       Select window 1</span></span><br><span class="line"><span class="string">C-b 2       Select window 2</span></span><br><span class="line"><span class="string">C-b :       Prompt for a command                                                                                                                                                                                                 [43/70]</span></span><br><span class="line"><span class="string">C-b ;       Move to the previously active pane</span></span><br><span class="line"><span class="string">C-b =       Choose a paste buffer from a list</span></span><br><span class="line"><span class="string">C-b ?       List key bindings</span></span><br><span class="line"><span class="string">C-b C       Customize options</span></span><br><span class="line"><span class="string">C-b D       Choose a client from a list</span></span><br><span class="line"><span class="string">C-b E       Spread panes out evenly</span></span><br><span class="line"><span class="string">C-b L       Switch to the last client</span></span><br><span class="line"><span class="string">C-b M       Clear the marked pane</span></span><br><span class="line"><span class="string">C-b [       Enter copy mode</span></span><br><span class="line"><span class="string">C-b ]       Paste the most recent paste buffer</span></span><br><span class="line"><span class="string">C-b c       Create a new window</span></span><br><span class="line"><span class="string">C-b d       Detach the current client</span></span><br><span class="line"><span class="string">C-b f       Search for a pane                                                                                                                                                                                                    [30/70]</span></span><br><span class="line"><span class="string">C-b i       Display window information</span></span><br><span class="line"><span class="string">C-b l       Select the previously current window</span></span><br><span class="line"><span class="string">C-b m       Toggle the marked pane</span></span><br><span class="line"><span class="string">C-b n       Select the next window</span></span><br><span class="line"><span class="string">C-b o       Select the next pane</span></span><br><span class="line"><span class="string">C-b p       Select the previous window</span></span><br><span class="line"><span class="string">C-b q       Display pane numbers</span></span><br><span class="line"><span class="string">C-b r       Redraw the current client</span></span><br><span class="line"><span class="string">C-b s       Choose a session from a list</span></span><br><span class="line"><span class="string">C-b t       Show a clock</span></span><br><span class="line"><span class="string">C-b w       Choose a window from a list</span></span><br><span class="line"><span class="string">C-b x       Kill the active pane</span></span><br><span class="line"><span class="string">C-b z       Zoom the active pane                                                                                                                                                                                                 [17/70]</span></span><br><span class="line"><span class="string">C-b &#123;       Swap the active pane with the pane above</span></span><br><span class="line"><span class="string">C-b &#125;       Swap the active pane with the pane below</span></span><br><span class="line"><span class="string">C-b ~       Show messages</span></span><br><span class="line"><span class="string">C-b DC      Reset so the visible part of the window follows the cursor</span></span><br><span class="line"><span class="string">C-b PPage   Enter copy mode and scroll up</span></span><br><span class="line"><span class="string">C-b Up      Select the pane above the active pane</span></span><br><span class="line"><span class="string">C-b Down    Select the pane below the active pane</span></span><br><span class="line"><span class="string">C-b Left    Select the pane to the left of the active pane</span></span><br><span class="line"><span class="string">C-b Right   Select the pane to the right of the active pane</span></span><br><span class="line"><span class="string">C-b M-1     Set the even-horizontal layout</span></span><br><span class="line"><span class="string">C-b M-2     Set the even-vertical layout</span></span><br><span class="line"><span class="string">C-b M-3     Set the main-horizontal layout</span></span><br><span class="line"><span class="string">C-b M-4     Set the main-vertical layout                                                                                                                                                                                          [4/70]</span></span><br><span class="line"><span class="string">C-b M-5     Select the tiled layout</span></span><br><span class="line"><span class="string">C-b M-n     Select the next window with an alert</span></span><br><span class="line"><span class="string">C-b M-o     Rotate through the panes in reverse</span></span><br><span class="line"><span class="string">C-b M-p     Select the previous window with an alert</span></span><br><span class="line"><span class="string">C-b M-Up    Resize the pane up by 5</span></span><br><span class="line"><span class="string">C-b M-Down  Resize the pane down by 5</span></span><br><span class="line"><span class="string">C-b M-Left  Resize the pane left by 5</span></span><br><span class="line"><span class="string">C-b M-Right Resize the pane right by 5</span></span><br><span class="line"><span class="string">C-b C-Up    Resize the pane up</span></span><br><span class="line"><span class="string">C-b C-Down  Resize the pane down</span></span><br><span class="line"><span class="string">C-b C-Left  Resize the pane left</span></span><br><span class="line"><span class="string">C-b C-Right Resize the pane right</span></span><br><span class="line"><span class="string">C-b S-Up    Move the visible part of the window up</span></span><br><span class="line"><span class="string">C-b S-Down  Move the visible part of the window down</span></span><br><span class="line"><span class="string">C-b S-Left  Move the visible part of the window left</span></span><br><span class="line"><span class="string">C-b S-Right Move the visible part of the window right</span></span><br></pre></td></tr></table></figure>
+</div></details>
+<hr>
+<h2 id="VSCode">VSCode</h2>
+<blockquote>
+<p>从JetBrains转战vscode了，顺便记录一下遇到的问题和常用的技巧</p>
+</blockquote>
+<h3 id="vscode连接远程服务器">vscode连接远程服务器</h3>
+<p>可以直接安装这个插件整合包：<code>Remote Development</code></p>
+<p>接着使用<code>ctrl+shift+p</code>，键入<code>remote-ssh</code>相关命令就可以连接远程了</p>
+<p>但是我遇到了问题：“过程试图写入的管道不存在”，解决方法：</p>
+<ol>
+<li>使用管理员方式打开vscode</li>
+<li>清空<code>C:\Users\用户名\.ssh</code>目录下的内容</li>
+<li>连接的时候，记得立刻输入密码（如果报错就retry，继续输入密码连接）</li>
+</ol>
+<h3 id="更改缩进tab大小">更改缩进tab大小</h3>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34174207/how-to-change-indentation-in-visual-studio-code">How to change indentation in Visual Studio Code?</a></p>
+<h3 id="配置多个远程账号连接同个服务器">配置多个远程账号连接同个服务器</h3>
+<p>需要在ssh config文件中，配置不同Host名字</p>
+<h3 id="Vscode连接服务器后的终端无法输入，卡死">Vscode连接服务器后的终端无法输入，卡死</h3>
+<p>因为粘贴了不该粘贴的一大段文字，所以直接卡死了，本机连接到这个服务器用户的Vscode窗口的终端都无法使用了</p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000044131409">参考</a></p>
+<p>解决就是通过</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 找到当前用户的Vscode进程</span></span><br><span class="line">ps -ef | grep vscode-server | grep wyh</span><br><span class="line"><span class="comment"># 逐一杀死</span></span><br><span class="line"><span class="built_in">kill</span> -9 <span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+<h2 id="Sublime">Sublime</h2>
+<h3 id="快捷键">快捷键</h3>
+<ul>
+<li><code>ctrl+shift+p</code>: 打开万能搜索框</li>
+</ul>
+<h3 id="插件">插件</h3>
+<ul>
+<li>terminus: 内嵌的terminal命令行，有panel和tab两种模式</li>
+</ul>
+<h3 id="key-map">key-map</h3>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line"> <span class="punctuation">&#123;</span> <span class="attr">&quot;keys&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ctrl+tab&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;next_view&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="punctuation">&#123;</span> <span class="attr">&quot;keys&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ctrl+shift+tab&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prev_view&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span> </span><br><span class="line"> <span class="punctuation">&#123;</span> <span class="attr">&quot;keys&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;alt+q&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;next_view_in_stack&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"> <span class="punctuation">&#123;</span> <span class="attr">&quot;keys&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;alt+shift+q&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prev_view_in_stack&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<h2 id="Maven">Maven</h2>
+<h3 id="生命周期">生命周期</h3>
+<blockquote>
+<p>仅列举主要的阶段</p>
+</blockquote>
+<ul>
+<li>default lifecycle
+<ul>
+<li>validate: validate the project is correct and all necessary information is available</li>
+<li>compile: compile the source code of the project</li>
+<li>test: test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed</li>
+<li>package: take the compiled code and package it in its distributable format, such as a JAR.</li>
+<li>integration-test: process and deploy the package if necessary into an environment where integration tests can be run</li>
+<li>verify: run any checks to verify the package is valid and meets quality criteria</li>
+<li>install: install the package into the local repository, for use as a dependency in other projects locally</li>
+<li>deploy: done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.</li>
+</ul>
+</li>
+<li>clean lifecycle: cleans up artifacts created by prior builds</li>
+<li>site lifecycle: generates site documentation for this project</li>
+</ul>
+<h2 id="Clash">Clash</h2>
+<p>clash for windows软件</p>
+<p>windows直接运行</p>
+<p>linux运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用</span></span><br><span class="line">./clash -f ~/.config/clash/config.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># clash运行后,使用系统代理(必要步骤)</span></span><br><span class="line"><span class="comment"># 配置的只是当前session的环境变量，使用其他bash窗口，则是没有配置这个环境变量的，需要重新配</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890</span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">curl -L www.google.com</span><br><span class="line"><span class="comment"># 取消系统代理</span></span><br><span class="line"><span class="built_in">unset</span>  http_proxy  https_proxy  all_proxy</span><br></pre></td></tr></table></figure>
+<h3 id="git配置代理">git配置代理</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># git</span></span><br><span class="line">git config --global http.proxy http://127.0.0.1:7890</span><br><span class="line">git config --global https.proxy http://127.0.0.1:7890</span><br><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+<h3 id="docker配置代理">docker配置代理</h3>
+<p>使用其他软件，例如docker，则需要在软件层面进行代理配置</p>
+<p><a target="_blank" rel="noopener" href="https://neucrack.com/p/286">参考</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑配置</span></span><br><span class="line">sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 填入</span></span><br><span class="line">[Service]</span><br><span class="line">Environment=<span class="string">&quot;HTTP_PROXY=http://127.0.0.1:7890&quot;</span></span><br><span class="line">Environment=<span class="string">&quot;HTTPS_PROXY=http://127.0.0.1:7890&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<h3 id="windows-docker配置代理">windows docker配置代理</h3>
+<p>打开docker desktop 程序→ settings → Resources → Proxies</p>
+<blockquote>
+<p>【windows】docker start 报错：An attempt was made to access a socket in a way forbidden by its access permissions</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net stop hns</span><br><span class="line">net start hns</span><br></pre></td></tr></table></figure>
+<p>同样的，又遇到了，又去搜索了解决方法差不多：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/65272764/ports-are-not-available-listen-tcp-0-0-0-0-50070-bind-an-attempt-was-made-to">https://stackoverflow.com/questions/65272764/ports-are-not-available-listen-tcp-0-0-0-0-50070-bind-an-attempt-was-made-to</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net stop winnat</span><br><span class="line">docker start container_name</span><br><span class="line">net start winnat</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42951560/article/details/132339370">【Python】解决 pip 开了网络代理之后无法安装包的问题（pip镜像无法访问）</a></p>
+<h3 id="NPM配置代理">NPM配置代理</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> proxy=http://127.0.0.1:7890</span><br><span class="line"><span class="comment"># 默认是https://registry.npmjs.org</span></span><br><span class="line">npm config <span class="built_in">set</span> registry=http://registry.npmjs.org</span><br><span class="line"><span class="comment"># 如果服务器没配置成上面的http服务器，那么还需要加https代理</span></span><br><span class="line">npm config <span class="built_in">set</span> https-proxy http://127.0.0.1:7890</span><br><span class="line"><span class="comment"># 关闭代理</span></span><br><span class="line">npm config delete proxy</span><br><span class="line">npm config delete https-proxy</span><br></pre></td></tr></table></figure>
+<p>虽然本地的ubuntu有可视化界面，但在终端中需要用代理的时候，还是需要这样启动终端的代理</p>
+<p>比如用singularity命令：<code>singularity build hicrayon.sif docker://nolandocker/hicrayon</code></p>
+<blockquote>
+<p>这又让我想到，那么使用docker的时候，是不是也只要这样启用代理就行呢？答案是不行，docker应该走的更“深”层次的协议，还是需要像上面那样启用docker配置的代理</p>
+</blockquote>
+<p>（所以clash可视化界面只能启用浏览器的代理？</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> https_proxy=http://127.0.0.1:1234 http_proxy=http://127.0.0.1:1234 all_proxy=socks5://127.0.0.1:1234</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/tips/tips-misc/">https://bughere.github.io/tips/tips-misc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/mysql/">mysql</a><a class="post-meta__tags" href="/tags/npm/">npm</a><a class="post-meta__tags" href="/tags/markdown/">markdown</a><a class="post-meta__tags" href="/tags/nvm/">nvm</a><a class="post-meta__tags" href="/tags/vscode/">vscode</a><a class="post-meta__tags" href="/tags/tmux/">tmux</a><a class="post-meta__tags" href="/tags/sublime/">sublime</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/note/note-redis/" title="note-redis"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">note-redis</div></div></a></div><div class="next-post pull-right"><a href="/algorithm/tree/algorithm-tree-lca/" title="algorithm-tree-lca"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">algorithm-tree-lca</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/solution/solution-idea-run-admin-terminal/" title="solution-idea-run-admin-terminal"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-11</div><div class="title">solution-idea-run-admin-terminal</div></div></a></div><div><a href="/solution/solution-ubuntu-install-nodejs-and-npm/" title="solution-ubuntu-install-nodejs-and-npm"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-19</div><div class="title">solution-ubuntu-install-nodejs-and-npm</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown"><span class="toc-number">1.</span> <span class="toc-text">Markdown</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%E5%86%85%E6%8D%A2%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text">段内换行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.</span> <span class="toc-text">链接地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E9%93%BE%E6%8E%A5"><span class="toc-number">1.3.</span> <span class="toc-text">网址链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%83%85%E7%AC%A6%E5%8F%B7"><span class="toc-number">1.4.</span> <span class="toc-text">表情符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.5.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">任务列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%9A%E7%82%B9"><span class="toc-number">1.7.</span> <span class="toc-text">锚点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-number">1.8.</span> <span class="toc-text">拓展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySql"><span class="toc-number">2.</span> <span class="toc-text">MySql</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%91%BD%E4%BB%A4"><span class="toc-number">2.1.</span> <span class="toc-text">数据库命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">2.2.</span> <span class="toc-text">数据表命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java"><span class="toc-number">3.</span> <span class="toc-text">Java</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVM"><span class="toc-number">4.</span> <span class="toc-text">NVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows%E5%AE%89%E8%A3%85"><span class="toc-number">4.1.</span> <span class="toc-text">Windows安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu-Install"><span class="toc-number">4.2.</span> <span class="toc-text">Ubuntu Install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">4.3.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NPM"><span class="toc-number">5.</span> <span class="toc-text">NPM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93"><span class="toc-number">5.1.</span> <span class="toc-text">设置镜像仓库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tmux"><span class="toc-number">6.</span> <span class="toc-text">Tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tmux%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">6.1.</span> <span class="toc-text">Tmux基本命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%91%BD%E4%BB%A4"><span class="toc-number">6.2.</span> <span class="toc-text">会话命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="toc-number">6.3.</span> <span class="toc-text">窗口命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E5%91%BD%E4%BB%A4"><span class="toc-number">6.4.</span> <span class="toc-text">窗格命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ctrl-B%E5%91%BD%E4%BB%A4"><span class="toc-number">6.5.</span> <span class="toc-text">Ctrl+B命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VSCode"><span class="toc-number">7.</span> <span class="toc-text">VSCode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vscode%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">vscode连接远程服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E7%BC%A9%E8%BF%9Btab%E5%A4%A7%E5%B0%8F"><span class="toc-number">7.2.</span> <span class="toc-text">更改缩进tab大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E8%BF%9C%E7%A8%8B%E8%B4%A6%E5%8F%B7%E8%BF%9E%E6%8E%A5%E5%90%8C%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">7.3.</span> <span class="toc-text">配置多个远程账号连接同个服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vscode%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E7%9A%84%E7%BB%88%E7%AB%AF%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%EF%BC%8C%E5%8D%A1%E6%AD%BB"><span class="toc-number">7.4.</span> <span class="toc-text">Vscode连接服务器后的终端无法输入，卡死</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sublime"><span class="toc-number">8.</span> <span class="toc-text">Sublime</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">8.1.</span> <span class="toc-text">快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-number">8.2.</span> <span class="toc-text">插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key-map"><span class="toc-number">8.3.</span> <span class="toc-text">key-map</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven"><span class="toc-number">9.</span> <span class="toc-text">Maven</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">9.1.</span> <span class="toc-text">生命周期</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clash"><span class="toc-number">10.</span> <span class="toc-text">Clash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">10.1.</span> <span class="toc-text">git配置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">10.2.</span> <span class="toc-text">docker配置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#windows-docker%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">10.3.</span> <span class="toc-text">windows docker配置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NPM%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">10.4.</span> <span class="toc-text">NPM配置代理</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>algorithm-greedy | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="贪心 贪心算法（英语：greedy algorithm），又称贪婪算法，是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。  45. 跳跃游戏 II 300. 最长递增子序列 3292. 形成目标字符串需要的最少字符串数 II：其中用到的贪心就是跳跃游戏  反悔贪心 概念 反悔贪心算法是一种优化算法，通常用于解决组合优化问题。与传统的贪心算法不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="algorithm-greedy">
+<meta property="og:url" content="https://bughere.github.io/algorithm/normal/algorithm-greedy/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="贪心 贪心算法（英语：greedy algorithm），又称贪婪算法，是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。  45. 跳跃游戏 II 300. 最长递增子序列 3292. 形成目标字符串需要的最少字符串数 II：其中用到的贪心就是跳跃游戏  反悔贪心 概念 反悔贪心算法是一种优化算法，通常用于解决组合优化问题。与传统的贪心算法不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-09-11T07:22:59.000Z">
+<meta property="article:modified_time" content="2024-09-23T11:55:58.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="greedy">
+<meta property="article:tag" content="regret-greedy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/algorithm/normal/algorithm-greedy/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'algorithm-greedy',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-23 19:55:58'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">algorithm-greedy</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-11T07:22:59.000Z" title="发表于 2023-09-11 15:22:59">2023-09-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-23T11:55:58.000Z" title="更新于 2024-09-23 19:55:58">2024-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/algorithm/">algorithm</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/algorithm/normal/">normal</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span></div></div></div><article class="post-content" id="article-container"><h2 id="贪心">贪心</h2>
+<p>贪心算法（英语：greedy algorithm），又称贪婪算法，是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。</p>
+<ul>
+<li><a href="/algorithm/problem/algorithm-problem-leetcode-45">45. 跳跃游戏 II</a></li>
+<li><a href="/algorithm/problem/algorithm-problem-leetcode-300">300. 最长递增子序列</a></li>
+<li><a href="/algorithm/problem/algorithm-problem-leetcode-3292">3292. 形成目标字符串需要的最少字符串数 II</a>：其中用到的贪心就是跳跃游戏</li>
+</ul>
+<h2 id="反悔贪心">反悔贪心</h2>
+<h3 id="概念">概念</h3>
+<p>反悔贪心算法是一种优化算法，通常用于解决组合优化问题。与传统的贪心算法不同，反悔贪心算法在每一步决策之后考虑可能的反悔，以确保最终的决策是最佳的。它的目标是最小化决策的后悔或损失。</p>
+<h3 id="流程">流程</h3>
+<ul>
+<li>初始决策： 算法开始时会做出初始决策，通常基于某种贪心策略来选择一个方案。</li>
+<li>模拟反悔： 在每个决策步骤之后，算法会模拟所有可能的替代决策，计算每个替代决策的后悔值或损失。后悔值是当前决策相对于其他可能决策的性能差距。</li>
+<li>选择最小后悔： 算法会选择具有最小后悔值的替代决策作为最终决策。这意味着算法会选择对整体性能改进最大的替代决策。</li>
+<li>迭代： 反悔贪心算法会重复执行步骤 2 和步骤 3，每次迭代都会尝试改进当前的决策，直到后悔值不再减小或达到某个停止条件。</li>
+</ul>
+<h3 id="应用">应用</h3>
+<p>反悔贪心算法的应用领域包括调度问题、路径规划、资源分配和其他组合优化问题。它通常用于处理那些难以通过传统贪心算法或动态规划方法进行求解的问题，因为它考虑了多个可能性并选择具有最小后悔的决策。</p>
+<h3 id="课程表-III"><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/course-schedule-iii/description/">课程表 III</a></h3>
+<hr>
+<p>这里有 <code>n</code> 门不同的在线课程，按从 <code>1</code> 到 <code>n</code> 编号。给你一个数组 <code>courses</code> ，其中 <code>courses[i] = [durationi, lastDayi]</code> 表示第 <code>i</code> 门课将会 <strong>持续</strong> 上 <code>durationi</code> 天课，并且必须在不晚于 <code>lastDayi</code> 的时候完成。</p>
+<p>你的学期从第 <code>1</code> 天开始。且不能同时修读两门及两门以上的课程。</p>
+<p>返回你最多可以修读的课程数目。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入：courses = [[100, 200], [200, 1300], [1000, 1250], [2000, 3200]]</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">这里一共有 4 门课程，但是你最多可以修 3 门：</span><br><span class="line">首先，修第 1 门课，耗费 100 天，在第 100 天完成，在第 101 天开始下门课。</span><br><span class="line">第二，修第 3 门课，耗费 1000 天，在第 1100 天完成，在第 1101 天开始下门课程。</span><br><span class="line">第三，修第 2 门课，耗时 200 天，在第 1300 天完成。</span><br><span class="line">第 4 门课现在不能修，因为将会在第 3300 天完成它，这已经超出了关闭日期。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：courses = [[1,2]]</span><br><span class="line">输出：1</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：courses = [[3,2],[4,3]]</span><br><span class="line">输出：0</span><br></pre></td></tr></table></figure>
+<p><strong>提示:</strong></p>
+<ul>
+<li><code>1 &lt;= courses.length &lt;= 10^4</code></li>
+<li><code>1 &lt;= durationi, lastDayi &lt;= 10^4</code></li>
+</ul>
+<h4 id="反悔贪心解法">反悔贪心解法</h4>
+<p>按照<code>lastDay</code>从小到大的顺序排序数组，满足要求就添加到优先队列，增加课程，这是贪心。</p>
+<p>如果不满足要求，就需要反悔，弹出队首（用时最长的课程），就在保持课程数量不变的前提下，尝试减少总时长，使得后续增大课程数量的概率增加。</p>
+<p>举例：</p>
+<blockquote>
+<p>[[5,15],[3,19],[6,7],[2,10],[5,16],[8,14],[10,11],[2,19]]</p>
+</blockquote>
+<p>按lastDay从小到大排序</p>
+<blockquote>
+<p>[[6,7],[2,10],[10,11],[8,14],[5,15],[5,16],[3,19],[2,19]]</p>
+</blockquote>
+<p>下面每次遍历后，当前保留课程的duration</p>
+<blockquote>
+<p>6<br>
+6,2<br>
+6,2<br>
+6,2<br>
+6,5,2<br>
+5,5,2<br>
+5,5,3,2<br>
+5,5,3,2,2</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">scheduleCourse</span><span class="params">(<span class="type">int</span>[][] courses)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> courses.length, res = <span class="number">0</span>, total = <span class="number">0</span>;</span><br><span class="line">        Arrays.sort(courses, (i,j)-&gt;i[<span class="number">1</span>]-j[<span class="number">1</span>]);</span><br><span class="line">        PriorityQueue&lt;Integer&gt; pq = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((i,j)-&gt;j-i);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">duration</span> <span class="operator">=</span> courses[i][<span class="number">0</span>], lastDay = courses[i][<span class="number">1</span>];</span><br><span class="line">            <span class="comment">// 如果能增大课程数量，就增大课程数量</span></span><br><span class="line">            <span class="keyword">if</span> (total + duration &lt;= lastDay) &#123;</span><br><span class="line">                total += duration;</span><br><span class="line">                pq.offer(duration);</span><br><span class="line">                res += <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果不能增大课程数量，就在保持课程数量不变的前提下，尝试减少总时长，使得后续增大课程数量的概率增加</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (!pq.isEmpty() &amp;&amp; duration &lt; pq.peek()) &#123;</span><br><span class="line">                total += duration;</span><br><span class="line">                total -= pq.poll();</span><br><span class="line">                pq.offer(duration);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="子序列最大优雅度（2582）"><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-elegance-of-a-k-length-subsequence/">子序列最大优雅度（2582）</a></h3>
+<p>给你一个长度为 <code>n</code> 的二维整数数组 <code>items</code> 和一个整数 <code>k</code> 。</p>
+<p><code>items[i] = [profiti, categoryi]</code>，其中 <code>profiti</code> 和 <code>categoryi</code> 分别表示第 <code>i</code> 个项目的利润和类别。</p>
+<p>现定义 <code>items</code> 的 <strong>子序列</strong> 的 <strong>优雅度</strong> 可以用 <code>total_profit + distinct_categories^2</code> 计算，其中 <code>total_profit</code> 是子序列中所有项目的利润总和，<code>distinct_categories</code> 是所选子序列所含的所有类别中不同类别的数量。</p>
+<p>你的任务是从 <code>items</code> 所有长度为 <code>k</code> 的子序列中，找出 <strong>最大优雅度</strong> 。</p>
+<p>用整数形式表示并返回 <code>items</code> 中所有长度恰好为 <code>k</code> 的子序列的最大优雅度。</p>
+<p><strong>注意</strong>: 数组的子序列是经由原数组删除一些元素（可能不删除）而产生的新数组，且删除不改变其余元素相对顺序。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：items = [[3,2],[5,1],[10,1]], k = 2</span><br><span class="line">输出：17</span><br><span class="line">解释：</span><br><span class="line">在这个例子中，我们需要选出长度为 2 的子序列。</span><br><span class="line">其中一种方案是 items[0] = [3,2] 和 items[2] = [10,1] 。</span><br><span class="line">子序列的总利润为 3 + 10 = 13 ，子序列包含 2 种不同类别 [2,1] 。</span><br><span class="line">因此，优雅度为 13 + 22 = 17 ，可以证明 17 是可以获得的最大优雅度。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：items = [[3,1],[3,1],[2,2],[5,3]], k = 3</span><br><span class="line">输出：19</span><br><span class="line">解释：</span><br><span class="line">在这个例子中，我们需要选出长度为 3 的子序列。 </span><br><span class="line">其中一种方案是 items[0] = [3,1] ，items[2] = [2,2] 和 items[3] = [5,3] 。</span><br><span class="line">子序列的总利润为 3 + 2 + 5 = 10 ，子序列包含 3 种不同类别 [1, 2, 3] 。 </span><br><span class="line">因此，优雅度为 10 + 32 = 19 ，可以证明 19 是可以获得的最大优雅度。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：items = [[1,1],[2,1],[3,1]], k = 3</span><br><span class="line">输出：7</span><br><span class="line">解释：</span><br><span class="line">在这个例子中，我们需要选出长度为 3 的子序列。</span><br><span class="line">我们需要选中所有项目。</span><br><span class="line">子序列的总利润为 1 + 2 + 3 = 6，子序列包含 1 种不同类别 [1] 。</span><br><span class="line">因此，最大优雅度为 6 + 12 = 7 。</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= items.length == n &lt;= 10^5</code></li>
+<li><code>items[i].length == 2</code></li>
+<li><code>items[i][0] == profiti</code></li>
+<li><code>items[i][1] == categoryi</code></li>
+<li><code>1 &lt;= profiti &lt;= 10^9</code></li>
+<li><code>1 &lt;= categoryi &lt;= n</code></li>
+<li><code>1 &lt;= k &lt;= n</code></li>
+</ul>
+<h4 id="x-y-贪心解法">x + y 贪心解法</h4>
+<p><code>res = total_profit + distinct_categories^2</code></p>
+<p><code>items</code>按照<code>profit</code>从大到小排序，取前<code>k</code>个，此时<code>total_profit</code>为最大值</p>
+<p>枚举<code>递增distinct_categories</code>的所有可能（<code>total_profit</code>单调递减），寻找可能的更大<code>res</code></p>
+<p>考虑选第 <code>k+1</code> 个项目，为了选它，我们必须从前 <code>k</code> 个项目中移除一个项目，分类讨论：</p>
+<ul>
+<li>如果第 <code>k+1</code> 个项目和前面某个已选项目的类别相同，那么无论怎么移除都不会让 <code>distinct_categories</code> 变大，所以无需选择这个项目</li>
+<li>如果第 <code>k+1</code> 个项目和前面任何已选项目的类别都不一样，考虑移除前面已选项目中的哪一个：
+<ul>
+<li>如果移除的项目的类别只出现一次，那么选第 <code>k+1</code> 个项目后，<code>distinct_categories</code> 一减一增，保持不变，所以不考虑这种情况</li>
+<li>如果移除的项目的类别重复出现多次，那么选第 <code>k+1</code> 个项目后，<code>distinct_categories</code> 会增加一，此时有可能会让优雅度变大，可以选择这个项目</li>
+</ul>
+</li>
+</ul>
+<p>问题抽象： <code>res = x + y</code>，枚举<code>递增y</code>的所有可能（<code>x</code>单调递减），寻找可能的更大<code>res</code>，取<code>res</code>的最大值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">findMaximumElegance</span><span class="params">(<span class="type">int</span>[][] items, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> items.length;</span><br><span class="line">        <span class="type">long</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>, total_profit = <span class="number">0</span>;</span><br><span class="line">        Arrays.sort(items, (a, b)-&gt;b[<span class="number">0</span>]-a[<span class="number">0</span>]);</span><br><span class="line">        Set&lt;Integer&gt; categories = <span class="keyword">new</span> <span class="title class_">HashSet</span>&lt;&gt;();</span><br><span class="line">        Deque&lt;Integer&gt; duplicateProfits = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">// res = total_profit + distinct_categories^2</span></span><br><span class="line">        <span class="comment">// distinct_categories = categories.size()</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">profit</span> <span class="operator">=</span> items[i][<span class="number">0</span>], category = items[i][<span class="number">1</span>];</span><br><span class="line">            <span class="comment">// items按照profit从大到小排序，取前k个，此时total_profit为最大值</span></span><br><span class="line">            <span class="keyword">if</span> (i &lt; k) &#123;</span><br><span class="line">                total_profit += profit;</span><br><span class="line">                <span class="keyword">if</span> (!categories.add(category)) &#123;</span><br><span class="line">                    <span class="comment">// 把出现超过1次的category的profit加入duplicateProfits</span></span><br><span class="line">                    duplicateProfits.push(profit);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// 接下来枚举更大的distinct_categories，寻找可能的更大res</span></span><br><span class="line">                <span class="keyword">if</span> (duplicateProfits.size() == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span> (categories.add(category)) &#123;</span><br><span class="line">                    total_profit += profit - duplicateProfits.poll();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            res = Math.max(res, total_profit + (<span class="type">long</span>)categories.size() * categories.size());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/algorithm/normal/algorithm-greedy/">https://bughere.github.io/algorithm/normal/algorithm-greedy/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/greedy/">greedy</a><a class="post-meta__tags" href="/tags/regret-greedy/">regret-greedy</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/algorithm/graph/algorithm-floyd/" title="algorithm-floyd"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">algorithm-floyd</div></div></a></div><div class="next-post pull-right"><a href="/note/note-verse/" title="note-verse"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">note-verse</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83"><span class="toc-number">1.</span> <span class="toc-text">贪心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E6%82%94%E8%B4%AA%E5%BF%83"><span class="toc-number">2.</span> <span class="toc-text">反悔贪心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BE%E7%A8%8B%E8%A1%A8-III"><span class="toc-number">2.4.</span> <span class="toc-text">课程表 III</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E6%82%94%E8%B4%AA%E5%BF%83%E8%A7%A3%E6%B3%95"><span class="toc-number">2.4.1.</span> <span class="toc-text">反悔贪心解法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%BA%8F%E5%88%97%E6%9C%80%E5%A4%A7%E4%BC%98%E9%9B%85%E5%BA%A6%EF%BC%882582%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">子序列最大优雅度（2582）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x-y-%E8%B4%AA%E5%BF%83%E8%A7%A3%E6%B3%95"><span class="toc-number">2.5.1.</span> <span class="toc-text">x + y 贪心解法</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

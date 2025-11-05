@@ -1,0 +1,504 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>note-hexo | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Hexo折腾史  推荐博客  Heo的Butterfly主题美化教程 icat的魔改教程  搭建Hexo 全局安装hexo命令 1npm install -g hexo-cli 初始化Hexo hexo init 安装主题（两种方式） 在hexo主目录下【推荐】使用npm【不推荐】git clone -b master https:&#x2F;&#x2F;github.com&#x2F;jerryc127&#x2F;hexo-them">
+<meta property="og:type" content="article">
+<meta property="og:title" content="note-hexo">
+<meta property="og:url" content="https://bughere.github.io/note/note-hexo/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="Hexo折腾史  推荐博客  Heo的Butterfly主题美化教程 icat的魔改教程  搭建Hexo 全局安装hexo命令 1npm install -g hexo-cli 初始化Hexo hexo init 安装主题（两种方式） 在hexo主目录下【推荐】使用npm【不推荐】git clone -b master https:&#x2F;&#x2F;github.com&#x2F;jerryc127&#x2F;hexo-them">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-10-17T10:40:14.000Z">
+<meta property="article:modified_time" content="2024-09-23T13:22:25.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/note/note-hexo/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'note-hexo',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-23 21:22:25'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">note-hexo</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-17T10:40:14.000Z" title="发表于 2023-10-17 18:40:14">2023-10-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-23T13:22:25.000Z" title="更新于 2024-09-23 21:22:25">2024-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/">note</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span></div></div></div><article class="post-content" id="article-container"><blockquote>
+<p>Hexo折腾史</p>
+</blockquote>
+<h2 id="推荐博客">推荐博客</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://butterfly.zhheo.com/">Heo的Butterfly主题美化教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://meuicat.com/blog/42">icat的魔改教程</a></li>
+</ul>
+<h2 id="搭建Hexo">搭建Hexo</h2>
+<h3 id="全局安装hexo命令">全局安装hexo命令</h3>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<h3 id="初始化Hexo">初始化Hexo</h3>
+<p><code>hexo init</code></p>
+<h3 id="安装主题（两种方式）">安装主题（两种方式）</h3>
+<div class="tabs" id="theme-install"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="theme-install-1">在hexo主目录下【推荐】</button><button type="button" class="tab " data-href="theme-install-2">使用npm【不推荐】</button></ul><div class="tab-contents"><div class="tab-item-content active" id="theme-install-1"><p><code>git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</code></p>
+<p>把主题放置在主目录中，更容易定制主题</p></div><div class="tab-item-content" id="theme-install-2"><p><code>npm i hexo-theme-butterfly</code></p>
+<p>虽然配置容易，但主题会放在node_modules中，定制主题不方便</p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<h3 id="本地部署（本地测试）">本地部署（本地测试）</h3>
+<p><code>hexo server</code></p>
+<h3 id="远程仓库配置">远程仓库配置</h3>
+<ol>
+<li>新建Github远程仓库</li>
+<li><code>git push -u origin main</code></li>
+</ol>
+<h3 id="部署到Github">部署到Github</h3>
+<p>两种方式都可以，可以只用一种，也可以都用</p>
+<div class="tabs" id="theme-deploy"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="theme-deploy-1">本地一键部署Github Page</button><button type="button" class="tab " data-href="theme-deploy-2">Push部署</button></ul><div class="tab-contents"><div class="tab-item-content active" id="theme-deploy-1"><p>不需要push，可以单独deploy</p>
+<p>这样部署不仅方便，而且就不需要push源文件到main分支就可以查看效果（避免过多提交代码）</p>
+<ol>
+<li>
+<p><code>npm i hexo-deployer-git</code></p>
+</li>
+<li>
+<p>修改_config.yml配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/&lt;username&gt;/&lt;project&gt;</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>hexo clean &amp;&amp; hexo deploy</code></p>
+</li>
+</ol>
+<p>源文件在main分支中，部署生成的静态文件在gh-pages分支中</p></div><div class="tab-item-content" id="theme-deploy-2"><p>Github Actions配置workflow，push后通过自动部署</p>
+<p>这个方式对于特定情形非常有用：电脑不在身边，只用手机端修改很少的代码，push即可自动部署</p>
+<p>添加<code>.github/workflows/main.yml</code>文件，填入如下内容（注意node版本）：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Push部署</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">检查分支</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">ref:</span> <span class="string">main</span></span><br><span class="line">          <span class="attr">fetch-depth:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">安装</span> <span class="string">Node</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&quot;16.x&quot;</span></span><br><span class="line">      </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">设置时区</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">sudo</span> <span class="string">timedatectl</span> <span class="string">set-timezone</span> <span class="string">&#x27;Asia/Shanghai&#x27;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">安装</span> <span class="string">Hexo</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm install hexo-cli -g</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">缓存</span> <span class="string">Hexo</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">cache-npm</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v3</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">cache-name:</span> <span class="string">cache-node-modules</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.os</span> <span class="string">&#125;&#125;-build-$&#123;&#123;</span> <span class="string">env.cache-name</span> <span class="string">&#125;&#125;-$&#123;&#123;</span> <span class="string">hashFiles(&#x27;**/package-lock.json&#x27;)</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-build-$&#123;&#123; env.cache-name &#125;&#125;-</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-build-</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.os &#125;&#125;-</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">安装依赖</span></span><br><span class="line">        <span class="attr">if:</span> <span class="string">$&#123;&#123;</span> <span class="string">steps.cache-npm.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm install --save</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">修改post文件时间</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          find source/_posts -name &#x27;*.md&#x27; | while read file; do touch -d &quot;$(git log -1 --format=&quot;@%ct&quot; &quot;$file&quot;)&quot; &quot;$file&quot;; done</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">生成静态文件</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          hexo clean</span></span><br><span class="line"><span class="string">          hexo generate</span></span><br><span class="line"><span class="string">          hexo algolia</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">部署到Github</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">JamesIves/github-pages-deploy-action@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">repository-name:</span> <span class="string">BUGHERE/bughere.github.io</span></span><br><span class="line">          <span class="attr">branch:</span> <span class="string">gh-pages</span></span><br><span class="line">          <span class="attr">folder:</span> <span class="string">public</span></span><br><span class="line">          <span class="attr">commit-message:</span> <span class="string">&quot;$<span class="template-variable">&#123;&#123; github.event.head_commit.message &#125;&#125;</span> Updated By Github Actions&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>因为<code>Github Page</code>静态文件在<code>gh-pages</code>分支中，所以在<code>Github</code>设置<code>Github Page</code>分支：<code>Settings</code>-<code>Pages</code>-<code>Source</code></li>
+</ul>
+<!-- - 在`仓库中的Settings`-`Secrets and variables`-`Actions-Respository secrets`中增加`TOKEN`变量 -->
+<blockquote>
+<p>其中遇到了更新时间错误问题【配置文件已解决】：在使用 Github Actions 自动化部署 hexo 博客时会发现所有文章的更新时间都变成了此次提交修改的时间，但实际上这些文章是没有任何修改的。参考文献：<a target="_blank" rel="noopener" href="https://mrseawave.github.io/blogs/articles/2021/01/07/ci-hexo-update-time/">修复 CI 构建博客造成的更新时间错误</a>，<a target="_blank" rel="noopener" href="https://blog.im0o.cn/posts/c6d9de72.html">0o酱详细版</a></p>
+</blockquote></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<h2 id="一些语法">一些语法</h2>
+<h3 id="关于Hexo的分类和标签">关于Hexo的分类和标签</h3>
+<p>只有文章支持分类和标签，您可以在 Front-matter 中设置。在其他系统中，分类和标签听起来很接近，但是在 Hexo 中两者有着明显的差别：分类具有顺序性和层次性，也就是说 Foo, Bar 不等于 Bar, Foo；而标签没有顺序和层次。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Diary</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">PS3</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Games</span></span><br></pre></td></tr></table></figure>
+<h4 id="子分类">子分类</h4>
+<p>下面的设置会使分类 <code>Life</code> 成为 <code>Diary</code> 的子分类，而不是并列分类。因此，有必要为您的文章选择尽可能准确的分类</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Diary</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Life</span></span><br></pre></td></tr></table></figure>
+<h4 id="为文章添加多个分类">为文章添加多个分类</h4>
+<p>此时这篇文章同时包括三个分类： <code>PlayStation</code> 和 <code>Games</code> 分别都是父分类 <code>Diary</code> 的子分类，同时 <code>Life</code> 是一个没有子分类的分类。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="bullet">-</span> [<span class="string">Diary</span>, <span class="string">PlayStation</span>]</span><br><span class="line"><span class="bullet">-</span> [<span class="string">Diary</span>, <span class="string">Games</span>]</span><br><span class="line"><span class="bullet">-</span> [<span class="string">Life</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="Katex">Katex</h3>
+<p>局部使用Katex：使用Katex记得在每个post的Front-matter中填写<code>katex: true</code>，确保开启katex语法</p>
+<p>全局使用Katex：在_config.butterfly.yml中：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">katex:</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="标签外挂">标签外挂</h2>
+<h3 id="使用mermaid绘制图标">使用mermaid绘制图标</h3>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>
+  graph LR
+    subgraph 1
+    direction LR
+    a(workspace) --add--&gt; b(index) --commit--&gt; c(repository) --push--&gt; d(remote)
+    d --pull--&gt; a
+    d --clone--&gt; c
+    c --checkout--&gt; a
+    end
+    subgraph 2
+    a(workspace) --stash --&gt; e(stash)
+    e -- stash pop --&gt; a
+    end
+  </pre></div>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid %&#125;</span><br><span class="line">graph LR</span><br><span class="line">    subgraph 1</span><br><span class="line">    direction LR</span><br><span class="line">    a(workspace) --add--&gt; b(index) --commit--&gt; c(repository) --push--&gt; d(remote)</span><br><span class="line">    d --pull--&gt; a</span><br><span class="line">    d --clone--&gt; c</span><br><span class="line">    c --checkout--&gt; a</span><br><span class="line">    end</span><br><span class="line">    subgraph 2</span><br><span class="line">    a(workspace) --stash --&gt; e(stash)</span><br><span class="line">    e -- stash pop --&gt; a</span><br><span class="line">    end</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
+<p>在线编辑网站：<a target="_blank" rel="noopener" href="https://mermaid.live/">链接</a></p>
+<h3 id="tabs">tabs</h3>
+<p><a target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/#Tabs">Butterfly官方教程</a></p>
+<h3 id="hideToggle">hideToggle</h3>
+<p>隐藏收纳一部分文章内容</p>
+<p><a target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/#tag-hide">Butterfly官方教程</a>中的Toggle</p>
+<h2 id="更多功能DIY">更多功能DIY</h2>
+<blockquote>
+<p>修改配置后，查看博客可能并不会立刻看到相关功能，甚至可能会有些错误。这个原因可能是浏览器缓存，加载了原来的渲染，这时候可以清除缓存或者使用其它浏览器和设备查看博客，或者静候一段时间。</p>
+<p>Chrome 清除某个特定网站下的缓存：打开开发者工具（F12），选择 Network——Disable cache 即可。需要清除某网站缓存时 F12 打开开发者工具就会自动清除这个网站的缓存，而不必清除所有网站的缓存了。</p>
+</blockquote>
+<blockquote>
+<p>关于使用hexo server调试代码时，对于source里的博客内容修改，不需要重新运行hexo server命令。但如果是修改主题里的内容，比如修改_config.butterfly.yml配置，则需要重新运行hexo server命令</p>
+</blockquote>
+<h3 id="自定义css和js文件">自定义css和js文件</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.leonus.cn/2022/custom.html">Hexo博客添加自定义css和js文件</a></p>
+<h3 id="接入Algolia搜索功能">接入Algolia搜索功能</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/500e2e1e66c5">Hexo + Butterfly 键入搜索功能</a></p>
+<ol>
+<li>
+<p>注册<a target="_blank" rel="noopener" href="https://www.algolia.com/">Algolia</a>账号</p>
+</li>
+<li>
+<p>在&quot;Data Resources→Indices&quot;中新建索引</p>
+</li>
+<li>
+<p>执行<code>npm install hexo-algoliasearch</code></p>
+</li>
+<li>
+<p>查看API Key信息，“左下角Settings→Team and Access→API Keys”</p>
+</li>
+<li>
+<p>修改_config.yml配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">algolia:</span></span><br><span class="line">  <span class="attr">appId:</span> <span class="string">&quot;***&quot;</span></span><br><span class="line">  <span class="attr">apiKey:</span> <span class="string">&quot;***&quot;</span></span><br><span class="line">  <span class="attr">adminApiKey:</span> <span class="string">&quot;***&quot;</span></span><br><span class="line">  <span class="attr">chunkSize:</span> <span class="number">5000</span></span><br><span class="line">  <span class="attr">indexName:</span> <span class="string">&quot;blog&quot;</span></span><br><span class="line">  <span class="attr">fields:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">content:strip</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">excerpt:strip</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">gallery</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">permalink</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">photos</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">slug</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">tags</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">title</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>执行<code>hexo algolia</code>更新Algolia索引</p>
+</li>
+</ol>
+<h3 id="DIY加载动画">DIY加载动画</h3>
+<blockquote>
+<p>pug代码格式是html的简化，为了是通过更简洁的代码生成对应的html代码。</p>
+<p>而styl格式也是类似的，为了用更简洁的代码生成对应的css代码</p>
+</blockquote>
+<blockquote>
+<p>有时候加载太快了，看不到加载动画。这时为了看到加载动画，我们可以手动调整浏览器的网速，打开F12-网络，在菜单栏找到默认的”No throttling“字样（不节流），改成”Slow 3G“就可以了</p>
+</blockquote>
+<p>参考<a target="_blank" rel="noopener" href="https://akilar.top/posts/3d221bf2/">Akilar</a></p>
+<p>主要调整了程序配置入口的代码，以及用到的两种文件：<code>pug</code>和<code>styl</code>，分别对应<code>html</code>和<code>css</code>文件</p>
+<ul>
+<li>pug资源目录：<code>themes/butterfly/layout/includes/loading/load_style</code></li>
+<li>styl资源目录：<code>themes/butterfly/source/css/_load_style</code></li>
+<li><code>pug</code>的配置入口位置：<code>themes/butterfly/layout/includes/loading/fullpage-loading.pug</code></li>
+<li><code>styl</code>的配置入口位置：<code>themes/butterfly/source/css/_layout/loading.styl</code></li>
+</ul>
+<p>后续增加新的加载动画也只要在这些地方修改：（1）资源目录添加资源（2）配置入口增加配置</p>
+<p>需要注意Butterfly版本，版本更新后，文件结构有所调整</p>
+<p><code>4.10</code>版本的<code>fullpage-loading.pug</code>文件大概如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">if theme.preloader.enable</span><br><span class="line">  case theme.preloader.load_style</span><br><span class="line">    when &#x27;gear&#x27;</span><br><span class="line">      include ./load_style/gear.pug</span><br><span class="line">    when &#x27;scarecrow&#x27;</span><br><span class="line">      include ./load_style/scarecrow.pug</span><br><span class="line">    when &#x27;image&#x27;</span><br><span class="line">      include ./load_style/image.pug</span><br><span class="line">    when &#x27;spincat&#x27;</span><br><span class="line">      include ./load_style/spincat.pug</span><br><span class="line">    default</span><br><span class="line">      include ./load_style/default.pug</span><br><span class="line"></span><br><span class="line">script(async).</span><br><span class="line">  (()=&gt;&#123;</span><br><span class="line">    const $loadingBox = document.getElementById(&#x27;loading-box&#x27;)</span><br><span class="line">    const $body = document.body</span><br><span class="line">    const preloader = &#123;</span><br><span class="line">      endLoading: () =&gt; &#123;</span><br><span class="line">        $body.style.overflow = &#x27;&#x27;</span><br><span class="line">        $loadingBox.classList.add(&#x27;loaded&#x27;)</span><br><span class="line">      &#125;,</span><br><span class="line">      initLoading: () =&gt; &#123;</span><br><span class="line">        $body.style.overflow = &#x27;hidden&#x27;</span><br><span class="line">        $loadingBox.classList.remove(&#x27;loaded&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    preloader.initLoading()</span><br><span class="line">    window.addEventListener(&#x27;load&#x27;,() =&gt; &#123; preloader.endLoading() &#125;)</span><br><span class="line">    setTimeout(function()&#123;preloader.endLoading();&#125;, 5000);  // 超时关闭动画</span><br><span class="line">    $loadingBox.addEventListener(&#x27;click&#x27;,()=&gt; &#123;preloader.endLoading()&#125;)  // 点击关闭动画</span><br><span class="line"></span><br><span class="line">    if (!&#123;theme.pjax &amp;&amp; theme.pjax.enable&#125;) &#123;</span><br><span class="line">      document.addEventListener(&#x27;pjax:send&#x27;, () =&gt; &#123; preloader.initLoading() &#125;)</span><br><span class="line">      document.addEventListener(&#x27;pjax:complete&#x27;, () =&gt; &#123; preloader.endLoading() &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>闪烁头像加载动画：<a target="_blank" rel="noopener" href="https://blog.anheyu.com/posts/52d8.html">链接</a>
+<ul>
+<li>修改动画中的头像：themes/butterfly/source/css/_load_style/avatar.styl</li>
+<li>建议直接和头像github地址一样即可：<a href="https://bughere.github.io/img/avatar/google.png">https://bughere.github.io/img/avatar/google.png</a></li>
+</ul>
+</li>
+</ul>
+<a href="https://bughere.github.io/solution/blog/solution-blog-loading-animation-love-death-robots/" target="_blank" title="爱死机加载动画" referrerPolicy="no-referrer" class="link_card"><div class="link_icon"><img src=" https://bughere.github.io/img/favicon/BHE.png" class="no-lightbox"></div><div class="link_content"><div class="link_title">爱死机加载动画</div><div class="link_desc">自己做的一个动画</div></div></a>
+<h3 id="接入Twikoo评论">接入Twikoo评论</h3>
+<p><a target="_blank" rel="noopener" href="https://twikoo.js.org/backend.html#vercel-%E9%83%A8%E7%BD%B2">用Vercel+MongoDB免费部署</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhsher.cn/posts/33638/">Twikoo备份</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.meta-code.top/2022/03/16/2022-42/#7-%E3%80%90%E8%A1%A5%E5%85%85%E3%80%91Vercel%E7%BB%91%E5%AE%9A%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D">用国内域名加速Vercel</a></p>
+<h3 id="置顶和隐藏文章【已弃用】">置顶和隐藏文章【已弃用】</h3>
+<p>0o酱的<a target="_blank" rel="noopener" href="https://blog.im0o.top/posts/3ff4be18.html">hexo-generator-index-custom插件</a></p>
+<h3 id="随机跳转文章">随机跳转文章</h3>
+<p><a target="_blank" rel="noopener" href="https://blog.zhheo.com/p/c116857c.html">Hexo的Butterfly魔改教程：随机网页跳转（无缝版）</a></p>
+<h3 id="首页顶部文章轮播图【已弃用】">首页顶部文章轮播图【已弃用】</h3>
+<p><a target="_blank" rel="noopener" href="https://zfe.space/post/hexo-swiper.html">教程：hexo-swiper 文章置顶插件</a></p>
+<h3 id="首页顶部轮播图和文章推荐卡片">首页顶部轮播图和文章推荐卡片</h3>
+<p>【Hexo博客 | 如何为博客添加顶部轮播图和文章推荐卡片】(<a target="_blank" rel="noopener" href="https://blog.justlovesmile.top/posts/6a0d6454.html">https://blog.justlovesmile.top/posts/6a0d6454.html</a>)</p>
+<p>轮播图内容修改：themes\butterfly\layout\includes\sticky.pug<br>
+轮播图底部分类内容修改：themes\butterfly\layout\includes\hometop.pug<br>
+文章推荐卡片内容修改：source_data\slider.yml（不知道为什么叫slider）</p>
+<h3 id="分类条">分类条</h3>
+<p>展示在首页和分类页</p>
+<p>修改分类：themes\butterfly\layout\includes\categoryBar.pug</p>
+<p><a target="_blank" rel="noopener" href="https://blog.zhheo.com/p/bc61964d.html">Butterfly魔改：动态分类条，可以根据页面变化而改变的分类列表展示方式</a></p>
+<p>由于它这里js写的是直接按照url划分’/'，得到最后一个元素，当作分类，所以这里不支持子分类，所以我这里的分类条的高亮不是动态跟随的</p>
+<p>由于本站设置了<code>category_ui: index # 留空或 index</code>，分类页的post ui和主页post ui是一样的</p>
+<p>所以这里category.pug需要写在这里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if theme.category_ui == &#x27;index&#x27;</span><br><span class="line">  include ./includes/mixins/post-ui.pug</span><br><span class="line">  #recent-posts.recent-posts.category_ui</span><br><span class="line">    include includes/categoryBar.pug</span><br><span class="line">    +postUI</span><br><span class="line">    include includes/pagination.pug</span><br></pre></td></tr></table></figure>
+<h3 id="说说和清单页面">说说和清单页面</h3>
+<h4 id="使用Memos【已弃用】">使用Memos【已弃用】</h4>
+<blockquote>
+<p>Memos Github<a target="_blank" rel="noopener" href="https://github.com/usememos/memos">地址</a></p>
+<p>可以找到api目录的<a target="_blank" rel="noopener" href="https://github.com/usememos/memos/blob/main/api/v1/swagger.yaml">yaml文件</a></p>
+<p>通过<a target="_blank" rel="noopener" href="https://editor.swagger.io/">swagger editor</a>就可以查看api文档了</p>
+</blockquote>
+<p>后端部署</p>
+<div class="tabs" id="memos-backend"><ul class="nav-tabs"><button type="button" class="tab  active" data-href="memos-backend-1">Zeabur部署【已弃用】</button><button type="button" class="tab " data-href="memos-backend-2">后端Replit部署【已弃用】</button></ul><div class="tab-contents"><div class="tab-item-content active" id="memos-backend-1"><p>zeabur市场上提供好的memos模板，可以点击即用，但是这个需要付费</p>
+<p>fork一份memos官方GitHub仓库到自己仓库，部署上去即可</p>
+<p>但考虑到zeabur需要7天登陆上去手动续期，于是不用zeabur了</p></div><div class="tab-item-content" id="memos-backend-2"><p>参考<a target="_blank" rel="noopener" href="https://blog.sinzmise.top/posts/18063/">九弦</a></p>
+<p>免费用户的replit仓库只能设置public，所以不要写一些过于私密的内容。对我来说，够用了</p>
+<blockquote>
+<p>好像也可以用Railway部署，没试过，不知道咋样</p>
+</blockquote>
+<p>后续，2024年1月，replit域名失效了，查看replit<a target="_blank" rel="noopener" href="https://blog.replit.com/hosting-changes">推文</a>，如下所示</p>
+<blockquote>
+<p>On January 1st, 2024, <a target="_blank" rel="noopener" href="http://repl.co">repl.co</a> domains will transition to replit.dev and will only be accessible when someone is in the editor. If you are currently “hosting” anything on <a target="_blank" rel="noopener" href="http://repl.co">repl.co</a>, we strongly recommend that you migrate to Deployments before the new year.</p>
+</blockquote>
+<p>说是不提供免费的repl.co域名了，只提供replit.dev域名，并且需要有人在editor页面</p>
+<p>现在的replit.dev域名又臭又长，像这样：<code>https://66b4d66d-5794-4c83-9907-5519995b7d8e-00-15cwgy9gwbwnv.pike.replit.dev/</code></p>
+<p>我寻思绑定个自己的域名呗，结果也是这次的更新把免费部署的绑定域名功能取消了，参考这篇<a target="_blank" rel="noopener" href="https://ask.replit.com/t/a-button-to-add-a-domain/94367">帖子</a>，主要内容如下：</p>
+<blockquote>
+<p>Welcome to Ask @Coconutf! The reason that traditional custom domain linking on Replit was removed is because traditional <a target="_blank" rel="noopener" href="http://repl.co">repl.co</a> hosting is being removed from Replit. It has been replaced by deployments 1 (replit.app). You can link a custom domain to deployments. Repls require a paid plan/connected credit card to host but will still be able to have custom domains (so long as the repl hosts a website).</p>
+</blockquote>
+<p>害，replit不香了</p></div></div><div class="tab-to-top"><button type="button" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div>
+<p>前端部署参考<a target="_blank" rel="noopener" href="https://immmmm.com/bb-by-memos/">哔哔点啥 2.0 By Memos</a></p>
+<p>用这个实现说说和清单功能，舒服了，舒服了</p>
+<p>可以把大佬云端的<code>bb-lmm-mk.js</code>文件放到本地加载，这样就可以编辑自定义功能了。比如，我就在memos请求url中加了一个tag属性，对说说和清单页面分别获取memos内容。</p>
+<h4 id="静态部署（前端-后端）【使用中】">静态部署（前端+后端）【使用中】</h4>
+<p>思来想去，白嫖党还是不整这些东西了吧。整半天，到时候又收费了，难搞。</p>
+<blockquote>
+<p>自己折腾半天瀑布流，才发现icat大佬已经弄好啦</p>
+</blockquote>
+<p>直接弄个静态部署的说说页面，参考<a target="_blank" rel="noopener" href="https://meuicat.com/blog/67/">Butterfly的魔改教程：即刻短文页</a>以及大佬的颜色</p>
+<p>清单页面参考<a target="_blank" rel="noopener" href="https://meuicat.com/blog/76/">Butterfly的魔改教程：待办清单</a></p>
+<p>大佬整理了自己的颜色和图标，我们无法直接使用</p>
+<p>对于颜色部分，我直接用了大佬的颜色<a target="_blank" rel="noopener" href="https://meuicat.com/blog/3#CSS%E9%A2%9C%E8%89%B2%E5%8F%98%E9%87%8F">配置</a>；图标部分，我用fontawesome图标替换了大佬的图标，修改<code>essay.pug</code>文件如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">.icat-bber-bottom</span><br><span class="line">  .icat-bber-info</span><br><span class="line">    .icat-bber-info-time</span><br><span class="line">      - var datedata = new Date(item.date).toISOString()</span><br><span class="line">      &lt;i class=&quot;fa-regular fa-clock&quot;&gt;&lt;/i&gt;</span><br><span class="line">      time.datatime(datetime= item.date)= datedata</span><br><span class="line">    if item.link</span><br><span class="line">      a.icat-bber-content-link(target=&quot;_blank&quot;, title=&quot;跳转到短文指引的链接&quot;, href=item.link, rel=&quot;external nofollow&quot;)</span><br><span class="line">        &lt;i class=&quot;fa-solid fa-link&quot;&gt;&lt;/i&gt;</span><br><span class="line">        | 链接</span><br><span class="line">    if item.from</span><br><span class="line">      .icat-bber-info-from</span><br><span class="line">        &lt;i class=&quot;fa-solid fa-location-dot&quot;&gt;&lt;/i&gt;</span><br><span class="line">        span=item.from</span><br><span class="line">  .icat-bber-reply(onclick=&quot;icatessay.commentText(&quot; + `&#x27;$&#123;item.content&#125;&#x27;` + &quot;)&quot;)</span><br><span class="line">    &lt;i class=&quot;fa-regular fa-message&quot;&gt;&lt;/i&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我没有打开pjax，感觉没必要</p>
+</blockquote>
+<p>其次，如果要使用快速评论功能的话，需要在配置文件中关闭评论功能的懒加载，否则无法跳转到评论区域，具体原因如下所示。其中，因为没有加载出评论区，所以变量n为空，无法执行后续逻辑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">commentText</span>: <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (e == <span class="string">&quot;undefined&quot;</span> || e == <span class="string">&quot;null&quot;</span>) e = <span class="string">&quot;好棒！&quot;</span>;</span><br><span class="line">  <span class="keyword">var</span> n = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;el-textarea__inner&quot;</span>)[<span class="number">0</span>],</span><br><span class="line">  t = <span class="variable language_">document</span>.<span class="title function_">createEvent</span>(<span class="string">&quot;HTMLEvents&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!n) <span class="keyword">return</span>;</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>顺便一提，如果用memos动态部署，而memos加载太慢的话，会导致视窗height=0。需要修改essay_page.css的代码，调整加载瀑布流的作用时间：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">reflashEssayWaterFall</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;#waterfall&quot;</span>) &amp;&amp;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">waterfall</span>(<span class="string">&quot;#waterfall&quot;</span>);</span><br><span class="line">      <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;waterfall&quot;</span>).<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&quot;show&quot;</span>);</span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个部署方式用了很多inject，后面看下有没办法优化下</p>
+</blockquote>
+<h3 id="友链">友链</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87#%E5%8F%8B%E6%83%85%E9%8F%88%E6%8E%A5">Butterfly官方文档</a></p>
+<h3 id="藏宝阁">藏宝阁</h3>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.leonus.cn/2023/collectPage.html">博客</a></p>
+<p>实现后，我发现我还是更喜欢他的<a target="_blank" rel="noopener" href="https://blog.leonus.cn/2022/butterflyTag.html">作品推荐卡片</a>的样式</p>
+<p>于是进行了小小的修改：<br>
+<strong>collect.pug</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#article-container</span><br><span class="line">  .collect</span><br><span class="line">    - let collectPageContent = page.content</span><br><span class="line">    if site.data.collect</span><br><span class="line">      - let result = &quot;&quot;</span><br><span class="line">      each i in site.data.collect</span><br><span class="line">        - let className = i.class_name ? `&lt;h2 $&#123;i.class_desc?&#x27;&#x27;:&#x27;style=&quot;margin-bottom:12px&quot;&#x27;&#125;&gt;$&#123;i.class_name&#125; ($&#123;i.link_list.length&#125;)&lt;/h2&gt;` : &quot;&quot;</span><br><span class="line">        - let classDesc = i.class_desc ? `&lt;div class=&quot;collect-desc&quot;&gt;$&#123;i.class_desc&#125;&lt;/div&gt;` : &quot;&quot;</span><br><span class="line">        - let listResult = &quot;&quot;</span><br><span class="line">        each j in i.link_list</span><br><span class="line">          - let background = j.img ? `background-image: url($&#123;j.img&#125;);` : &#x27;background-color: #cfd9df;&#x27;</span><br><span class="line">          - let w = j.width || &#x27;150px&#x27;</span><br><span class="line">          - let h = j.height || &#x27;200px&#x27;</span><br><span class="line">          -</span><br><span class="line">            listResult += `</span><br><span class="line">              &lt;div title=&quot;$&#123;j.name&#125;&quot; referrerPolicy=&quot;no-referrer&quot; class=&quot;collect_box&quot; style=&quot;$&#123;background&#125; width:$&#123;w&#125;; height:$&#123;h&#125;;&quot;&gt;</span><br><span class="line">                &lt;div class=&quot;collect_mask&quot;&gt;</span><br><span class="line">                  &lt;span&gt;$&#123;j.text ? j.text : &#x27;&#x27;&#125;&lt;/span&gt;</span><br><span class="line">                  $&#123;j.url?&#x27;&lt;a href=&quot;&#x27; + j.url + &#x27;&quot;&gt;查看详情&lt;/a&gt;&#x27; : &#x27;&#x27;&#125;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;collect_top&quot;&gt;</span><br><span class="line">                  &lt;i class=&quot;$&#123;j.icon?j.icon:&#x27;fa-solid fa-film&#x27;&#125;&quot;&gt;&lt;/i&gt;</span><br><span class="line">                  &lt;span&gt;$&#123;j.tip?j.tip:&#x27;&#x27;&#125;&lt;/span&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">                &lt;div class=&quot;collect_content&quot;&gt;</span><br><span class="line">                  &lt;span&gt;$&#123;j.name?j.name:&#x27;未知&#x27;&#125;&lt;/span&gt;</span><br><span class="line">                  &lt;div&gt;$&#123;j.score?toStar(j.score):toStar(0)&#125;&lt;/div&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">              &lt;/div&gt;</span><br><span class="line">            `</span><br><span class="line">          -</span><br><span class="line">        - result += `$&#123;className&#125;$&#123;classDesc&#125; &lt;div class=&quot;collect-list&quot;&gt;$&#123;listResult&#125;&lt;/div&gt;`</span><br><span class="line">      - collectPageContent = collectPageContent + result</span><br><span class="line">    != collectPageContent</span><br></pre></td></tr></table></figure>
+<p>collect.styl文件</p>
+<figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.collect</span></span><br><span class="line">  <span class="selector-tag">h2</span></span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">0</span></span><br><span class="line">  <span class="selector-class">.collect-desc</span></span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">10px</span></span><br><span class="line">  <span class="selector-class">.collect-list</span></span><br><span class="line">    <span class="attribute">display</span>: flex</span><br><span class="line">    <span class="attribute">gap</span>: <span class="number">18px</span></span><br><span class="line">    <span class="attribute">flex-wrap</span>: wrap</span><br><span class="line">    <span class="selector-class">.collect_box</span></span><br><span class="line">      <span class="comment">//--w: calc(100% / 6 - 15px)</span></span><br><span class="line">      <span class="comment">//width: var(--w)</span></span><br><span class="line">      <span class="attribute">display</span>: flex</span><br><span class="line">      <span class="attribute">justify-content</span>: space-between</span><br><span class="line">      <span class="attribute">flex-direction</span>: column</span><br><span class="line">      <span class="attribute">background-position</span>: center</span><br><span class="line">      <span class="attribute">background-size</span>: cover</span><br><span class="line">      <span class="attribute">border-radius</span>: <span class="number">12px</span></span><br><span class="line">      <span class="attribute">position</span>: relative</span><br><span class="line">      <span class="attribute">overflow</span>: hidden</span><br><span class="line">      <span class="attribute">padding</span>: <span class="number">10px</span></span><br><span class="line">      <span class="attribute">color</span>: <span class="number">#fff</span> <span class="meta">!important</span></span><br><span class="line">      <span class="comment">//margin: 10px auto</span></span><br><span class="line">      <span class="selector-pseudo">&amp;::after</span></span><br><span class="line">        <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="attribute">position</span>: absolute</span><br><span class="line">        <span class="attribute">height</span>: <span class="number">100%</span></span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span></span><br><span class="line">        <span class="attribute">left</span>: <span class="number">0</span></span><br><span class="line">        <span class="attribute">top</span>: <span class="number">0</span></span><br><span class="line">        <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.1</span>)</span><br><span class="line">        <span class="attribute">transition</span>: .<span class="number">5s</span></span><br><span class="line">        <span class="attribute">z-index</span>: <span class="number">0</span></span><br><span class="line">      <span class="selector-pseudo">&amp;:hover</span></span><br><span class="line">        <span class="selector-class">.collect_mask</span></span><br><span class="line">          <span class="attribute">opacity</span>: <span class="number">1</span></span><br><span class="line">          <span class="attribute">pointer-events</span>: auto</span><br><span class="line">      <span class="selector-class">.collect_top</span></span><br><span class="line">        <span class="attribute">display</span>: flex</span><br><span class="line">        <span class="attribute">z-index</span>: <span class="number">1</span></span><br><span class="line">        <span class="attribute">align-items</span>: center</span><br><span class="line">        <span class="attribute">justify-content</span>: space-between</span><br><span class="line">      <span class="selector-class">.collect_mask</span></span><br><span class="line">        <span class="attribute">position</span>: absolute</span><br><span class="line">        <span class="attribute">pointer-events</span>: none</span><br><span class="line">        <span class="attribute">z-index</span>: <span class="number">2</span></span><br><span class="line">        <span class="attribute">transition</span>: .<span class="number">5s</span></span><br><span class="line">        <span class="attribute">opacity</span>: <span class="number">0</span></span><br><span class="line">        <span class="attribute">width</span>: <span class="number">100%</span></span><br><span class="line">        <span class="attribute">height</span>: <span class="number">100%</span></span><br><span class="line">        <span class="attribute">left</span>: <span class="number">0</span></span><br><span class="line">        <span class="attribute">top</span>: <span class="number">0</span></span><br><span class="line">        <span class="attribute">padding</span>: <span class="number">20px</span></span><br><span class="line">        <span class="attribute">background</span>: <span class="number">#333</span></span><br><span class="line">        <span class="selector-tag">span</span></span><br><span class="line">          <span class="attribute">display</span>: block</span><br><span class="line">          <span class="attribute">height</span>: <span class="built_in">calc</span>(<span class="number">100%</span> - <span class="number">40px</span>)</span><br><span class="line">          <span class="attribute">overflow</span>: auto</span><br><span class="line">        <span class="selector-tag">a</span></span><br><span class="line">          <span class="attribute">text-align</span>: center</span><br><span class="line">          <span class="attribute">background</span>: <span class="number">#fff</span></span><br><span class="line">          <span class="attribute">color</span>: <span class="number">#333</span> <span class="meta">!important</span></span><br><span class="line">          <span class="attribute">border-radius</span>: <span class="number">5px</span></span><br><span class="line">          <span class="attribute">position</span>: absolute</span><br><span class="line">          <span class="attribute">width</span>: <span class="built_in">calc</span>(<span class="number">100%</span> - <span class="number">40px</span>)</span><br><span class="line">          <span class="attribute">bottom</span>: <span class="number">20px</span></span><br><span class="line">          <span class="attribute">left</span>: <span class="number">20px</span></span><br><span class="line">          <span class="selector-pseudo">&amp;:hover</span></span><br><span class="line">            <span class="attribute">text-decoration</span>: none <span class="meta">!important</span></span><br><span class="line">            <span class="attribute">color</span>: white <span class="meta">!important</span></span><br><span class="line">            <span class="attribute">background</span>: <span class="number">#49b1f5</span></span><br><span class="line"></span><br><span class="line">      <span class="selector-class">.collect_content</span></span><br><span class="line">        <span class="attribute">z-index</span>: <span class="number">1</span></span><br><span class="line">        <span class="selector-tag">span</span></span><br><span class="line">          <span class="attribute">font-size</span>: <span class="number">18px</span></span><br><span class="line">          <span class="attribute">font-weight</span>: bold</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[data-theme=<span class="string">&#x27;dark&#x27;</span>]</span></span><br><span class="line">  <span class="selector-class">.collect</span> <span class="selector-class">.collect-list</span> <span class="selector-class">.collect_box</span></span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#ddd</span> <span class="meta">!important</span></span><br><span class="line">    <span class="selector-pseudo">&amp;:hover</span></span><br><span class="line">      <span class="selector-pseudo">&amp;::after</span></span><br><span class="line">        <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.2</span>)</span><br><span class="line">    <span class="selector-pseudo">&amp;::after</span></span><br><span class="line">      <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.5</span>)</span><br><span class="line"><span class="selector-class">.collect</span> <span class="selector-class">.collect-list</span></span><br><span class="line">  <span class="keyword">@media</span> screen <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">1100px</span>)</span><br><span class="line">    gap: <span class="number">15px</span></span><br><span class="line">    .collect_box</span><br><span class="line">      --w: calc(<span class="number">20%</span> - <span class="number">12px</span>)</span><br><span class="line">  @media screen <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">900px</span>)</span><br><span class="line">    gap: <span class="number">16px</span></span><br><span class="line">    .collect_box</span><br><span class="line">      --w: calc(<span class="number">25%</span> - <span class="number">12px</span>)</span><br><span class="line">  @media screen <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">768px</span>)</span><br><span class="line">    gap: <span class="number">15px</span></span><br><span class="line">    .collect_box</span><br><span class="line">      --w: calc(<span class="number">100%</span> / <span class="number">3</span> - <span class="number">10px</span>)</span><br><span class="line">  @media screen <span class="keyword">and</span> (<span class="attribute">max-width</span>: <span class="number">500px</span>)</span><br><span class="line">    gap: <span class="number">16px</span></span><br><span class="line">    .collect_box</span><br><span class="line">      --w: calc(<span class="number">50%</span> - <span class="number">8px</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="语雀同款链接卡片">语雀同款链接卡片</h3>
+<p>参考：<a target="_blank" rel="noopener" href="https://meuicat.com/blog/42/">语雀同款链接卡片</a></p>
+<p>语法：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="string">*</span> &#123;<span class="string">%</span> <span class="string">link</span> <span class="string">url</span>,<span class="string">title</span>,<span class="string">favicon</span>,<span class="string">desc</span> <span class="string">%</span>&#125;</span><br><span class="line"> <span class="string">*</span> &#123;<span class="string">%</span> <span class="string">link</span> <span class="string">链接</span>,<span class="string">标题</span>,<span class="string">图标</span>,<span class="string">介绍</span> <span class="string">%</span>&#125;</span><br><span class="line"> <span class="string">*</span> &#123;<span class="string">%</span> <span class="string">link</span> <span class="string">链接</span>,<span class="string">标题</span>, ,<span class="string">介绍</span> <span class="string">%</span>&#125;  <span class="comment"># 改了点代码，实现默认图标</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 例子</span></span><br><span class="line">&#123;<span class="string">%</span> <span class="string">link</span> <span class="string">https://bughere.github.io/solution/blog/solution-blog-loading-animation-love-death-robots/</span>, <span class="string">爱死机加载动画</span>, <span class="string">https://bughere.github.io/img/favicon/BHE.png</span>, <span class="string">自己做的一个动画</span> <span class="string">%</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="图床">图床</h3>
+<p>采用 <code>GitHub + jsd + PicGo</code> 的方式部署</p>
+<p>参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/489236769">使用Github+picGo搭建图床，保姆级教程来了</a></p>
+<p>文中使用typora插件，但我现在vscode用的多，所以我选择vscode插件：PicGo</p>
+<p>其实就是，Github提供仓库，只要把图片push放进去就行了，用不用picGo都无所谓，picGo就是一个帮忙push的可视化插件</p>
+<p>用的话，用这个加速：<code>https://cdn.jsdelivr.net/gh/BUGHERE/BlogImages@main/collect/fan/240106-01.jpg</code></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/note/note-hexo/">https://bughere.github.io/note/note-hexo/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hexo/">hexo</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/note/book/note-book-java-vm/" title="note-book-java-vm"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">note-book-java-vm</div></div></a></div><div class="next-post pull-right"><a href="/note/note-misc/" title="note-misc"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">note-misc</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/solution/blog/solution-blog-loading-animation-love-death-robots/" title="solution-blog-loading-animation-love-death-robots"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-22</div><div class="title">solution-blog-loading-animation-love-death-robots</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E5%8D%9A%E5%AE%A2"><span class="toc-number">1.</span> <span class="toc-text">推荐博客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BAHexo"><span class="toc-number">2.</span> <span class="toc-text">搭建Hexo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85hexo%E5%91%BD%E4%BB%A4"><span class="toc-number">2.1.</span> <span class="toc-text">全局安装hexo命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96Hexo"><span class="toc-number">2.2.</span> <span class="toc-text">初始化Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98%EF%BC%88%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">安装主题（两种方式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%EF%BC%88%E6%9C%AC%E5%9C%B0%E6%B5%8B%E8%AF%95%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">本地部署（本地测试）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="toc-number">2.5.</span> <span class="toc-text">远程仓库配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0Github"><span class="toc-number">2.6.</span> <span class="toc-text">部署到Github</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E8%AF%AD%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">一些语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EHexo%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE"><span class="toc-number">3.1.</span> <span class="toc-text">关于Hexo的分类和标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%90%E5%88%86%E7%B1%BB"><span class="toc-number">3.1.1.</span> <span class="toc-text">子分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E5%A4%9A%E4%B8%AA%E5%88%86%E7%B1%BB"><span class="toc-number">3.1.2.</span> <span class="toc-text">为文章添加多个分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Katex"><span class="toc-number">3.2.</span> <span class="toc-text">Katex</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%A4%96%E6%8C%82"><span class="toc-number">4.</span> <span class="toc-text">标签外挂</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8mermaid%E7%BB%98%E5%88%B6%E5%9B%BE%E6%A0%87"><span class="toc-number">4.1.</span> <span class="toc-text">使用mermaid绘制图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tabs"><span class="toc-number">4.2.</span> <span class="toc-text">tabs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hideToggle"><span class="toc-number">4.3.</span> <span class="toc-text">hideToggle</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E5%8A%9F%E8%83%BDDIY"><span class="toc-number">5.</span> <span class="toc-text">更多功能DIY</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89css%E5%92%8Cjs%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">自定义css和js文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5Algolia%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD"><span class="toc-number">5.2.</span> <span class="toc-text">接入Algolia搜索功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DIY%E5%8A%A0%E8%BD%BD%E5%8A%A8%E7%94%BB"><span class="toc-number">5.3.</span> <span class="toc-text">DIY加载动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5Twikoo%E8%AF%84%E8%AE%BA"><span class="toc-number">5.4.</span> <span class="toc-text">接入Twikoo评论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%AE%E9%A1%B6%E5%92%8C%E9%9A%90%E8%97%8F%E6%96%87%E7%AB%A0%E3%80%90%E5%B7%B2%E5%BC%83%E7%94%A8%E3%80%91"><span class="toc-number">5.5.</span> <span class="toc-text">置顶和隐藏文章【已弃用】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%B7%B3%E8%BD%AC%E6%96%87%E7%AB%A0"><span class="toc-number">5.6.</span> <span class="toc-text">随机跳转文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5%E9%A1%B6%E9%83%A8%E6%96%87%E7%AB%A0%E8%BD%AE%E6%92%AD%E5%9B%BE%E3%80%90%E5%B7%B2%E5%BC%83%E7%94%A8%E3%80%91"><span class="toc-number">5.7.</span> <span class="toc-text">首页顶部文章轮播图【已弃用】</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E9%A1%B5%E9%A1%B6%E9%83%A8%E8%BD%AE%E6%92%AD%E5%9B%BE%E5%92%8C%E6%96%87%E7%AB%A0%E6%8E%A8%E8%8D%90%E5%8D%A1%E7%89%87"><span class="toc-number">5.8.</span> <span class="toc-text">首页顶部轮播图和文章推荐卡片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%B1%BB%E6%9D%A1"><span class="toc-number">5.9.</span> <span class="toc-text">分类条</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E8%AF%B4%E5%92%8C%E6%B8%85%E5%8D%95%E9%A1%B5%E9%9D%A2"><span class="toc-number">5.10.</span> <span class="toc-text">说说和清单页面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Memos%E3%80%90%E5%B7%B2%E5%BC%83%E7%94%A8%E3%80%91"><span class="toc-number">5.10.1.</span> <span class="toc-text">使用Memos【已弃用】</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E9%83%A8%E7%BD%B2%EF%BC%88%E5%89%8D%E7%AB%AF-%E5%90%8E%E7%AB%AF%EF%BC%89%E3%80%90%E4%BD%BF%E7%94%A8%E4%B8%AD%E3%80%91"><span class="toc-number">5.10.2.</span> <span class="toc-text">静态部署（前端+后端）【使用中】</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8B%E9%93%BE"><span class="toc-number">5.11.</span> <span class="toc-text">友链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%97%8F%E5%AE%9D%E9%98%81"><span class="toc-number">5.12.</span> <span class="toc-text">藏宝阁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E9%9B%80%E5%90%8C%E6%AC%BE%E9%93%BE%E6%8E%A5%E5%8D%A1%E7%89%87"><span class="toc-number">5.13.</span> <span class="toc-text">语雀同款链接卡片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BA%8A"><span class="toc-number">5.14.</span> <span class="toc-text">图床</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

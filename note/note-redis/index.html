@@ -1,0 +1,489 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>note-redis | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="《Redis设计与实现》：笔记 指令 Redis指令参考：Redis Order 结构 对象9  type：对象的类型  REDIS_STRING，字符串对象 REDIS_LIST，列表对象 REDIS_HASH，哈希对象 REDIS_SET，集合对象 REDIS_ZSET，有序集合对象    数据类型 汇总一个类型对应的多种编码  REDIS_STRING，字符串对象  REDIS_ENCODI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="note-redis">
+<meta property="og:url" content="https://bughere.github.io/note/note-redis/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="《Redis设计与实现》：笔记 指令 Redis指令参考：Redis Order 结构 对象9  type：对象的类型  REDIS_STRING，字符串对象 REDIS_LIST，列表对象 REDIS_HASH，哈希对象 REDIS_SET，集合对象 REDIS_ZSET，有序集合对象    数据类型 汇总一个类型对应的多种编码  REDIS_STRING，字符串对象  REDIS_ENCODI">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2024-04-01T13:17:24.000Z">
+<meta property="article:modified_time" content="2025-02-22T08:07:11.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/note/note-redis/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'note-redis',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-22 16:07:11'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">note-redis</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-01T13:17:24.000Z" title="发表于 2024-04-01 21:17:24">2024-04-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-22T08:07:11.000Z" title="更新于 2025-02-22 16:07:11">2025-02-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/">note</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span></div></div></div><article class="post-content" id="article-container"><p>《Redis设计与实现》：<a href="https://bughere.github.io/note/book/note-book-the-design-and-implementation-of-redis/">笔记</a></p>
+<h2 id="指令">指令</h2>
+<p>Redis指令参考：<a target="_blank" rel="noopener" href="https://www.redis.net.cn/order/">Redis Order</a></p>
+<h2 id="结构">结构</h2>
+<h3 id="对象9">对象9</h3>
+<ul>
+<li>type：对象的类型
+<ul>
+<li>REDIS_STRING，字符串对象</li>
+<li>REDIS_LIST，列表对象</li>
+<li>REDIS_HASH，哈希对象</li>
+<li>REDIS_SET，集合对象</li>
+<li>REDIS_ZSET，有序集合对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据类型">数据类型</h3>
+<p>汇总一个类型对应的多种编码</p>
+<ul>
+<li>REDIS_STRING，字符串对象
+<ul>
+<li>REDIS_ENCODING_INT
+<ul>
+<li>要求字符串对象保存的是整数值， 并且这个整数值可以用 long 类型来表示</li>
+<li>ptr属性里面（将 void* 转换成 long ）， 并将字符串对象的编码设置为 int</li>
+<li>通过 APPEND 命令， 向一个保存整数值的字符串对象追加了一个字符串值，对象的编码就会从int变成raw</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_RAW
+<ul>
+<li>字符串对象保存的是一个字符串值，且长度大于 39 字节</li>
+<li>ptr指针指向一个SDS对象（sdshdr）</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_EMBSTR
+<ul>
+<li>字符串对象保存的是一个字符串值，且长度小于等于 39 字节</li>
+<li>和raw一样，ptr指针指向一个SDS对象，但它的redisObject和sdshdr在空间上是连续的，所以内存分配和释放都只需要一次就可以完成（raw因为两者空间不连续，所以需要分别分配）</li>
+<li>Redis 没有为 embstr 编码的字符串对象编写任何相应的修改程序，所以对embstr的任意修改，都会导致对象的编码从embstr转为raw</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>long double类型的浮点数也是作为字符串值来保存的，按长度分为raw和embstr保存</p>
+</blockquote>
+</li>
+<li>REDIS_LIST，列表对象
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每个压缩列表节点（entry）保存了一个列表元素（可以是字符数组或者int）</li>
+<li>需要满足列表对象保存的所有字符串元素的长度都小于 64 字节，并且列表对象保存的元素数量小于 512 个；否则转换为linkedlist</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_LINKEDLIST
+<ul>
+<li>使用双端链表作为底层实现， 每个双端链表节点（node）都保存了一个字符串对象， 而每个字符串对象都保存了一个列表元素。</li>
+</ul>
+</li>
+<li>
+<blockquote>
+<p>Redis3.2版本引入快速列表QuickList，它是ZipList和LinkedList的结合体，将LinkedList按段切分，每一段使用ZipList紧凑存储来节省空间</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>REDIS_HASH，哈希对象
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每当有新的键值对要加入到哈希对象时， 程序会先将保存了键的压缩列表节点推入到压缩列表表尾， 然后再将保存了值的压缩列表节点推入到压缩列表表尾
+<ul>
+<li>保存了同一键值对的两个节点总是紧挨在一起， 保存键的节点在前， 保存值的节点在后；</li>
+<li>先添加到哈希对象中的键值对会被放在压缩列表的表头方向， 而后来添加到哈希对象中的键值对会被放在压缩列表的表尾方向。</li>
+</ul>
+</li>
+<li>需要满足哈希对象保存的所有键值对的键和值的字符串长度都小于 64 字节，并且哈希对象保存的键值对数量小于 512 个；否则转换为hashtable来实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_HT
+<ul>
+<li>使用字典作为底层实现， 哈希对象中的每个键值对都使用一个字典键值对来保存</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REDIS_SET，集合对象
+<ul>
+<li>REDIS_ENCODING_INTSET
+<ul>
+<li>使用整数集合作为底层实现， 集合对象包含的所有元素都被保存在整数集合里面</li>
+<li>需要满足集合对象保存的所有元素都是整数值，并且集合对象保存的元素数量不超过 512 个；否则转换为hashtable实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_HT
+<ul>
+<li>使用字典作为底层实现， 字典的每个键都是一个字符串对象， 每个字符串对象包含了一个集合元素， 而字典的值则全部被设置为 NULL</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>REDIS_ZSET，有序集合对象（每个节点有成员member和分值score）
+<ul>
+<li>REDIS_ENCODING_ZIPLIST
+<ul>
+<li>使用压缩列表作为底层实现， 每个集合元素使用两个紧挨在一起的压缩列表节点来保存， 第一个节点保存元素的成员（member）， 而第二个元素则保存元素的分值（score），压缩列表的集合元素按照分值从小到大排序</li>
+</ul>
+<blockquote>
+<p>文中似乎没有说这里的排序方式，如何保持有序性呢？压缩列表中的元素是按照插入顺序存储的，所以新添加的元素会按照其分数值的大小插入到合适的位置，以保持有序性。这样，即使有新元素的加入，Redis 仍然能够在压缩列表中维护有序集合的顺序。</p>
+</blockquote>
+<ul>
+<li>需要满足有序集合保存的元素数量小于 128 个，并且有序集合保存的所有元素成员的长度都小于 64 字节；否则转换为skiplist实现</li>
+</ul>
+</li>
+<li>REDIS_ENCODING_SKIPLIST
+<ul>
+<li>使用 zset 结构作为底层实现， 一个 zset 结构同时包含一个字典dict和一个跳跃表zskiplist
+<ul>
+<li>跳跃表按分值从小到大保存了所有集合元素， 每个跳跃表节点都保存了一个集合元素。通过这个跳跃表， 程序可以对有序集合进行范围型操作， 比如 ZRANK 、ZRANGE 等命令就是基于跳跃表 API 来实现的。</li>
+<li>字典为有序集合创建了一个从成员到分值的映射， 字典中的每个键值对都保存了一个集合元素： 字典的键保存了元素的成员， 而字典的值则保存了元素的分值。 通过这个字典， 程序可以用 O(1) 复杂度查找给定成员的分值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="持久化">持久化</h3>
+<p>Redis4之后支持AOF+RDB混合持久化的方式，先使用RDB存储快照，然后用AOF持久化记录所有的写操作</p>
+<p>当满足重写策略或手动触发重写时，将最新的数据存储为新的RDB记录</p>
+<p>当Reids重启时，先加载RDB的部分，再加载剩余的AOF部分</p>
+<h3 id="Lua脚本">Lua脚本</h3>
+<h4 id="限流脚本">限流脚本</h4>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> times = redis.call(<span class="string">&#x27;incr&#x27;</span>, KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">if</span> times == <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">        redis.call(<span class="string">&#x27;expire&#x27;</span>, KEYS[<span class="number">1</span>], ARGV[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">if</span> times &gt; <span class="built_in">tonumber</span>(ARGV[<span class="number">2</span>]) <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>执行命令：<code>redis-cli --eval limit.lua rate.limit:127.0.0.1 , 5 6</code></p>
+<p>5秒内执行6次以上命令，则会返回0，达到限流目的</p>
+<h4 id="秒杀抢购">秒杀抢购</h4>
+<p>利用Lua脚本的原子性和安全性来实现订单数量和库存数量的统一（避免超卖）</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> count = redis.call(<span class="string">&#x27;get&#x27;</span>, KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">tonumber</span>(count) &gt;= <span class="number">0</span>)</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">        redis.call(<span class="string">&#x27;incr&#x27;</span>, ARGV[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> redis.call(<span class="string">&#x27;decr&#x27;</span>, KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; redis-cli</span><br><span class="line">&gt; <span class="built_in">set</span> stocknumber 10</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br><span class="line">&gt; redis-cli --<span class="built_in">eval</span> seckill.lua stocknumber , ordernumber</span><br></pre></td></tr></table></figure>
+<h3 id="主从复制">主从复制</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 6379:6379 --name redis1 redis</span><br><span class="line">docker run -d -p 6380:6379 --name redis2 redis</span><br><span class="line">docker run -d -p 6381:6379 --name redis3 redis</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># redis2</span></span><br><span class="line">docker <span class="built_in">exec</span> -it redis2 bash</span><br><span class="line">redis-cli</span><br><span class="line">slaveof &lt;<span class="built_in">local</span> ip&gt; 6379</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># redis3</span></span><br><span class="line">docker <span class="built_in">exec</span> -it redis3 bash</span><br><span class="line">redis-cli</span><br><span class="line">slaveof &lt;<span class="built_in">local</span> ip&gt; 6379</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># redis1</span></span><br><span class="line">docker <span class="built_in">exec</span> -it redis1 bash</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> name clay</span><br><span class="line">info replication</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># redis2 | redis3</span></span><br><span class="line">get name</span><br><span class="line">info replication</span><br></pre></td></tr></table></figure>
+<h3 id="集群">集群</h3>
+<h4 id="集群重新分片">集群重新分片</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --cluster reshard 127.0.0.1:7000</span><br><span class="line"><span class="comment"># 输入需要转移的slot数量</span></span><br><span class="line"><span class="comment"># 输入recv节点id</span></span><br><span class="line"><span class="comment"># 输入src节点，填入all表示从每个主节点取一些哈希槽</span></span><br></pre></td></tr></table></figure>
+<h4 id="扩容（添加7006节点）">扩容（添加7006节点）</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --cluster add-node 127.0.0.1:7006 127.0.0.1:7000  <span class="comment"># 添加7006节点</span></span><br><span class="line">redis-cli --cluster reshard 127.0.0.1:7000  <span class="comment"># 按照上面的分片命令，给这个新节点分配哈希槽</span></span><br><span class="line">... <span class="comment"># recv节点：7006</span></span><br></pre></td></tr></table></figure>
+<h4 id="缩容（删除7006节点）">缩容（删除7006节点）</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --cluster reshard 127.0.0.1:7000  <span class="comment"># 转移7006节点的哈希槽</span></span><br><span class="line">...  <span class="comment"># src节点：7006</span></span><br><span class="line">redis-cli --cluster del-node 127.0.0.1:7006  <span class="comment"># 删除7006节点</span></span><br></pre></td></tr></table></figure>
+<h2 id="拓展">拓展</h2>
+<h3 id="Redis6新功能">Redis6新功能</h3>
+<ul>
+<li>多线程读写：将主线程的IO读写任务拆分出来给一组独立的线程去执行</li>
+<li>ACL（Access Control List）：访问控制列表，允许连接与执行用户关联，且可以限制该用户的部分使用功能（原本只有一个“默认”用户）</li>
+</ul>
+<h3 id="布隆过滤器">布隆过滤器</h3>
+<p>Redis可以安装布隆过滤器模块，使用布隆过滤器判断某个元素是否已存在。布隆过滤器通过哈希将所有元素映射到一个固定长度的数组，这样可以减少存储，但会有一定的误判概率</p>
+<p>在误判概率0.01时，每个元素占用9.6bit</p>
+<p>在误判概率0.00001时，每个元素占用28.8bit</p>
+<blockquote>
+<p>布隆过滤器的基本原理是使用一个固定长度的位数组和多个哈希函数。当一个元素被加入集合时，这些哈希函数会生成多个哈希值，位数组对应这些哈希值的位会被置为1。当检测一个元素是否在集合中时，布隆过滤器会计算该元素的哈希值，把这个哈希值当作索引，检查位数组中这些索引位置是否都是1。如果是，元素可能存在于集合中；如果不是，元素一定不在集合中。</p>
+</blockquote>
+<h3 id="内存碎片">内存碎片</h3>
+<ul>
+<li>Redis内存碎片形成
+<ul>
+<li>内存分配机制：内存分配器一半是按照固定大小进行分配的，而Redis每次请求分配的内存是不一样的</li>
+<li>Redis的负载特征：使用过程中对键值对的修改和删除操作，会导致内存释放和不连续，也就是内存碎片</li>
+</ul>
+</li>
+<li>Reids清理内存碎片
+<ul>
+<li>Redis4之前：通过重启Redis服务</li>
+<li>Redis4之后：Redis提供了内存碎片自动清理的方法</li>
+</ul>
+</li>
+</ul>
+<h3 id="分布式锁">分布式锁</h3>
+<p>在多机数据库情况下，我们应该在多个进程中维护同一个对象，对同一个资源进行控制，这就需要用分布式的锁进行控制</p>
+<p>非阻塞锁：进程抢到锁，返回true；没有抢到锁，返回false<br>
+阻塞锁：进程抢到锁，返回true；没有抢到锁，进程重试</p>
+<h2 id="生产问题">生产问题</h2>
+<h3 id="缓存穿透">缓存穿透</h3>
+<p>缓存穿透说简单点就是大量请求的 key 是不合理的，根本不存在于缓存中，也不存在于数据库中 。这就导致这些请求直接到了数据库上，根本没有经过缓存这一层，对数据库造成了巨大的压力，可能直接就被这么多请求弄宕机了</p>
+<p>举例：故意制造一些非法的 key 发起大量请求，导致大量请求落到数据库，结果数据库上也没有查到对应的数据，造成巨大压力</p>
+<ol>
+<li>缓存无效 key
+<ol>
+<li>可以解决请求的 key 变化不频繁的情况</li>
+<li>如果恶意攻击每次构建不同的请求 key，会导致 Redis 中缓存大量无效的 key，无法根本解决问题</li>
+</ol>
+</li>
+<li>布隆过滤器
+<ol>
+<li>把所有可能存在的请求的值都存放在布隆过滤器中，当用户请求过来，先判断用户发来的请求的值是否存在于布隆过滤器中。不存在的话，直接返回请求参数错误信息给客户端</li>
+<li>添加到集合中的元素越多，误报的可能性就越大</li>
+</ol>
+</li>
+<li>接口限流
+<ol>
+<li>根据用户或者 IP 对接口进行限流，对于异常频繁的访问行为，还可以采取黑名单机制</li>
+</ol>
+</li>
+</ol>
+<h3 id="缓存击穿">缓存击穿</h3>
+<p>缓存击穿中，请求的 key 对应的是 热点数据 ，该数据 存在于数据库中，但不存在于缓存中（通常是因为缓存中的那份数据已经过期） 。这就可能会导致瞬时大量的请求直接打到了数据库上，对数据库造成了巨大的压力，可能直接就被这么多请求弄宕机了</p>
+<p>举例：秒杀进行过程中，缓存中的某个秒杀商品的数据突然过期，这就导致瞬时大量对该商品的请求直接落到数据库上，造成巨大压力</p>
+<ol>
+<li>永不过期（不推荐）：设置热点数据永不过期或者过期时间比较长</li>
+<li>提前预热（推荐）：针对热点数据提前预热，将其存入缓存中并设置合理的过期时间比如秒杀场景下的数据在秒杀结束之前不过期</li>
+<li>加锁（看情况）：在缓存失效后，通过设置互斥锁确保只有一个请求去查询数据库并更新缓存</li>
+</ol>
+<h3 id="缓存雪崩">缓存雪崩</h3>
+<p>缓存在同一时间大面积的失效，导致大量的请求都直接落到了数据库上，对数据库造成了巨大的压力。 这就好比雪崩一样，摧枯拉朽之势，数据库的压力可想而知，可能直接就被这么多请求弄宕机了</p>
+<p>举例1：缓存服务宕机也会导致缓存雪崩现象，导致所有的请求都落到了数据库上</p>
+<ol>
+<li>Redis 集群：采用 Redis 集群，避免单机出现问题整个缓存服务都没办法使用</li>
+<li>多级缓存：设置多级缓存，例如本地缓存+Redis 缓存的二级缓存组合，当 Redis 缓存出现问题时，还可以从本地缓存中获取到部分数据</li>
+</ol>
+<p>举例2：数据库中的大量数据在同一时间过期，这个时候突然有大量的请求需要访问这些过期的数据。这就导致大量的请求直接落到数据库上，对数据库造成了巨大的压力</p>
+<ol>
+<li>设置随机失效时间（可选）：为缓存设置随机的失效时间，例如在固定过期时间的基础上加上一个随机值，这样可以避免大量缓存同时到期，从而减少缓存雪崩的风险</li>
+<li>提前预热（推荐）：针对热点数据提前预热，将其存入缓存中并设置合理的过期时间比如秒杀场景下的数据在秒杀结束之前不过期</li>
+<li>持久缓存策略（看情况）：虽然一般不推荐设置缓存永不过期，但对于某些关键性和变化不频繁的数据，可以考虑这种策略</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/note/note-redis/">https://bughere.github.io/note/note-redis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/redis/">redis</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/note/note-java-stream/" title="note-java-stream"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">note-java-stream</div></div></a></div><div class="next-post pull-right"><a href="/tips/tips-misc/" title="tips-misc"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">tips-misc</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/note/book/note-book-the-design-and-implementation-of-redis/" title="note-book-the-design-and-implementation-of-redis"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-29</div><div class="title">note-book-the-design-and-implementation-of-redis</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">188</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">203</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A19"><span class="toc-number">2.1.</span> <span class="toc-text">对象9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">持久化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lua%E8%84%9A%E6%9C%AC"><span class="toc-number">2.4.</span> <span class="toc-text">Lua脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%90%E6%B5%81%E8%84%9A%E6%9C%AC"><span class="toc-number">2.4.1.</span> <span class="toc-text">限流脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%92%E6%9D%80%E6%8A%A2%E8%B4%AD"><span class="toc-number">2.4.2.</span> <span class="toc-text">秒杀抢购</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-number">2.5.</span> <span class="toc-text">主从复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4"><span class="toc-number">2.6.</span> <span class="toc-text">集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E9%87%8D%E6%96%B0%E5%88%86%E7%89%87"><span class="toc-number">2.6.1.</span> <span class="toc-text">集群重新分片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%EF%BC%88%E6%B7%BB%E5%8A%A07006%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">2.6.2.</span> <span class="toc-text">扩容（添加7006节点）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%A9%E5%AE%B9%EF%BC%88%E5%88%A0%E9%99%A47006%E8%8A%82%E7%82%B9%EF%BC%89"><span class="toc-number">2.6.3.</span> <span class="toc-text">缩容（删除7006节点）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%93%E5%B1%95"><span class="toc-number">3.</span> <span class="toc-text">拓展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis6%E6%96%B0%E5%8A%9F%E8%83%BD"><span class="toc-number">3.1.</span> <span class="toc-text">Redis6新功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">布隆过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%A2%8E%E7%89%87"><span class="toc-number">3.3.</span> <span class="toc-text">内存碎片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">3.4.</span> <span class="toc-text">分布式锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">生产问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">4.1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">4.2.</span> <span class="toc-text">缓存击穿</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">4.3.</span> <span class="toc-text">缓存雪崩</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

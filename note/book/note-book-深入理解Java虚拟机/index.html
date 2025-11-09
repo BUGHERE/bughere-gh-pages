@@ -1,0 +1,883 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>note-book-深入理解Java虚拟机 | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="《深入理解Java虚拟机》阅读笔记  Java内存区域与内存溢出异常 运行时数据区域 程序计数器  当前线程所执行的字节码的行号指示器，控制程序的分支、循环、跳转、异常处理和线程恢复等功能 每条线程都需要有个独立的程序计数器，线程之间计数器互不影响（线程私有） 执行Java方法时，计数器记录的时正在执行的虚拟机字节码指令地址；执行本地方法时，计数器值为空  Java虚拟机栈  线程私有 执行方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="note-book-深入理解Java虚拟机">
+<meta property="og:url" content="https://bughere.github.io/note/book/note-book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="《深入理解Java虚拟机》阅读笔记  Java内存区域与内存溢出异常 运行时数据区域 程序计数器  当前线程所执行的字节码的行号指示器，控制程序的分支、循环、跳转、异常处理和线程恢复等功能 每条线程都需要有个独立的程序计数器，线程之间计数器互不影响（线程私有） 执行Java方法时，计数器记录的时正在执行的虚拟机字节码指令地址；执行本地方法时，计数器值为空  Java虚拟机栈  线程私有 执行方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-10-19T04:49:21.000Z">
+<meta property="article:modified_time" content="2025-11-09T15:50:01.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/note/book/note-book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'note-book-深入理解Java虚拟机',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-09 23:50:01'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">186</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">note-book-深入理解Java虚拟机</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-19T04:49:21.000Z" title="发表于 2023-10-19 12:49:21">2023-10-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-09T15:50:01.000Z" title="更新于 2025-11-09 23:50:01">2025-11-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/">note</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/note/book/">book</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">11.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>34分钟</span></span></div></div></div><article class="post-content" id="article-container"><blockquote>
+<p>《深入理解Java虚拟机》阅读笔记</p>
+</blockquote>
+<h1>Java内存区域与内存溢出异常</h1>
+<h2 id="运行时数据区域">运行时数据区域</h2>
+<h3 id="程序计数器">程序计数器</h3>
+<ul>
+<li>当前线程所执行的字节码的行号指示器，控制程序的分支、循环、跳转、异常处理和线程恢复等功能</li>
+<li>每条线程都需要有个独立的程序计数器，线程之间计数器互不影响（线程私有）</li>
+<li>执行Java方法时，计数器记录的时正在执行的虚拟机字节码指令地址；执行本地方法时，计数器值为空</li>
+</ul>
+<h3 id="Java虚拟机栈">Java虚拟机栈</h3>
+<ul>
+<li>线程私有</li>
+<li>执行方法时，vm都会同步创建一个栈帧，用于存储局部变量表、操作数栈、动态链接、方法出口等信息</li>
+<li>方法被调用的过程对应一个栈帧从入栈到出栈的过程</li>
+<li>如果线程请求的栈深度超出vm所允许的深度，则会抛出StackOverflowError异常。如果vm可以动态分配栈容量（深度），当栈扩展到无法申请到足够的内存时，则会抛出OutOfMemoryError异常。（HotSpot vm时不可以动态扩展的，以前的Classic vm倒是可以）</li>
+</ul>
+<h4 id="局部变量表">局部变量表</h4>
+<ul>
+<li>存放编译期可知的各种vm基本数据类型、对象引用和returnAddress类型</li>
+<li>这些数据类型的存储空间以局部变量槽来表示，64位的long和double占用两个变量槽。局部变量表需要分配的空间在编译期间完成分配，运行期间不会改变大小。这个“大小”是指变量槽的数量，具体变量槽使用多少空间由具体的vm确定（一个变量槽使用32个bit还是64个bit）</li>
+</ul>
+<h3 id="本地方法栈">本地方法栈</h3>
+<ul>
+<li>与Java虚拟机栈功能类似，区别在于本地方法栈为vm使用到的本地（Native）方法服务</li>
+<li>Hotspot vm不区分虚拟机栈和本地方法栈</li>
+</ul>
+<h3 id="Java堆">Java堆</h3>
+<ul>
+<li>Java堆（Heap）是vm所管理内存中最大的一块，存放几乎所有的对象实例，线程共享</li>
+<li>Java堆被垃圾收集器所管理，所以也被称作GC堆（Garbage Colected Heap），垃圾收集器大部分基于分代收集理论，所以Java堆中经常会出现新生代、老生代和永久代，以及Eden空间、From Survivor空间和To Survivor空间等名词</li>
+<li>为了提升对象分配的效率，线程共享的Java堆可以划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer，TLAB）</li>
+<li>Java堆可以是固定大小的，也可以是动态扩展的。目前主流的vm都是采用动态扩展的。所以如果vm没有内存完成实例分配时，则会抛出OutOfMemoryError异常</li>
+</ul>
+<h3 id="方法区">方法区</h3>
+<ul>
+<li>
+<p>和Java堆类似，线程共享，用于存储vm加载的类型信息、常量、静态变量、代码缓存等，也被称作“非堆”</p>
+</li>
+<li>
+<p>很多人把方法区称作“永久代”，因为Java 8以前，HotSpot用永久代来实现方法区的内存管理，但实际上这两者并不是等价的</p>
+</li>
+<li>
+<p>方法区无法满足新的内存分配需求时，则会抛出OutOfMemoryError异常‘</p>
+</li>
+<li>
+<p>JDK 7把原本存放在永久代的字符串常量池移至Java堆中</p>
+</li>
+<li>
+<p>在JDK 8以后，永久代便完全退出了历史舞台，元空间作为其替代者登场</p>
+</li>
+</ul>
+<blockquote>
+<p>关于元空间：</p>
+<p>MaxMetaspaceSize：设置元空间最大值，默认是-1，即不限制，或者说只受限于本地内存大小。</p>
+<p>MetaspaceSize：指定元空间的初始空间大小，以字节为单位，达到该值就会触发垃圾收集进行类型卸载，同时收集器会对该值进行调整：如果释放了大量的空间，就适当降低该值；如果释放了很少的空间，那么在不超过-XX：MaxMetaspaceSize（如果设置了的话）的情况下，适当提高该值。</p>
+<p>MinMetaspaceFreeRatio：作用是在垃圾收集之后控制最小的元空间剩余容量的百分比，可减少因为元空间不足导致的垃圾收集的频率。类似的还有Max-MetaspaceFreeRatio，用于控制最大的元空间剩余容量的百分比。</p>
+</blockquote>
+<h4 id="永久代的废除">永久代的废除</h4>
+<blockquote>
+<p>考虑到HotSpot未来的发展，在JDK 6的时候HotSpot开发团队就有放弃永久代，逐步改为采用本地内存（Native Memory）来实现方法区的计划了，到了JDK 7的HotSpot，已经把原本放在永久代的字符串常量池、静态变量等移出，而到了JDK 8，终于完全废弃了永久代的概念，改用与JRockit、J9一样在本地内存中实现的元空间 （Meta space）来代替，把JDK 7中永久代还剩余的内容（主要是类型信息）全部移到元空间中。</p>
+</blockquote>
+<h3 id="运行时常量池">运行时常量池</h3>
+<ul>
+<li>方法区的一部分</li>
+<li>Class文件除了有类的版本、字段、方法、接口的描述信息外，还有常量池表（Constant Pool Table），用于存放编译器生成的各种字面量与符号引用，这部分内容在类加载后存放到运行时常量池中</li>
+</ul>
+<h3 id="直接内存">直接内存</h3>
+<ul>
+<li>也被称为堆外内存，并不属于vm运行时数据区，不受vm内存回收管理，但是被频繁使用，也可能导致OutOfMemoryError</li>
+<li>JDK1.4加入了NIO（New Input/Output）类，可以使用Native函数库直接分配堆外内存</li>
+</ul>
+<h2 id="HotSpot-vm-对象揭秘">HotSpot vm 对象揭秘</h2>
+<p>深入探讨HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程</p>
+<h3 id="对象的创建">对象的创建</h3>
+<h4 id="vm分配内存">vm分配内存</h4>
+<ul>
+<li>当Java虚拟机遇到一条字节码new指令时，首先将去检查这个指令的参数是否能在常量池中定位到<br>
+一个类的符号引用，并且检查这个符号引用代表的类是否已被加载、解析和初始化过。</li>
+<li>检查通过后，vm为新生对象分配内存，分配内存实际上就是从Java堆中划分出一块空间（对象内存空间大小在类加载时便可完全确定）</li>
+</ul>
+<blockquote>
+<p>指针碰撞（Bump The Pointer）：假设Java堆中内存是绝对规整的，所有被使用过的内存都被放在一边，空闲的内存被放在另一边，中间放着一个指针作为分界点的指示器，那所分配内存就仅仅是把那个指针向空闲空间方向挪动一段与对象大小相等的距离</p>
+</blockquote>
+<blockquote>
+<p>空闲列表（Free List）：如果Java堆中的内存并不是规整的，已被使用的内存和空闲的内存相互交错在一起，那就没有办法简单地进行指针碰撞了，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录</p>
+</blockquote>
+<ul>
+<li>选择上面哪种分配方式由Java堆是否规整来决定，而规整又由垃圾收集器是否带有空间压缩整理（Compact）能力<br>
+所决定。例如：Serial、ParNew收集器具有带压缩整理过程，而CMS收集器基于清除（Sweep）算法就没有。</li>
+<li>除了考虑以上划分可用空间问题外，还需要考虑划分的线程安全问题。主要有两种方案：
+<ul>
+<li>使用CAS保证操作的原子性（实际采取的方案）</li>
+<li>每个线程独立划分内存空间，使用本地线程分配缓冲区（Thread Local Allocation Buffer，TLAB），<br>
+每个线程在Java堆中预先分配一小块内存，独立分配。只有本地缓冲区用完，分配新的缓存区时才需要同步锁定。</li>
+</ul>
+</li>
+</ul>
+<h4 id="vm初始化">vm初始化</h4>
+<ul>
+<li>内存分配完成之后，虚拟机必须将分配到的内存空间（但不包括对象头）都初始化为零值</li>
+<li>vm给对象进行设置，将元数据信息、哈希码、GC分代年龄信息等信息存放到对象的对象头（Object Header）中。</li>
+<li>执行对象的构造函数——执行Class文件中的<code>init</code>方法</li>
+</ul>
+<h3 id="对象的内存布局">对象的内存布局</h3>
+<h4 id="对象头">对象头</h4>
+<ul>
+<li>Mark Word：用于存储运行时自身数据，包括哈希码、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等<br>
+在不同状态下，Mark Word存储的内容不同</li>
+<li>类型指针：对象指向它的类型元数据的指针，Java虚拟机通过这个指针来确定该对象是哪个类的实例</li>
+</ul>
+<h4 id="实例数据">实例数据</h4>
+<p>对象真正存储的有效信息</p>
+<h4 id="对齐填充">对齐填充</h4>
+<p>由于HotSpot vm要求对象起始地址必须是8字节的整数倍，所以需要占位符对齐填充</p>
+<h3 id="对象的访问定位">对象的访问定位</h3>
+<p>Java程序会通过栈上（本地变量表）的reference数据来操作堆上的具体对象，对象包括句柄和直接指针两种</p>
+<blockquote>
+<p>前情提要：对象实例数据放在Java堆中，对象类型数据放在方法区中</p>
+</blockquote>
+<ul>
+<li>句柄：在Java堆中划分出一块内存作为句柄池，reference中存储的就是对象的句柄地址。每个句柄包含两个指针，一个指向对象实例数据的指针（指向Java堆），一个指向对象类型数据的指针（指向方法区）</li>
+<li>直接指针：直接指针是指向对象实例数据的指针，所以就存放在Java堆中，对象实例数据中包含一个到对象类型数据的指针（指向方法区），reference中存储的直接就是对象地址</li>
+</ul>
+<p>HotSpot vm使用直接指针的方式进行对象访问</p>
+<h2 id="OutOfMemoryError异常">OutOfMemoryError异常</h2>
+<h3 id="Java堆溢出">Java堆溢出</h3>
+<ul>
+<li>只要不断地创建对象，并且保证GC Roots到对象之间有可达路径来避免垃圾回收机制清除这些对象，那么随着对象数量的增加，总容量触及最大堆的容量限制后就会产生内存溢出异常</li>
+<li>将堆的最小值<code>-Xms</code>参数与最大值<code>-Xmx</code>参数设置为一样即可避免堆自动扩展</li>
+<li>通过参数<code>-XX：+HeapDumpOnOutOf-MemoryError</code>可以让虚拟机在出现内存溢出异常的时候Dump出当前的内存堆转储快照以便进行事后分析</li>
+<li>出现Java堆内存溢出时，异常堆栈信息“java.lang.OutOfMemoryError”会跟随进一步提示“Java heap space”</li>
+</ul>
+<h3 id="虚拟机栈和本地方法栈溢出">虚拟机栈和本地方法栈溢出</h3>
+<ul>
+<li>HotSpot虚拟机中并不区分虚拟机栈和本地方法栈，因此对于HotSpot来说，<code>-Xoss</code>参数（设置<br>
+本地方法栈大小）虽然存在，但实际上是没有任何效果的，栈容量只能由<code>-Xss</code>参数来设定</li>
+<li>如果线程请求的栈深度大于虚拟机所允许的最大深度，将抛出StackOverflowError异常。</li>
+<li>如果虚拟机的栈内存允许动态扩展，当扩展栈容量无法申请到足够的内存时，将抛出OutOfMemoryError异常。</li>
+</ul>
+<h3 id="方法区和运行时常量池溢出">方法区和运行时常量池溢出</h3>
+<ul>
+<li>由于运行时常量池是方法区的一部分，所以这两个区域的溢出测试可以放到一起进行</li>
+</ul>
+<blockquote>
+<p>String::intern()是一个本地方法，它的作用是如果字符串常量池中已经包含一个等于此String对象的字符串，则返回代表池中这个字符串的String对象的引用；否则，会将此String对象包含的字符串添加到常量池中，并且返回此String对象的引用。</p>
+</blockquote>
+<ul>
+<li>在JDK 6或更早之前的HotSpot虚拟机中，常量池都是分配<br>
+在永久代中，我们可以通过<code>-XX：PermSize</code>和<code>-XX：MaxPermSize</code>限制永久代的大小，即可间接限制其<br>
+中常量池的容量</li>
+<li>运行时常量池溢出时，在OutOfMemoryError异常后面跟随的提示信息<br>
+是<code>PermGen space</code>，说明运行时常量池的确是属于方法区</li>
+</ul>
+<h3 id="直接内存溢出">直接内存溢出</h3>
+<ul>
+<li>直接内存（Direct Memory）的容量大小可通过<code>-XX：MaxDirectMemorySize</code>参数来指定，如果不<br>
+去指定，则默认与Java堆最大值（由<code>-Xmx</code>指定）一致</li>
+<li>由直接内存导致的内存溢出，一个明显的特征是在<code>Heap Dump</code>文件中不会看见有什么明显的异常<br>
+情况</li>
+</ul>
+<h1>垃圾收集器与内存分配策略</h1>
+<h2 id="概述">概述</h2>
+<ul>
+<li>程序计数器、虚拟机栈、本地方法栈3个区域随线程而生，随线程而灭，当方法结束或者线程结束时，内存自然就跟随着<br>
+回收了（栈帧需要分配的空间大体上认为是编译器可知的）</li>
+<li>Java堆和方法区则有不确定性，运行时才知道会创建多少对象，这部分内存的分配和回收是动态的，<br>
+垃圾收集器所关注的正是这部分内存</li>
+</ul>
+<h2 id="对象是否存活">对象是否存活</h2>
+<h3 id="引用计数法（Reference-Counting）">引用计数法（Reference Counting）</h3>
+<ul>
+<li>每个对象都一个计数器。对于一个对象，每有一个地方引用它时，则计数器值加一；当这个引用失效（不存在）时，则计数器值减一</li>
+<li>引用计数算法虽然占用了一些额外的内存空间来进行计数，但它的原理简单，判定效率也很高</li>
+<li>单纯的引用计数就很难解决对象之间相互循环引用的问题，比如对象objA和objB都有字段instance，赋值令<code>objA.instance=objB</code>及<code>objB.instance=objA</code>。<br>
+互相引用着对方，导致它们的引用计数都不为零，引用计数算法也就无法回收它们。</li>
+</ul>
+<h3 id="可达性分析算法（Reachability-Analysis）">可达性分析算法（Reachability Analysis）</h3>
+<ul>
+<li>通过一系列称为“GC Roots”的根对象作为起始节点集（森林结构）</li>
+<li>从这些节点开始，根据引用关系向下搜索，搜索过程所走过的路径称为“引用链”（Reference Chain），如果某个对象到GC Roots间没有任何引用链相连，或者用图论的话来说就是从GC Roots到这个对象不可达时，则证明此对象是不可能再被使用的。</li>
+<li>可以解决引用计数法无法解决的循环引用问题（互相引用的节点没有连接至GC Roots）</li>
+</ul>
+<h3 id="再谈引用">再谈引用</h3>
+<ul>
+<li>上述两种方法都是通过引用来判断对象是否存活</li>
+<li>在JDK 1.2版之后，Java对引用的概念进行了扩充，将引用分为4种（这4种引用强度依次减弱）
+<ul>
+<li>强引用（Strongly Re-ference）
+<ul>
+<li>最传统的引用，类似<code>Object obj = new Object()</code>这样</li>
+<li>只要强引用关系还在，垃圾收集器就不会回收</li>
+</ul>
+</li>
+<li>软引用（Soft Reference）
+<ul>
+<li>提供SoftReference类来实现</li>
+<li>软引用是用来描述一些还有用，但非必须的对象</li>
+<li>垃圾收集器工作时，第一次回收并不会回收软引用。只有第一次回收后还没有足够内存的情况下，进行第二次回收才会回收软引用</li>
+</ul>
+</li>
+<li>弱引用（Weak Reference）
+<ul>
+<li>提供WeakReference类来实现</li>
+<li>当垃圾收集器开始工作，无论当前内存是否足够，都会回收掉只被弱引用关联的对象</li>
+</ul>
+</li>
+<li>虚引用（Phantom Reference）
+<ul>
+<li>提供PhantomReference类来实现</li>
+<li>也称为“幽灵引用”或者“幻影引用”，它是最弱的一种引用关系</li>
+<li>一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。</li>
+<li>为一个对象设置虚引用关联的唯一目的只是为了能在这个对象被收集器回收时收到一个系统通知。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="回收过程">回收过程</h3>
+<ul>
+<li>一个对象被可达性分析算法判定为不可达时，并不会立即死亡</li>
+<li>对象的死亡至少要经过两个标记过程，判定为不可达时，被第一次标记。随后判断这个对象是否需要进行<code>finalize()</code>方法，<br>
+如果对象没有覆盖finalize方法，或者finalize方法已经被vm调用过（一个对象的finalize()方法最多只会被系统自动调用一次），<br>
+那么vm将直接进行回收。否则，这个对象执行finalize方法，对象将被放在F-Queue队列中，稍后vm将自动建立一条低调度优先级的Finalizer线程去执行这些finalize方法<br>
+在finalize方法中，如果对象重新获得引用，那么它就可以逃脱出”即将回收“的集合，否则基本上就要被回收了</li>
+</ul>
+<h3 id="方法区的回收">方法区的回收</h3>
+<ul>
+<li>很明显，上述关于对象的回收内容，都是在Java堆中进行，这边介绍下方法区的回收</li>
+<li>方法区的垃圾收集主要回收两部分内容：废弃的常量和不再使用的类型。
+<ul>
+<li>关于废弃的常量，如果没有地方引用这个常量，那么就会被回收。</li>
+<li>关于不在使用的类的条件就比较苛刻，需要同时满足（只是满足了条件，并不是必然被回收）：
+<ul>
+<li>该类所有的实例都已经被回收，也就是Java堆中不存在该类及其任何派生子类的实例。</li>
+<li>加载该类的类加载器已经被回收，这个条件除非是经过精心设计的可替换类加载器的场景，如<br>
+OSGi、JSP的重加载等，否则通常是很难达成的。</li>
+<li>该类对应的java.lang.Class对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方<br>
+法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="垃圾收集算法">垃圾收集算法</h2>
+<h3 id="分代收集理论">分代收集理论</h3>
+<p>当前商业虚拟机的GC大多遵循分代收集（Generational Collection）理论，这个理论建立在两个假说之上</p>
+<blockquote>
+<p>弱分代假说（Weak Generational Hypothesis）：绝大多数对象都是朝生夕灭的。</p>
+</blockquote>
+<blockquote>
+<p>强分代假说（Strong Generational Hypothesis）：熬过越多次垃圾收集过程的对象就越难以消亡。</p>
+</blockquote>
+<p>两个分代假说共同奠定了常用GC的一致设计原则：收集器应该将Java堆划分出不同的区域，然后将回收对象依据其年龄（年龄即对象熬过垃圾收集过程的次数）分配到不同的区域之中存储</p>
+<p>因而才有了“Minor GC”（新生代收集）、“Major GC”（老年代收集）和“Full GC”（整堆收集）这样的回收类型的划分；也才能够针对不同的区域安排与里面存储对象存亡特征相匹配的垃圾收集算法——因而发展出了“标记-复制算法”“标记-清除算法”“标记-整理算法”等针对性的垃圾收集算法。</p>
+<blockquote>
+<p>只有CMS收集器会有单独收集老年代的行为</p>
+</blockquote>
+<blockquote>
+<p>混合收集（Mixed GC）：指目标是收集整个新生代以及部分老年代的垃圾收集。目前只有G1收集器会有这种行为。</p>
+</blockquote>
+<blockquote>
+<p>除了整堆收集外的其它收集方式都属于”Partial GC“（部分收集）</p>
+</blockquote>
+<blockquote>
+<p>一般至少会把Java堆划分为新生代（Young Generation）和老年代（Old Generation）两个区域。顾名思义，在新生代中，每次垃圾收集时都发现有大批对象死去，而每次回收后存活的少量对象，将会逐步晋升到老年代中存放。</p>
+</blockquote>
+<p>对象不是孤立的，对象之间会存在跨代引用。假如要现在进行一次只局限于新生代区域内的收集（Minor GC），但新生代中的对象是完全有可<br>
+能被老年代所引用的，为了找出该区域中的存活对象，不得不在固定的GC Roots之外，再额外遍历整<br>
+个老年代中所有对象来确保可达性分析结果的正确性。为了解决这个问题，就需要对分<br>
+代收集理论添加第三条经验法则：</p>
+<blockquote>
+<p>跨代引用假说（Intergenerational Reference Hypothesis）：跨代引用相对于同代引用来说仅占极少数。</p>
+</blockquote>
+<p>存在互相引用关系的两个对象，是应该倾向于同时生存或者同时消亡的。举个例子，如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生代对象在收集时同样得以存活，进而在年龄增长之后晋升到老年代中，这时 跨代引用也随即被消除了。</p>
+<h3 id="标记-清除算法">标记-清除算法</h3>
+<ul>
+<li>最早最基础的GC算法</li>
+<li>标记出所有需要回收的对象后，统一回收</li>
+<li>执行效率不稳定，如果Java堆中包含大量需要回收的对象，则需要进行大量标记和清除的动作，效率随对象增加而降低</li>
+<li>导致内存空间碎片化，标记清除后会产生大量不连续的内存碎片</li>
+</ul>
+<h3 id="标记-复制算法">标记-复制算法</h3>
+<ul>
+<li>现在的商用Java虚拟机大多都优先采用了这种收集算法去回收新生代</li>
+<li>将可用内存按容量划分为大小相等的两块，每次只用一块内存，用完后，就将还存活的对象复制到另一块内存上。</li>
+<li>这种算法将会产生大量的内存间复制的开销，但对于多数对象都是可回收的情况，算法需要复制的就是占少数的存活对象</li>
+<li>解决了内存空间碎片化问题</li>
+</ul>
+<blockquote>
+<p>IBM公司曾有一项专门研究对新生代“朝生夕灭”的特点做了更量化的诠释——新生代中的对象有98%熬不过第一轮收集。因此并不需要按照1∶1的比例来划分新生代的内存空间</p>
+</blockquote>
+<p>优化：Andrew Appel针对具备“朝生夕灭”特点的对象，提出了优化的Appel式回收策略：（实际上收集器也是用这个优化后的）</p>
+<ul>
+<li>把新生代分为一块较大的Eden空间和两块较小的Survivor空间</li>
+<li>垃圾收集时，将Eden和一块Survivor空间中仍然存活的对象复制到另一块Survivor空间中</li>
+<li>HotSpot vm默认Eden和Survivor的比例时8：1：1。这样的一个Survivor空间就只有10%<br>
+所以可能会出现不够用的情况，这时候就需要其他区域（大多就是老年代）进行分配担保（Handle Promotion）</li>
+</ul>
+<h3 id="标记-整理算法">标记-整理算法</h3>
+<ul>
+<li>用于老年代</li>
+<li>老年代会有较多对象存活，因此不适用于标记-复制算法（需要较多复制操作）</li>
+<li>这个算法类似于标记-清除，只是清除后还需要整理对象（项内存空间的一端移动），解决了内存碎片化问题</li>
+<li>老年代这种每次回收都有大量对象存活区域，将会是一种极为负重的操作（收集器效率低）</li>
+<li>但考虑整个程序对象的吞吐量（效率），实际上是分为分配器和收集器。<br>
+而程序大部分是分配对象（使用分配器）的，而内存碎片化问题导致分配器效率低，<br>
+所以尽管这个算法的收集器效率低，但解决了碎片化问题，总体效率还是提升的</li>
+</ul>
+<blockquote>
+<p>HotSpot虚拟机里面关注吞吐量的Parallel Scavenge收集器是基于标记-整理算法的</p>
+</blockquote>
+<blockquote>
+<p>而关注延迟的CMS收集器则是基于标记-清除算法的，当面临空间碎片过多时，再采用标记-整理算法收集一次，以获得规整的内存空间</p>
+</blockquote>
+<h2 id="HotSpot的算法细节实现">HotSpot的算法细节实现</h2>
+<h3 id="根节点枚举">根节点枚举</h3>
+<ul>
+<li>所有收集器在根节点枚举这一步骤时都是必须暂停用户线程的，因为如果和用户线程一起并发，那么根节点集合的对象引用关系还在不断变化的情况，分析结果准确性也就无法保证</li>
+<li>HotSpot使用名为OopMap（Ordinary Object Pointer）的数据结构，记录下栈里和寄存器里哪些位置是引用，这样就可以直接知道哪些地方存放对象引用</li>
+<li>在OopMap的协助下，HotSpot可以快速准确地完成GC Roots枚举</li>
+</ul>
+<h3 id="安全点">安全点</h3>
+<ul>
+<li>导致OopMap内容变化的指令非常多，如果为每一条指令都生成对应的OopMap，那将会需要大量的额外存储空间</li>
+<li>所以HotSpot只在“安全点”位置记录OopMap信息，需要考虑如何在垃圾收集发生时让所有线程（这里其实不包括执行JNI调用的线程）都跑到最近的安全点
+<ul>
+<li>一种方法是抢断式中断，垃圾收集时，先中断所有线程，再恢复那些不在安全点的线程，让它们跑到安全点上</li>
+<li>还有一种方法是主动式中断（主流），垃圾收集时，所有线程不断轮询自己是否处于安全点，一旦发现自己处于安全点，则主动挂起</li>
+</ul>
+</li>
+</ul>
+<h3 id="安全区域">安全区域</h3>
+<ul>
+<li>安全点无法应对处于Sleep和Blocked状态的线程，因为线程处于这种状态时无法挂起自己</li>
+<li>安全区域是指引用关系不会发生变化的区域，可以看作区域内每个地方都是安全点</li>
+<li>处于安全区域的线程需要等待其它线程进入安全区域，直到收到根节点枚举完成的信号（所以解决了吗？没懂）</li>
+</ul>
+<h3 id="记忆集与卡表">记忆集与卡表</h3>
+<ul>
+<li>记忆集用于记录从非收集区域指向收集区域的指针集合</li>
+<li>记忆集的记录精度有字长精度、对象精度和卡精度，其中每个记录精确到一块字长/对象/内存区域</li>
+<li>卡表就是卡精度的记忆集，记录区域内是否有对象包含跨代指针，只要有跨代指针那么数组值标为1，称其为变脏（Dirty）</li>
+</ul>
+<blockquote>
+<p>卡表最简单的形式可以只是一个字节数组，而HotSpot虚拟机确实也是这样做的</p>
+</blockquote>
+<ul>
+<li>使用卡表可以缩减GC Roots的扫描范围</li>
+</ul>
+<h3 id="写屏障">写屏障</h3>
+<ul>
+<li>HotSpot通过写屏障（Write Barrier）技术维护卡表状态</li>
+</ul>
+<blockquote>
+<p>写屏障可以看作在虚拟机层面对“引用类型字段赋值”这个动作的AOP切面，在引用对象赋值时会产生一个环形（Around）通知，供程序执行额外的动作，也就是说赋值的前后都在写屏障的覆盖范畴内。在赋值前的部分的写屏障叫作写前屏障（Pre-Write Barrier），在赋值后的则叫作写后屏障（Post-Write Barrier）。HotSpot虚拟机的许多收集器中都有使用到写屏障，但直至G1收集器出现之前，其他收集器都只用到了写后屏障。</p>
+</blockquote>
+<ul>
+<li>卡表在高并发场景下还面临着“伪共享”（False Sharing）问题，如果多个变量恰好在同个内存区域中，那么就无法同时操作（如果没有卡表就可以同时操作），导致性能降低</li>
+</ul>
+<h3 id="并发的可达性分析">并发的可达性分析</h3>
+<ul>
+<li>从GC Roots往下遍历对象的停顿时间和Java对容量成正相关，所以停顿时间可能会很长，所以需要并发</li>
+<li>在并发情况下，扫描GC Roots时可能会有对象更新，<br>
+如果下面两个条件成立就会导致严重的后果：删除还存在引用的对象
+<ul>
+<li>赋值器插入了一条或多条从黑色对象到白色对象的新引用</li>
+<li>赋值器删除了全部从灰色对象到该白色对象的直接或间接引用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>通过三色标记（Tri-color Marking）进行对象的标记：</p>
+<p>白色：表示对象尚未被垃圾收集器访问过。显然在可达性分析刚刚开始的阶段，所有的对象都是白色的，若在分析结束的阶段，仍然是白色的对象，即代表不可达。</p>
+<p>·黑色：表示对象已经被垃圾收集器访问过，且这个对象的所有引用都已经扫描过。黑色的对象代表已经扫描过，它是安全存活的，如果有其他对象引用指向了黑色对象，无须重新扫描一遍。黑色对象不可能直接（不经过灰色对象）指向某个白色对象。</p>
+<p>灰色：表示对象已经被垃圾收集器访问过，但这个对象上至少存在一个引用还没有被扫描过。</p>
+</blockquote>
+<ul>
+<li>所以要解决这个严重的后果，我们只需要破坏两个条件中的一个
+<ul>
+<li>增量更新：破坏第一个条件，当黑色对象插入新的指向白色对象的引用关系时，记录下黑色对象，并发扫描结束后，再以记录下的黑色对象为根，重新扫描</li>
+<li>原始快照：破坏第二个条件：当灰色对象删除指向白色对象的引用关系时，记录下灰色对象，并发扫描结束后，以记录下的灰色对象为根，重新扫描（扫得到白色对象？）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>CMS是基于增量更新来做并发标记的，G1、Shenandoah则是用原始快照来实现。<br>
+这里没有书里的例图，理解会比较抽象</p>
+</blockquote>
+<h2 id="经典垃圾收集器">经典垃圾收集器</h2>
+<h3 id="Serial收集器">Serial收集器</h3>
+<ul>
+<li>新生代收集器，使用标记-复制算法</li>
+<li>单线程工作，垃圾收集时必须暂停其它所有工作线程（stop the world）</li>
+<li>简单，消耗内存小，仍是HotSpot vm的默认垃圾收集器</li>
+<li>可以和CMS收集器配合工作</li>
+</ul>
+<blockquote>
+<p>HotSpot虚拟机开发团队为消除或者降低用户线程因垃圾收集而导致停顿的努力一直持续进行着，从Serial收集器到Parallel收集器，再到Concurrent Mark Sweep（CMS）和Garbage First（G1）收集器，最终至现在垃圾收集器的最前沿成果Shenandoah和ZGC等</p>
+</blockquote>
+<h3 id="ParNew收集器">ParNew收集器</h3>
+<ul>
+<li>Serial收集器的多线程并行版本</li>
+<li>所以也是新生代收集器，使用标记-复制算法</li>
+</ul>
+<blockquote>
+<p>并行（Parallel）：并行描述的是多条垃圾收集器线程之间的关系，说明同一时间有多条这样的线程在协同工作，通常默认此时用户线程是处于等待状态。</p>
+</blockquote>
+<blockquote>
+<p>并发（Concurrent）：并发描述的是垃圾收集器线程与用户线程之间的关系，说明同一时间垃圾收集器线程与用户线程都在运行。由于用户线程并未被冻结，所以程序仍然能响应服务请求，但由于垃圾收集器线程占用了一部分系统资源，此时应用程序的处理的吞吐量将受到一定影响。</p>
+</blockquote>
+<ul>
+<li>可以和CMS收集器配合工作</li>
+</ul>
+<blockquote>
+<p>在JDK 5发布时，HotSpot推出了一款在强交互应用中几乎可称为具有划时代意义的垃圾收集器——CMS收集器。这款收集器是HotSpot虚拟机中第一款真正意义上支持并发的垃圾收集器，它首次实现了让垃圾收集线程与用户线程（基本上）同时工作。</p>
+</blockquote>
+<blockquote>
+<p>更先进的G1收集器带着CMS继承者和替代者的光环登场。G1是一个面向全堆的收集器，不再需要其他新生代收集器的配合工作。所以自JDK 9开始，ParNew加CMS收集器的组合就不再是官方推荐的服务端模式下的收集器解决方案了</p>
+</blockquote>
+<h3 id="Parallel-Scavenge收集器">Parallel Scavenge收集器</h3>
+<ul>
+<li>关注吞吐量，而不是用户停顿时间</li>
+<li>垃圾收集停顿时间缩短是以牺牲吞吐量和新生代空间为代价换取的：通过减小新生代空间可以使收集时间减小，但这样导致垃圾收集更频繁，所以吞吐量也会减小</li>
+<li>增加了自适应的调节策略（GC Ergonomics）：虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的内存空间分区、停顿时<br>
+间或者最大的吞吐量</li>
+</ul>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>吞吐量</mtext><mo>=</mo><mfrac><mtext>用户代码时间</mtext><mrow><mtext>用户代码时间</mtext><mo>+</mo><mtext>垃圾收集时间</mtext></mrow></mfrac></mrow><annotation encoding="application/x-tex">吞吐量 = \frac{用户代码时间}{用户代码时间 + 垃圾收集时间} 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">吞吐量</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1297em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">用户代码时间</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord cjk_fallback">垃圾收集时间</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord cjk_fallback">用户代码时间</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<h3 id="Serial-Old收集器">Serial Old收集器</h3>
+<ul>
+<li>Serial收集器的老年代版本，同样是单线程收集器</li>
+<li>使用标记-整理算法</li>
+</ul>
+<h3 id="Parallel-Old收集器">Parallel Old收集器</h3>
+<ul>
+<li>Parallel Scavenge收集器的老年代版本，多线程并发</li>
+<li>使用标记-整理算法</li>
+<li>较晚出现，JDK 6开始提供</li>
+</ul>
+<h3 id="CMS收集器">CMS收集器</h3>
+<ul>
+<li>
+<p>关注用户停顿时间（回收速度），JDK 5发布</p>
+</li>
+<li>
+<p>基于标记-清除算法，使用Concurrent Mark Sweep：并行标记清除（不并行=单线程，不并发=阻塞用户线程（stop the world）），过程如下：</p>
+<ul>
+<li>1）初始标记（CMS initial mark）：标记GC Roots能直接关联到的对象，耗时短，单收集器线程，阻塞用户线程（不并行，不并发）</li>
+<li>2）并发标记（CMS concurrent mark）：遍历GC Roots关联的所有对象，耗时长，单收集器线程，可以和用户线程一起进行（并发）</li>
+<li>3）重新标记（CMS remark）：了修正并发标记期间的变动对象标记，耗时短，多收集器线程，阻塞用户线程（并行，但不并发）</li>
+<li>4）并发清除（CMS concurrent sweep）：清除标记对象，单收集器线程，可以和用户线程一起进行（并发）</li>
+</ul>
+</li>
+<li>
+<p>并发阶段导致程序吞吐量下降</p>
+</li>
+</ul>
+<blockquote>
+<p>为了缓解这种情况，虚拟机提供了一种称为“增量式并发收集器”（Incremental Concurrent Mark Sweep/i-CMS）的CMS收集器变种，所做的事情和以前单核处理器年代PC机操作系统靠抢占式多任务来模拟多核并行多任务的思想一样，是在并发标记、清理的时候让收集器线程、用户线程交替运行。这样整个垃圾收集的过程会更长，但对用户程序的影响就会显得较少一些从 JDK 7开始，i-CMS模式已经被声明为“deprecated”，即已过时不再提倡用户使用，到JDK 9发布后iCMS模式被完全废弃。</p>
+</blockquote>
+<ul>
+<li>CMS收集器无法处理“浮动垃圾”（Floating Garbage）</li>
+</ul>
+<blockquote>
+<p>浮动垃圾：在CMS的并发标记和并发清理阶段，用户线程是还在继续运行的，程序在运行自然就还会伴随有新的垃圾对象不断产生，但这一部分垃圾对象是出现在标记过程结束以后，CMS无法在当次收集中处理掉它们</p>
+</blockquote>
+<ul>
+<li>并发标记和清除阶段意味着虚拟机必须足够的内存空间给用户线程，不能像其它收集器等待老年代被填满了再进行收集</li>
+</ul>
+<blockquote>
+<p>在JDK 5的默认设置下，CMS收集器当老年代使用了68%的空间后就会被激活</p>
+</blockquote>
+<blockquote>
+<p>到了JDK 6时，CMS收集器的启动阈值就已经默认提升至92%，有并发失败的风险</p>
+</blockquote>
+<blockquote>
+<p>并发失败（Concurrent Mode Failure）：要是CMS运行期间预留的内存无法满足程序分配新对象的需要。<br>
+这时候虚拟机将不得不启动后备预案：冻结用户线程的执行，临时启用Serial Old收集器来重新进行老年代的垃圾收集</p>
+</blockquote>
+<ul>
+<li>CMS是基于标记清除算法的，所以也会有内存空间碎片化的问题</li>
+</ul>
+<blockquote>
+<p>空间碎片过多时，会导致老年代有很多空间，但是找不到连续空间来分配大对象，从而不得不Full GC。<br>
+为此，虚拟机设计者们还提供了另外一个参数-XX：CMSFullGCsBeforeCompaction（此参数从JDK 9开始废弃），这个参数的作用是要求CMS收集器在执行过若干次（数量由参数值决定）不整理空间的Full GC之后，下一次进入Full GC前会先进行碎片整理（默认值为0，表示每次进入Full GC时都进行碎片整理）</p>
+</blockquote>
+<ul>
+<li>只有CMS收集器有针对老年代的Old GC，其它收集器都是直接Full GC（？）</li>
+</ul>
+<h3 id="Garbage-First收集器（G1）">Garbage First收集器（G1）</h3>
+<ul>
+<li>面向服务端应用的垃圾收集器</li>
+<li>历史
+<ul>
+<li>从JDK 6 Update 14开始就有Early Access版本的G1收集器供开发人员实验和试用</li>
+<li>直至JDK 7 Update 4，Oracle才认为它达到足够成熟的商用程度，移除了“Experimental”的标识</li>
+<li>到了JDK 8 Update 40的时候，G1提供并发的类卸载的支持，补<br>
+全了其计划功能的最后一块拼图。这个版本以后的G1收集器才被Oracle官方称为“全功能的垃圾收集<br>
+器”（Fully-Featured Garbage Collector）。</li>
+<li>JDK 9发布之日，G1宣告取代Parallel Scavenge加Parallel Old组合，成为服务端模式下的默认垃圾收集器，而CMS则<br>
+沦落至被声明为不推荐使用（Deprecate）的收集器</li>
+<li>规划JDK 10功能目标时，HotSpot虚拟机提出了“统一垃圾收集器接口”，将内存回收的“行为”与“实现”进行分离，所有收集器都重构成基于这套接口的一种实现</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>停顿时间模型（PausePrediction Model）：能够支持指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间大概率不超过N毫秒这样的目标</p>
+</blockquote>
+<ul>
+<li>为了实现停顿时间模型，G1不再固定地划分内存空间（Java堆），而是把空间划分为多个大小相等的区域（Region），<br>
+每个区域都可以扮演新生代的Eden空间和Survivor空间，以及老年代空间。此外，Region还包括特殊的Humongous区域，<br>
+用于存储大对象（空间占用超过Region空间一半）</li>
+</ul>
+<blockquote>
+<p>Region空间大小可以通过参数-XX：G1HeapRegionSize设定，取值范围为1MB～32MB，且应为2的N次幂</p>
+</blockquote>
+<ul>
+<li>G1收集器跟踪各个Region的价值（回收空间和所需时间）大小，后台维护一个优先级列表。根据设定的停顿时间优先处理收益大的Region</li>
+<li>G1的跨Region引用对象：每个Region都维护有自己的记忆集，记录别的Region指向自己的指针和这些指针分别在哪些卡页的范围之内（哈希表）</li>
+<li>过程
+<ul>
+<li>初始标记（Initial Marking）：流程和CMS类似，单收集器线程，需要暂停用户线程，需要修改TAMS指针的值</li>
+<li>并发标记（Concurrent Marking）：流程和CMS类似，单收集器线程，重新处理SATB记录中有变动的对象。G1只有这个过程是并发的，使用原始快照算法实现并发的可达性分析</li>
+<li>最终标记（Final Marking）：多收集器线程，暂停用户线程，处理并发标记遗留下的少量的SATB记录</li>
+<li>筛选回收（Live Data Counting and Evacuation）：排序Region价值，根据停顿时间制定回收计划。<br>
+可以选择多个Region，把存活对象复制到空的Region上（多条收集器线程执行）。但由于涉及到存活对象的移动，所以必须暂停用户线程。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才能担当起“全功能收集器”的重任与期望</p>
+</blockquote>
+<ul>
+<li>
+<p>从G1开始，最先进的垃圾收集器的设计导向都不约而同地变为追求能够应付应用的内存分配速率<br>
+（Allocation Rate），而不追求一次把整个Java堆全部清理干净。</p>
+</li>
+<li>
+<p>G1从整体来看是基于“标记-整理”算法实现的收集器，从局部（两个Region之间）上看又是基于“标记-复制”算法实现</p>
+</li>
+<li>
+<p>缺点</p>
+<ul>
+<li>内存占用高，G1至少要耗费大约相当于Java堆容量10%至20%的额外内存来维持收集器工作</li>
+<li>执行负载高</li>
+</ul>
+</li>
+<li>
+<p>按照经验，在小内存应用上CMS的表现大概率仍然要会优于G1，而在大内存应用上G1则大多能发挥其优势</p>
+</li>
+</ul>
+<h2 id="低延迟垃圾收集器（Deprecated）">低延迟垃圾收集器（Deprecated）</h2>
+<ul>
+<li>收集器性能的三个衡量指标：内存占用（Footprint）、吞吐量（Throughout）和延迟（Latency）</li>
+<li>而一个收集器只能最多只能有两个优秀的指标</li>
+<li>随着硬件技术（内存）的发展，前两个指标可以伴随提升，所以我们越来越关注延迟指标。并且随着内存增加，垃圾收集器要处理的内存大小增加，延迟也会增加</li>
+<li>低延迟垃圾收集器（包括Shenandoah和ZGC）几乎整个过程都是并发的，只有初始标记和最终标记有短暂停顿，并且停顿时间是固定的（和Java堆大小无关）</li>
+</ul>
+<blockquote>
+<p>太难了，不看了。听说比较常用的就是CMS收集器和G1收集器，这些新的收集器先不看了</p>
+</blockquote>
+<h3 id="Shenandoah收集器">Shenandoah收集器</h3>
+<ul>
+<li>由RedHat公司开发，非官方（Oracle）开发，受到排挤。唯一一款OpenJDK包含，而OracleJDK不包含的收集器</li>
+<li>追求停顿时间限制在10ms以内（后来测试50ms左右，已经有了质的飞跃但并未实现10ms）</li>
+<li>和G1相同，也是基于Region的布局，也包含存放大对象的Humongous Region</li>
+<li>和G1不同，不适用记忆集维护Region的引用关系，而是使用连接矩阵</li>
+</ul>
+<blockquote>
+<p>连接矩阵可以简单理解为一张二维表格，如果Region N有对象指向Region M，就在表格的N行M列中打上一个标记</p>
+</blockquote>
+<ul>
+<li>Shenandoah收集器复杂很多，工作过程共有九个阶段的，其中三个最重要的并发阶段是：并发标记、并发回收、并发引用更新</li>
+</ul>
+<h3 id="ZGC收集器">ZGC收集器</h3>
+<ul>
+<li>由Oracle开发，JDK 11加入的实验性质的收集器</li>
+<li>借鉴Azul VM的PGC和Zing VM的C4收集器</li>
+<li>基于Region布局，没有分代，使用读屏障、染色指针和内存多重映射技术实现的并发标记整理算法
+<ul>
+<li>小型Region（Small Region）：容量固定为2MB，用于放置小于256KB的小对象。</li>
+<li>中型Region（Medium Region）：容量固定为32MB，用于放置大于等于256KB但小于4MB的对<br>
+象。</li>
+<li>大型Region（Large Region）：容量不固定，可以动态变化，但必须为2MB的整数倍，用于放置<br>
+4MB或以上的大对象。每个大型Region中只会存放一个大对象，这也预示着虽然名字叫作“大型<br>
+Region”，但它的实际容量完全有可能小于中型Region，最小容量可低至4MB。（不会被重分配）</li>
+</ul>
+</li>
+</ul>
+<h2 id="合适的垃圾收集器">合适的垃圾收集器</h2>
+<h3 id="如何选择垃圾收集器">如何选择垃圾收集器</h3>
+<ul>
+<li>如果你有充足的预算但没有太多调优经验，那么一套带商业技术支持的专有硬件或者软件解决方<br>
+案是不错的选择，Azul公司以前主推的Vega系统和现在主推的Zing VM是这方面的代表，这样你就可以<br>
+使用传说中的C4收集器了。</li>
+<li>如果你虽然没有足够预算去使用商业解决方案，但能够掌控软硬件型号，使用较新的版本，同时<br>
+又特别注重延迟，那ZGC很值得尝试。</li>
+<li>如果你对还处于实验状态的收集器的稳定性有所顾虑，或者应用必须运行在Win-dows操作系统<br>
+下，那ZGC就无缘了，试试Shenandoah吧。</li>
+<li>如果你接手的是遗留系统，软硬件基础设施和JDK版本都比较落后，那就根据内存规模衡量一<br>
+下，对于大概4GB到6GB以下的堆内存，CMS一般能处理得比较好，而对于更大的堆内存，可重点考<br>
+察一下G1。</li>
+</ul>
+<h3 id="垃圾收集器日志">垃圾收集器日志</h3>
+<ul>
+<li>通过“-Xlog”参数配置</li>
+<li>日志级别（从低到高）：Trace，Debug，Info，Warning，Error，Off（默认Info）</li>
+<li>框架类似与Log4j和SLF4j</li>
+</ul>
+<h2 id="内存分配和回收策略">内存分配和回收策略</h2>
+<p>本节基于Serial和Serial Old收集器</p>
+<ul>
+<li>对象优先在新生代分配（如果是Appel式回收的话，更具体的说是在Eden空间）</li>
+<li>大对象直接进入老年代（通过PretenureSizeThreshold参数设置阈值，大于这个值的对象直接放入老年代，避免触发垃圾收集）</li>
+<li>长期存活的对象将进入老年代（每个对象的对象头都有一个年龄计数器，对象每经过一次Minor GC后年龄就加一，超过阈值就晋升到老年代，阈值通过MaxTenuringThreshold参数设置）</li>
+<li>动态对象年龄判定（如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代）</li>
+<li>空间分配担保（发生Minor GC之前，虚拟机必须先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，确保安全）</li>
+</ul>
+<h2 id="版本变化">版本变化</h2>
+<h3 id="关于永久代">关于永久代</h3>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/note/book/note-book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">https://bughere.github.io/note/book/note-book-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/vm/">vm</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/tips/tips-git/" title="tips-git"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">tips-git</div></div></a></div><div class="next-post pull-right"><a href="/note/note-hexo/" title="note-hexo"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">note-hexo</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/note/note-java-concurrency/" title="note-java-concurrency"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-31</div><div class="title">note-java-concurrency</div></div></a></div><div><a href="/note/note-java-rip/" title="note-java-rip"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-28</div><div class="title">note-java-rip</div></div></a></div><div><a href="/note/note-java-stream/" title="note-java-stream"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-13</div><div class="title">note-java-stream</div></div></a></div><div><a href="/note/note-java/" title="note-java"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-08</div><div class="title">note-java</div></div></a></div><div><a href="/tips/tips-java/" title="tips-java"><img class="cover" src="/img/cover/blog.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-08</div><div class="title">tips-java</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">186</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Java内存区域与内存溢出异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.1.</span> <span class="toc-text">运行时数据区域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.1.2.</span> <span class="toc-text">Java虚拟机栈</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">局部变量表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-number">1.1.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%A0%86"><span class="toc-number">1.1.4.</span> <span class="toc-text">Java堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-number">1.1.5.</span> <span class="toc-text">方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85%E4%BB%A3%E7%9A%84%E5%BA%9F%E9%99%A4"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">永久代的废除</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-number">1.1.6.</span> <span class="toc-text">运行时常量池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-number">1.1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HotSpot-vm-%E5%AF%B9%E8%B1%A1%E6%8F%AD%E7%A7%98"><span class="toc-number">1.2.</span> <span class="toc-text">HotSpot vm 对象揭秘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">对象的创建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vm%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">vm分配内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vm%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">vm初始化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.2.2.</span> <span class="toc-text">对象的内存布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">对象头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">实例数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E9%BD%90%E5%A1%AB%E5%85%85"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">对齐填充</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.2.3.</span> <span class="toc-text">对象的访问定位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OutOfMemoryError%E5%BC%82%E5%B8%B8"><span class="toc-number">1.3.</span> <span class="toc-text">OutOfMemoryError异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E5%A0%86%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.1.</span> <span class="toc-text">Java堆溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E5%92%8C%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.2.</span> <span class="toc-text">虚拟机栈和本地方法栈溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA%E5%92%8C%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.3.</span> <span class="toc-text">方法区和运行时常量池溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="toc-number">1.3.4.</span> <span class="toc-text">直接内存溢出</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">垃圾收集器与内存分配策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E5%AD%98%E6%B4%BB"><span class="toc-number">2.2.</span> <span class="toc-text">对象是否存活</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95%EF%BC%88Reference-Counting%EF%BC%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">引用计数法（Reference Counting）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E7%AE%97%E6%B3%95%EF%BC%88Reachability-Analysis%EF%BC%89"><span class="toc-number">2.2.2.</span> <span class="toc-text">可达性分析算法（Reachability Analysis）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E8%B0%88%E5%BC%95%E7%94%A8"><span class="toc-number">2.2.3.</span> <span class="toc-text">再谈引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E8%BF%87%E7%A8%8B"><span class="toc-number">2.2.4.</span> <span class="toc-text">回收过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9B%9E%E6%94%B6"><span class="toc-number">2.2.5.</span> <span class="toc-text">方法区的回收</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">垃圾收集算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%90%86%E8%AE%BA"><span class="toc-number">2.3.1.</span> <span class="toc-text">分代收集理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">标记-清除算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.3.</span> <span class="toc-text">标记-复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.4.</span> <span class="toc-text">标记-整理算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HotSpot%E7%9A%84%E7%AE%97%E6%B3%95%E7%BB%86%E8%8A%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.4.</span> <span class="toc-text">HotSpot的算法细节实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E8%8A%82%E7%82%B9%E6%9E%9A%E4%B8%BE"><span class="toc-number">2.4.1.</span> <span class="toc-text">根节点枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E7%82%B9"><span class="toc-number">2.4.2.</span> <span class="toc-text">安全点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F"><span class="toc-number">2.4.3.</span> <span class="toc-text">安全区域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E9%9B%86%E4%B8%8E%E5%8D%A1%E8%A1%A8"><span class="toc-number">2.4.4.</span> <span class="toc-text">记忆集与卡表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="toc-number">2.4.5.</span> <span class="toc-text">写屏障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%9A%84%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="toc-number">2.4.6.</span> <span class="toc-text">并发的可达性分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.</span> <span class="toc-text">经典垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParNew%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Scavenge%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.3.</span> <span class="toc-text">Parallel Scavenge收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-Old%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Old%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.5.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMS%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.5.6.</span> <span class="toc-text">CMS收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Garbage-First%E6%94%B6%E9%9B%86%E5%99%A8%EF%BC%88G1%EF%BC%89"><span class="toc-number">2.5.7.</span> <span class="toc-text">Garbage First收集器（G1）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8E%E5%BB%B6%E8%BF%9F%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%EF%BC%88Deprecated%EF%BC%89"><span class="toc-number">2.6.</span> <span class="toc-text">低延迟垃圾收集器（Deprecated）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Shenandoah%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.6.1.</span> <span class="toc-text">Shenandoah收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZGC%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.6.2.</span> <span class="toc-text">ZGC收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E9%80%82%E7%9A%84%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.7.</span> <span class="toc-text">合适的垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.7.1.</span> <span class="toc-text">如何选择垃圾收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E6%97%A5%E5%BF%97"><span class="toc-number">2.7.2.</span> <span class="toc-text">垃圾收集器日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%92%8C%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5"><span class="toc-number">2.8.</span> <span class="toc-text">内存分配和回收策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E5%8F%98%E5%8C%96"><span class="toc-number">2.9.</span> <span class="toc-text">版本变化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%B0%B8%E4%B9%85%E4%BB%A3"><span class="toc-number">2.9.1.</span> <span class="toc-text">关于永久代</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>

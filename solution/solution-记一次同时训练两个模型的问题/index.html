@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>solution-记一次同时训练两个模型的问题 | BUGHERE の 博客</title><meta name="author" content="BUGHERE"><meta name="copyright" content="BUGHERE"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="同时训练两个模型遇到了bug，记录今天由这个bug引发一系列bug的过程 使用resnet18进行图像分类 1234567model_ft &#x3D; models.resnet18(pretrained&#x3D;True)num_ftrs &#x3D; model_ft.fc.in_featuresmodel_ft.fc &#x3D; nn.Linear(num_ftrs, len(class_names))model_ft &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="solution-记一次同时训练两个模型的问题">
+<meta property="og:url" content="https://bughere.github.io/solution/solution-%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%90%8C%E6%97%B6%E8%AE%AD%E7%BB%83%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="BUGHERE の 博客">
+<meta property="og:description" content="同时训练两个模型遇到了bug，记录今天由这个bug引发一系列bug的过程 使用resnet18进行图像分类 1234567model_ft &#x3D; models.resnet18(pretrained&#x3D;True)num_ftrs &#x3D; model_ft.fc.in_featuresmodel_ft.fc &#x3D; nn.Linear(num_ftrs, len(class_names))model_ft &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bughere.github.io/img/cover/blog.png">
+<meta property="article:published_time" content="2023-12-07T06:29:15.000Z">
+<meta property="article:modified_time" content="2025-11-09T15:50:01.000Z">
+<meta property="article:author" content="BUGHERE">
+<meta property="article:tag" content="machine-learning">
+<meta property="article:tag" content="torch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bughere.github.io/img/cover/blog.png"><link rel="shortcut icon" href="/img/favicon/BHE.png"><link rel="canonical" href="https://bughere.github.io/solution/solution-%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%90%8C%E6%97%B6%E8%AE%AD%E7%BB%83%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: {"appId":"YQBAR9P5LD","apiKey":"7a2c79df238f45335cc81cd35c2b0add","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'solution-记一次同时训练两个模型的问题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-11-09 23:50:01'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all_page.css"><link rel="stylesheet" href="/css/icat_color.css"><link rel="stylesheet" href="/css/essay_page.css"><link rel="stylesheet" href="/css/project_page.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/mainColor/heoMainColor.css"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loader-box"><div class="loader"><div class="container"><div class="carousel"><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div><div class="love"></div></div></div><div class="container"><div class="carousel"><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div><div class="death"></div></div></div><div class="container"><div class="carousel"><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div><div class="robots"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 3000);  // 超时关闭动画
+  $loadingBox.addEventListener('click',()=> {preloader.endLoading()})  // 点击关闭动画
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar/google.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">186</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="BUGHERE の 博客"><span class="site-name">BUGHERE の 博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-envelope-open-text"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/algorithm/normal/"><i class="fa-fw fa-solid fa-heartbeat"></i><span> 常见算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/graph/"><i class="fa-fw fa-solid fa-circle-nodes"></i><span> 图算法</span></a></li><li><a class="site-page child" href="/categories/algorithm/tree/"><i class="fa-fw fa-solid fa-tree"></i><span> 树算法</span></a></li><li><a class="site-page child" href="/categories/tips/"><i class="fa-fw fa-solid fa-wand-magic-sparkles"></i><span> 技巧</span></a></li><li><a class="site-page child" href="/categories/note/"><i class="fa-fw fa-solid fa-pencil"></i><span> 笔记</span></a></li><li><a class="site-page child" href="/categories/series/"><i class="fa-fw fa-solid fa-list"></i><span> 系列</span></a></li><li><a class="site-page child" href="/categories/algorithm/problem"><i class="fa-fw fa-solid fa-code"></i><span> 算法题</span></a></li><li><a class="site-page child" href="/categories/solution"><i class="fa-fw fa-solid fa-bug"></i><span> Solution</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fa-solid fa-box-archive"></i><span> 归档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa-solid fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa-solid fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa-solid fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="javascript:toRandomPost()"><i class="fa-fw fas fa-random"></i><span> 随机文章</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">solution-记一次同时训练两个模型的问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-07T06:29:15.000Z" title="发表于 2023-12-07 14:29:15">2023-12-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-11-09T15:50:01.000Z" title="更新于 2025-11-09 23:50:01">2025-11-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/solution/">solution</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span></div></div></div><article class="post-content" id="article-container"><h2 id="同时训练两个模型遇到了bug，记录今天由这个bug引发一系列bug的过程">同时训练两个模型遇到了bug，记录今天由这个bug引发一系列bug的过程</h2>
+<p>使用resnet18进行图像分类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">num_ftrs = model_ft.fc.in_features</span><br><span class="line">model_ft.fc = nn.Linear(num_ftrs, <span class="built_in">len</span>(class_names))</span><br><span class="line">model_ft = model_ft.to(device)</span><br><span class="line">cross_entropy_loss = nn.CrossEntropyLoss()</span><br><span class="line">optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<p>单独训练这个模型在我的数据集的正确率在0.96左右</p>
+<p>需求：同时跑两个一样模型</p>
+<p>于是我定义了一个函数，使用deepcopy复制得到全新的模型，并且在train函数中同时跑这两个模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">train_model</span>(<span class="params">models, num_epochs=<span class="number">10</span></span>):</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">        <span class="keyword">for</span> phase <span class="keyword">in</span> [<span class="string">&#x27;train&#x27;</span>, <span class="string">&#x27;val&#x27;</span>]:</span><br><span class="line">            <span class="comment"># 遍历数据</span></span><br><span class="line">            <span class="keyword">for</span> inputs, labels, weights <span class="keyword">in</span> dataloaders[phase]:</span><br><span class="line">                inputs = inputs.to(device)</span><br><span class="line">                labels = labels.to(device)</span><br><span class="line">                weights = weights.to(device)</span><br><span class="line">                <span class="keyword">for</span> model <span class="keyword">in</span> models:</span><br><span class="line">                    model[<span class="string">&#x27;optimizer&#x27;</span>].zero_grad()</span><br><span class="line">                    <span class="comment"># 前向传播</span></span><br><span class="line">                    <span class="keyword">with</span> torch.set_grad_enabled(phase == <span class="string">&#x27;train&#x27;</span>):</span><br><span class="line">                        outputs = models[<span class="string">&#x27;model&#x27;</span>](inputs)</span><br><span class="line">                        preds = outputs.argmax(<span class="number">1</span>)</span><br><span class="line">                        loss = model[<span class="string">&#x27;criterion&#x27;</span>](outputs, labels)</span><br><span class="line">                        <span class="comment"># 反向传播+参数更新</span></span><br><span class="line">                        <span class="keyword">if</span> phase == <span class="string">&#x27;train&#x27;</span>:</span><br><span class="line">                            loss.backward()</span><br><span class="line">                            model[<span class="string">&#x27;optimizer&#x27;</span>].step()                  </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    model = copy.deepcopy(model_ft)</span><br><span class="line">    criterion = copy.deepcopy(cross_entropy_loss)</span><br><span class="line">    optimizer = copy.deepcopy(optimizer_ft)</span><br><span class="line">    scheduler = copy.deepcopy(exp_lr_scheduler)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;model&#x27;</span>: model, <span class="string">&#x27;criterion&#x27;</span>: criterion, <span class="string">&#x27;optimizer&#x27;</span>: optimizer, <span class="string">&#x27;scheduler&#x27;</span>: scheduler&#125;</span><br><span class="line"></span><br><span class="line">model1, model2 = get_model(<span class="string">&#x27;model1&#x27;</span>), get_model(<span class="string">&#x27;model2&#x27;</span>)</span><br><span class="line">train_model(models=[model1, model2], num_epochs=num_epochs)</span><br></pre></td></tr></table></figure>
+<p>按道理，这样两个模型在训练过程中应该是完全一样的，正确率也应该是相同的</p>
+<p>但实际上，这样训练得到的两个模型并不相同，正确率不同，而且正确率只有0.04左右</p>
+<p>于是，我们思考会不会是deepcopy的问题，于是我们尝试不使用deepcopy函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">    num_ftrs = model_ft.fc.in_features</span><br><span class="line">    model_ft.fc = nn.Linear(num_ftrs, <span class="built_in">len</span>(class_names))</span><br><span class="line">    model_ft = model_ft.to(device)</span><br><span class="line">    cross_entropy_loss = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;model&#x27;</span>: model_ft, <span class="string">&#x27;criterion&#x27;</span>: cross_entropy_loss, <span class="string">&#x27;optimizer&#x27;</span>: optimizer_ft, <span class="string">&#x27;scheduler&#x27;</span>: exp_lr_scheduler&#125;</span><br></pre></td></tr></table></figure>
+<p>结果显示正确率恢复正常了，0.96左右</p>
+<p>但是两个模型的正确率还是不同，于是我们认为是随机种子的问题，于是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    seed = <span class="number">42</span></span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">    num_ftrs = model_ft.fc.in_features</span><br><span class="line">    model_ft.fc = nn.Linear(num_ftrs, <span class="built_in">len</span>(class_names))</span><br><span class="line">    model_ft = model_ft.to(device)</span><br><span class="line">    cross_entropy_loss = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;model&#x27;</span>: model_ft, <span class="string">&#x27;criterion&#x27;</span>: cross_entropy_loss, <span class="string">&#x27;optimizer&#x27;</span>: optimizer_ft, <span class="string">&#x27;scheduler&#x27;</span>: exp_lr_scheduler&#125;</span><br></pre></td></tr></table></figure>
+<p>修改后，发现还是不行。后来，我们想到了可能是cuda的随机性算法的问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.backends.cudnn.deterministic = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p>这个设置会强制 cuDNN 使用确定性的算法，以确保相同的输入能够产生相同的输出。</p>
+<p>至此，两个模型的正确率相同，并且正常（0.96左右），我们已经实现了需求</p>
+<hr>
+<h2 id="所以deepcopy不行？">所以deepcopy不行？</h2>
+<p>但是，我们还是不知道为什么deepcopy函数不行，deepcopy是python的内置函数，不应该啊？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">num_ftrs = model_ft.fc.in_features</span><br><span class="line">model_ft.fc = nn.Linear(num_ftrs, <span class="built_in">len</span>(class_names))</span><br><span class="line">model_ft = model_ft.to(device)</span><br><span class="line">cross_entropy_loss = nn.CrossEntropyLoss()</span><br><span class="line">optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    model = copy.deepcopy(model_ft)</span><br><span class="line">    criterion = copy.deepcopy(cross_entropy_loss)</span><br><span class="line">    optimizer = copy.deepcopy(optimizer_ft)</span><br><span class="line">    scheduler = copy.deepcopy(exp_lr_scheduler)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;model&#x27;</span>: model, <span class="string">&#x27;criterion&#x27;</span>: criterion, <span class="string">&#x27;optimizer&#x27;</span>: optimizer, <span class="string">&#x27;scheduler&#x27;</span>: scheduler&#125;</span><br></pre></td></tr></table></figure>
+<p>思考着这个问题，我们找到了这个<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/65298796/pytorch-no-training-effect-after-deepcopy">帖子</a></p>
+<p>问题出在了这：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    optimizer = copy.deepcopy(optimizer_ft)</span><br></pre></td></tr></table></figure>
+<p>在复制了优化器optimizer后，这个新的优化器携带的是原来模型model_ft的参数，导致新的优化器去优化原来模型model_ft</p>
+<p>所以这里的代码写错了，如果还是想要用deepcopy，应该这样写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    model = copy.deepcopy(model_ft)</span><br><span class="line">    criterion = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer = optim.SGD(model.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">    scheduler = lr_scheduler.StepLR(optimizer, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<p>至此，用deepcopy也实现了需求</p>
+<hr>
+<h2 id="番外：关于前向传播会改变模型状态的乌龙事件">番外：关于前向传播会改变模型状态的乌龙事件</h2>
+<p>前情提要：在前面的debug过程中，我们错误的deepcopy了优化器，导致deepcopy得到的新模型的优化器优化了原来的模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    optimizer = copy.deepcopy(optimizer_ft)</span><br></pre></td></tr></table></figure>
+<p>所以正常来说，我们跑这个新模型和原来模型，应该只有原来模型的状态会被修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model1 = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;model1&#x27;</span>, <span class="string">&#x27;model&#x27;</span>: model_ft, <span class="string">&#x27;criterion&#x27;</span>: cross_entropy_loss, <span class="string">&#x27;optimizer&#x27;</span>: optimizer_ft, <span class="string">&#x27;scheduler&#x27;</span>: exp_lr_scheduler&#125;</span><br><span class="line">model2 = get_model(<span class="string">&#x27;model2&#x27;</span>)</span><br><span class="line">train_model(models=[model1, model2], num_epochs=num_epochs)</span><br></pre></td></tr></table></figure>
+<p>于是我们在训练过程中，打印新模型model2的状态：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(models[<span class="number">1</span>][<span class="string">&#x27;name&#x27;</span>], models[<span class="number">1</span>][<span class="string">&#x27;model&#x27;</span>].state_dict()[<span class="string">&#x27;layer4.1.bn2.running_var&#x27;</span>][:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+<p>结果发现新模型model2的状态也是在变化的，我们又一次陷入了沉思和debug的阶段</p>
+<p>我们在train函数中一步一步排除所有会影响这个状态的代码</p>
+<p>最终我们发现，就算只有模型前向传播，前后打印’layer4.1.bn2.running_var’的值也是不一致的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.set_grad_enabled(phase == <span class="string">&#x27;train&#x27;</span>):</span><br><span class="line">    <span class="built_in">print</span>(models[-<span class="number">1</span>][<span class="string">&#x27;name&#x27;</span>], models[-<span class="number">1</span>][<span class="string">&#x27;model&#x27;</span>].state_dict()[<span class="string">&#x27;layer4.1.bn2.running_var&#x27;</span>][:<span class="number">10</span>])</span><br><span class="line">    outputs = model[<span class="string">&#x27;model&#x27;</span>](inputs)</span><br><span class="line">    <span class="built_in">print</span>(models[-<span class="number">1</span>][<span class="string">&#x27;name&#x27;</span>], models[-<span class="number">1</span>][<span class="string">&#x27;model&#x27;</span>].state_dict()[<span class="string">&#x27;layer4.1.bn2.running_var&#x27;</span>][:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+<p>难道，前向传播还会改变模型的状态吗？我们沉思，最后发现打印的这个状态有问题，'layer4.1.bn2.running_var’代表Batch Normalization（BN）层的状态</p>
+<p>而Batch Normalization（BN）层在训练和推断阶段的行为是不同的。在训练过程中，BN 层会根据当前批次的统计信息（均值和方差）进行归一化，并更新内部的滑动平均统计信息。而在推断阶段，通常使用保存的滑动平均统计信息进行归一化。</p>
+<p>所以在前向传播过程中，两次打印 ‘layer4.1.bn2.running_var’ 的值有差异可太正常的。</p>
+<p>总结，我们不应该看模型bn层的状态，要想查看新模型model2的状态是否在变化，应该查看与batch无关的层，比如’layer1.0.conv1.weight’的状态，这个状态与训练过程的batch无关</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(models[<span class="number">1</span>][<span class="string">&#x27;name&#x27;</span>], models[<span class="number">1</span>][<span class="string">&#x27;model&#x27;</span>].state_dict()[<span class="string">&#x27;layer1.0.conv1.weight&#x27;</span>][:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+<p>结果也显示，在训练过程中，新模型model2的这个状态是不变的，所以新模型的优化器确实是优化了原来的模型，并没有优化自己的模型，符合预期</p>
+<hr>
+<h2 id="番外：关于随机种子">番外：关于随机种子</h2>
+<p>首先，我们已经知道下面代码这样获得的两个模型训练的正确率是相同的，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    seed = <span class="number">42</span></span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">    num_ftrs = model_ft.fc.in_features</span><br><span class="line">    model_ft.fc = nn.Linear(num_ftrs, <span class="built_in">len</span>(class_names))</span><br><span class="line">    model_ft = model_ft.to(device)</span><br><span class="line">    cross_entropy_loss = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;name&#x27;</span>: name, <span class="string">&#x27;model&#x27;</span>: model_ft, <span class="string">&#x27;criterion&#x27;</span>: cross_entropy_loss, <span class="string">&#x27;optimizer&#x27;</span>: optimizer_ft, <span class="string">&#x27;scheduler&#x27;</span>: exp_lr_scheduler&#125;</span><br></pre></td></tr></table></figure>
+<p>但是如果，我们把种子设置在函数外面（全局），那么两个模型的正确率却又不一样了</p>
+<p>我们认为原因是：把种子设置在外面的话，两个模型是在同时使用同个种子生成器；而如果种子设置在函数里，则两个模型使用各自的种子生成器（两个生成器的seed都是42）</p>
+<p>后来，我们也实现了通过deepcopy复制得到模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    model = copy.deepcopy(model_ft)</span><br><span class="line">    criterion = nn.CrossEntropyLoss()</span><br><span class="line">    optimizer = optim.SGD(model.parameters(), lr=<span class="number">1e-3</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">    scheduler = lr_scheduler.StepLR(optimizer, step_size=<span class="number">5</span>, gamma=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<p>事实上，通过deepcopy得到的两个模型，尽管没有设置种子，两个模型的正确率也是相同的</p>
+<p>GPT回答：使用 deepcopy 得到的两个模型在训练正确率上相同，而不设置全局的随机种子也是相同的，这是因为 deepcopy 会复制模型的状态，包括模型的权重和其他参数，这就包含了模型初始化时的随机性。</p>
+<hr>
+<h2 id="后续更新">后续更新</h2>
+<h3 id="deepcopy还是有问题">deepcopy还是有问题</h3>
+<p>把batch size设置为1后，用deepcopy方式构建model1和model2，两者在训练时的准确率不同，但在测试集上的准确率是相同的</p>
+<p>所以deepcopy方式还是有问题，可能存在参数共享问题</p>
+<p>但这里我也不想深究了，不用deepcopy复制模型就完事了。</p>
+<h3 id="设置种子后dataloader加载图片固定">设置种子后dataloader加载图片固定</h3>
+<p>首先dataloader是设置shuffle了的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">torch.utils.data.DataLoader(</span><br><span class="line">    dataset=image_datasets[x],</span><br><span class="line">    batch_size=<span class="number">64</span>,</span><br><span class="line">    shuffle=<span class="literal">True</span>,</span><br><span class="line">    num_workers=<span class="number">4</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>用固定的种子得到模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_model</span>(<span class="params">name</span>):</span><br><span class="line">    seed = <span class="number">42</span></span><br><span class="line">    torch.manual_seed(seed)</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+<p>这样设置后，模型每次训练得到的准确率都是相同的，即每个batch加载的数据都是固定的，所以设置种子还会导致dataloader的每个batch加载数据固定</p>
+<p>不过问题不大，想要数据随机的话，可以手动shuffle一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_set, test_set = torch.utils.data.random_split(origin_image_datasets, [train_size, test_size])</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://bughere.github.io">BUGHERE</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://bughere.github.io/solution/solution-%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%90%8C%E6%97%B6%E8%AE%AD%E7%BB%83%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/">https://bughere.github.io/solution/solution-%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%90%8C%E6%97%B6%E8%AE%AD%E7%BB%83%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://bughere.github.io" target="_blank">BUGHERE の 博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/machine-learning/">machine-learning</a><a class="post-meta__tags" href="/tags/torch/">torch</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/blog.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/note/note-design/" title="note-design"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">note-design</div></div></a></div><div class="next-post pull-right"><a href="/algorithm/series/algorithm-series-2d-partial-order/" title="algorithm-series-2d-partial-order"><img class="cover" src="/img/cover/blog.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">algorithm-series-2d-partial-order</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar/google.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">BUGHERE</div><div class="author-info__description">Let's fxxking go!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">186</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/BUGHERE" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1595014015@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%97%B6%E8%AE%AD%E7%BB%83%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%E9%81%87%E5%88%B0%E4%BA%86bug%EF%BC%8C%E8%AE%B0%E5%BD%95%E4%BB%8A%E5%A4%A9%E7%94%B1%E8%BF%99%E4%B8%AAbug%E5%BC%95%E5%8F%91%E4%B8%80%E7%B3%BB%E5%88%97bug%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">同时训练两个模型遇到了bug，记录今天由这个bug引发一系列bug的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E4%BB%A5deepcopy%E4%B8%8D%E8%A1%8C%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">所以deepcopy不行？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%AA%E5%A4%96%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E4%BC%9A%E6%94%B9%E5%8F%98%E6%A8%A1%E5%9E%8B%E7%8A%B6%E6%80%81%E7%9A%84%E4%B9%8C%E9%BE%99%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">番外：关于前向传播会改变模型状态的乌龙事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%AA%E5%A4%96%EF%BC%9A%E5%85%B3%E4%BA%8E%E9%9A%8F%E6%9C%BA%E7%A7%8D%E5%AD%90"><span class="toc-number">4.</span> <span class="toc-text">番外：关于随机种子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%9B%B4%E6%96%B0"><span class="toc-number">5.</span> <span class="toc-text">后续更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#deepcopy%E8%BF%98%E6%98%AF%E6%9C%89%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.</span> <span class="toc-text">deepcopy还是有问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%A7%8D%E5%AD%90%E5%90%8Edataloader%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%E5%9B%BA%E5%AE%9A"><span class="toc-number">5.2.</span> <span class="toc-text">设置种子后dataloader加载图片固定</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #304352"><div id="footer-wrap"><div class="copyright">&copy;2023 - 2025 By BUGHERE</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaid.length === 0) return
+  const runMermaid = () => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from($mermaid).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const loadMermaid = () => {
+    window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+  }
+
+  btf.addGlobalFn('themeChange', runMermaid, 'mermaid')
+
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.bughere.asia/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/zhheo/random.js"></script><script async data-pjax src="/js/essay_page.js"></script><script async data-pjax src="/js/waterfall.js"></script><script type="text/javascript" src="/js/project_page.js"></script><script async src="https://cdn.jsdelivr.net/npm/js-heo@1.0.11/categoryBar/categoryBar.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script></div></div></body></html>
